@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="TGPublishV">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shareBottomBackground" translatesAutoresizingMaskIntoConstraints="NO" id="wRk-Vy-bIU">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DlR-A4-xvY">
+                    <rect key="frame" x="0.0" y="631" width="375" height="36"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.30029965753424659" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="36" id="eTp-Dq-PdQ"/>
+                    </constraints>
+                    <state key="normal" title="取 消">
+                        <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="cancel:" destination="iN0-l3-epB" eventType="touchUpInside" id="Sae-8e-08Y"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="DlR-A4-xvY" secondAttribute="trailing" id="04R-G6-Qi5"/>
+                <constraint firstItem="wRk-Vy-bIU" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="CyP-XK-WHu"/>
+                <constraint firstItem="wRk-Vy-bIU" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="GZp-Ln-hqO"/>
+                <constraint firstAttribute="bottom" secondItem="DlR-A4-xvY" secondAttribute="bottom" id="I6c-5U-B8g"/>
+                <constraint firstItem="DlR-A4-xvY" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="O08-o6-qKz"/>
+                <constraint firstAttribute="bottom" secondItem="wRk-Vy-bIU" secondAttribute="bottom" id="Tqa-V8-S5I"/>
+                <constraint firstAttribute="trailing" secondItem="wRk-Vy-bIU" secondAttribute="trailing" id="jt5-1I-CuR"/>
+            </constraints>
+        </view>
+    </objects>
+    <resources>
+        <image name="shareBottomBackground" width="320" height="343"/>
+    </resources>
+</document>

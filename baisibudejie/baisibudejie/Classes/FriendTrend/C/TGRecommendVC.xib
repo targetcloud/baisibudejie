@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TGRecommendVC">
+            <connections>
+                <outlet property="categoryTableV" destination="RUB-uv-Bqi" id="xmj-rh-pQA"/>
+                <outlet property="userTableV" destination="9Ze-wM-SiY" id="NHc-o6-Ugh"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="RUB-uv-Bqi">
+                    <rect key="frame" x="0.0" y="0.0" width="80" height="667"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="z3a-sl-CAy"/>
+                    </constraints>
+                    <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="FAc-h4-2Et"/>
+                        <outlet property="delegate" destination="-1" id="ey6-Ih-Cas"/>
+                    </connections>
+                </tableView>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9Ze-wM-SiY">
+                    <rect key="frame" x="80" y="0.0" width="295" height="667"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="QfE-dv-Gid"/>
+                        <outlet property="delegate" destination="-1" id="kOc-Jd-LN2"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="9Ze-wM-SiY" secondAttribute="bottom" id="0UF-cb-XB6"/>
+                <constraint firstItem="RUB-uv-Bqi" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="DEn-Wh-7uK"/>
+                <constraint firstItem="9Ze-wM-SiY" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="JLY-K6-bad"/>
+                <constraint firstAttribute="bottom" secondItem="RUB-uv-Bqi" secondAttribute="bottom" id="TOM-XA-ts9"/>
+                <constraint firstAttribute="trailing" secondItem="9Ze-wM-SiY" secondAttribute="trailing" id="TqF-xy-kag"/>
+                <constraint firstItem="9Ze-wM-SiY" firstAttribute="leading" secondItem="RUB-uv-Bqi" secondAttribute="trailing" id="rX8-wh-P9C"/>
+                <constraint firstItem="RUB-uv-Bqi" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ygi-wb-ugb"/>
+            </constraints>
+        </view>
+    </objects>
+</document>

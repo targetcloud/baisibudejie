@@ -1,0 +1,44 @@
+//
+//  baisibudejie.pch
+//  baisibudejie
+//
+//  Created by targetcloud on 2017/3/6.
+//  Copyright © 2017年 targetcloud. All rights reserved.
+//
+
+#import "UIView+frame.h"
+#import "UIBarButtonItem+item.h"
+#import "UIImageView+download.h"
+#import "UIImage+image.h"
+#import "TGConst.h"
+#import "NSDate+calendar.h"
+
+#define AFNWriteToPlist(filename) [responseObject writeToFile:[NSString stringWithFormat:@"/Users/targetcloud/Desktop/%@.plist", @#filename] atomically:YES];
+
+#define CachePath [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject]
+
+#define TGAlphaColor(a,r,g,b) [UIColor colorWithRed:(r) / 255.0 green:(g) / 255.0 blue:(b) / 255.0 alpha:a]
+#define TGColor(r,g,b) [UIColor colorWithRed:(r) / 255.0 green:(g) / 255.0 blue:(b) / 255.0 alpha:1]
+#define TGGrayColor(v) TGColor(v,v,v)
+#define TGRandomColor TGColor(arc4random_uniform(255), arc4random_uniform(255), arc4random_uniform(255))
+#define NavTinColor [TGColor(252, 49, 89) colorWithAlphaComponent:0.9]
+
+#define ScreenW [UIScreen mainScreen].bounds.size.width
+#define ScreenH [UIScreen mainScreen].bounds.size.height
+#define RootV [UIApplication sharedApplication].keyWindow.rootViewController.view
+#define iphone6P (ScreenH == 736)
+#define iphone6 (ScreenH == 667)
+#define iphone5 (ScreenH == 568)
+#define iphone4 (ScreenH == 480)
+
+#define TGFunc TGLog(@"%s",__func__)
+
+#ifdef DEBUG // 调试
+#define TGLog(...) NSLog(__VA_ARGS__);
+#else // 发布
+#define TGLog(...)
+#endif
+
+#define TagBgColor TGColor(74,139,209) 
+#define TagFont [UIFont systemFontOfSize:14]
+#define IOS(version) ([UIDevice currentDevice].systemVersion.doubleValue >= (version))

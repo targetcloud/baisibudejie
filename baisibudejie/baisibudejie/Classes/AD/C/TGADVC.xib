@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TGADVC">
+            <connections>
+                <outlet property="adContainView" destination="iIw-it-P6I" id="mwv-Ch-YvT"/>
+                <outlet property="jumpBtn" destination="i7h-5F-oOI" id="hBn-Hh-NTy"/>
+                <outlet property="launchImageView" destination="Vy7-Ie-ZRM" id="OTW-SI-xb7"/>
+                <outlet property="progressV" destination="oIN-3r-U4S" id="f42-wt-cwP"/>
+                <outlet property="view" destination="iN0-l3-epB" id="how-g0-hiD"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Vy7-Ie-ZRM">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iIw-it-P6I">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oIN-3r-U4S" customClass="DALabeledCircularProgressView">
+                    <rect key="frame" x="305" y="20" width="50" height="50"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i7h-5F-oOI">
+                    <rect key="frame" x="305" y="20" width="50" height="50"/>
+                    <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="0.30013912671232884" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="DKU-9d-vJ0"/>
+                        <constraint firstAttribute="width" constant="50" id="e0F-iL-NX3"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                    <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <state key="normal" title="跳转 (3)">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="25"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="clickJump:" destination="-1" eventType="touchUpInside" id="x2s-Rs-0Vu"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="Vy7-Ie-ZRM" secondAttribute="trailing" id="A57-aI-EAm"/>
+                <constraint firstAttribute="bottom" secondItem="iIw-it-P6I" secondAttribute="bottom" id="BYS-js-I2s"/>
+                <constraint firstItem="oIN-3r-U4S" firstAttribute="height" secondItem="i7h-5F-oOI" secondAttribute="height" id="FRd-cp-esh"/>
+                <constraint firstAttribute="trailing" secondItem="i7h-5F-oOI" secondAttribute="trailing" constant="20" id="Pjg-fM-WsM"/>
+                <constraint firstAttribute="bottom" secondItem="Vy7-Ie-ZRM" secondAttribute="bottom" id="TTG-nj-wDW"/>
+                <constraint firstItem="Vy7-Ie-ZRM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Vmg-pd-UZZ"/>
+                <constraint firstItem="oIN-3r-U4S" firstAttribute="centerX" secondItem="i7h-5F-oOI" secondAttribute="centerX" id="XFx-RT-cgE"/>
+                <constraint firstItem="oIN-3r-U4S" firstAttribute="width" secondItem="i7h-5F-oOI" secondAttribute="width" id="cx5-sh-TJe"/>
+                <constraint firstItem="oIN-3r-U4S" firstAttribute="centerY" secondItem="i7h-5F-oOI" secondAttribute="centerY" id="dir-Vx-Iib"/>
+                <constraint firstItem="iIw-it-P6I" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="gAk-np-7q4"/>
+                <constraint firstItem="Vy7-Ie-ZRM" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="u3D-6p-xD2"/>
+                <constraint firstAttribute="trailing" secondItem="iIw-it-P6I" secondAttribute="trailing" id="ueU-dN-PNH"/>
+                <constraint firstItem="i7h-5F-oOI" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="usZ-1F-HhJ"/>
+                <constraint firstItem="iIw-it-P6I" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="w7V-Ac-H3X"/>
+            </constraints>
+            <point key="canvasLocation" x="34.5" y="53.5"/>
+        </view>
+    </objects>
+</document>

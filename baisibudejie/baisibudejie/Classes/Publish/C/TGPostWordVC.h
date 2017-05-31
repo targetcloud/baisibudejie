@@ -1,0 +1,13 @@
+//
+//  TGPostWordVC.h
+//  baisibudejie
+//
+//  Created by targetcloud on 2017/5/21.
+//  Copyright © 2017年 targetcloud. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface TGPostWordVC : UIViewController
+
+@end
