@@ -94,8 +94,26 @@ pop
 @end
 ```
 ##### 截图
+1
 <img src="https://github.com/targetcloud/baisibudejie/blob/master/IMG_2014.PNG" width = "60%" />
+2
 <img src="https://github.com/targetcloud/baisibudejie/blob/master/IMG_1978.PNG" width = "60%" />
+3
+<img src="https://github.com/targetcloud/baisibudejie/blob/master/IMG_2016.PNG" width = "60%" />
+4
+<img src="https://github.com/targetcloud/baisibudejie/blob/master/IMG_2017.PNG" width = "60%" />
+5
+<img src="https://github.com/targetcloud/baisibudejie/blob/master/IMG_2018.PNG" width = "60%" />
+6
+<img src="https://github.com/targetcloud/baisibudejie/blob/master/IMG_2019.PNG" width = "60%" />
+7
+<img src="https://github.com/targetcloud/baisibudejie/blob/master/IMG_2020.PNG" width = "60%" />
+8
+<img src="https://github.com/targetcloud/baisibudejie/blob/master/IMG_2022.PNG" width = "60%" />
+9
+<img src="https://github.com/targetcloud/baisibudejie/blob/master/IMG_2023.PNG" width = "60%" />
+10
+<img src="https://github.com/targetcloud/baisibudejie/blob/master/IMG_2028.PNG" width = "60%" />
 
 ### 如果您喜欢本项目,请Star 
 
