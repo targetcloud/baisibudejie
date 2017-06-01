@@ -11,6 +11,7 @@
 #import "TGTopicCell.h"
 #import "TGCommentVC.h"
 #import "TGNewVC.h"
+#import "TGCarouselImageView.h"
 #import <AFNetworking.h>
 #import <SVProgressHUD.h>
 #import <MJExtension.h>
@@ -49,6 +50,10 @@ static NSString * const TGTopicCellID = @"TGTopicCellID";
         _topics = [NSMutableArray array];
     }
     return _topics;
+}
+
+-(BOOL) showAD{
+    return NO;
 }
 
 -(TGTopicType) type{
@@ -151,6 +156,7 @@ static NSString * const TGTopicCellID = @"TGTopicCellID";
 }
 
 - (void)setupRefresh{
+    /*
     UILabel *label = [[UILabel alloc] init];
     label.backgroundColor = [UIColor grayColor];
     label.frame = CGRectMake(0, 0, 0, 50);
@@ -158,7 +164,24 @@ static NSString * const TGTopicCellID = @"TGTopicCellID";
     label.text = @"广告";
     label.textAlignment = NSTextAlignmentCenter;
     self.tableView.tableHeaderView = label;
-    
+    */
+    if ([self showAD]){
+        NSArray *imageArray = @[@"http://pgdt.gtimg.cn/gdt/0/DAALCBEAUAALQABgBZG91dAJ9Xbcmb.jpg/0?ck=b6702b77e6a8e7034439a460c24e8a1d",
+                                @"http://pgdt.gtimg.cn/gdt/0/15e08f34b958e105e658cb7be92ae497.JPG/0?ck=b2b25b3a666748f9515af9037445a26d"];
+        NSMutableArray *describeArray = [[NSMutableArray alloc] init];
+        for (NSInteger i = 0; i < imageArray.count; i++) {
+            NSString *tempDesc = [NSString stringWithFormat:@"Image Description %zd", i];
+            [describeArray addObject:tempDesc];
+        }
+        TGCarouselImageView *carouselIV = [TGCarouselImageView tg_carouselImageViewWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200) imageArrary:imageArray describeArray:nil placeholderImage:[UIImage imageNamed:@"adph2.jpg"] block:^(NSInteger index) {
+            TGLog(@"index: %zd", index)
+        }];
+        
+        carouselIV.pageIndicatorTintColor = [[UIColor whiteColor] colorWithAlphaComponent:0.3];
+        carouselIV.currentPageIndicatorTintColor = [UIColor redColor];
+        
+        self.tableView.tableHeaderView = carouselIV;
+    }
     /*
     UIView *header = [[UIView alloc] init];
     header.frame = CGRectMake(0, - 50, self.tableView.width, 50);

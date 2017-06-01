@@ -10,4 +10,5 @@
 
 @interface TGTopicNewVC : UITableViewController
 -(NSString *)requesturl :(NSString *) nextpage;
+-(BOOL) showAD;
 @end

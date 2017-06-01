@@ -44,6 +44,10 @@ static NSString * const TGTopicCellID = @"TGTopicNewCellID";
     return [NSString stringWithFormat:@"http://s.budejie.com/topic/list/jingxuan/1/bs0315-iphone-4.5.6/%@-20.json",nextpage];
 }
 
+-(BOOL) showAD{
+    return NO;
+}
+
 - (AFHTTPSessionManager *)manager{
     if (!_manager) {
         _manager = [AFHTTPSessionManager manager];
@@ -118,26 +122,28 @@ static NSString * const TGTopicCellID = @"TGTopicNewCellID";
 }
 
 - (void)setupRefresh{
-    NSArray *imageArray = @[@"http://img.spriteapp.cn/spritead/20170531/185026958423.jpg",
-                            @"http://img.spriteapp.cn/spritead/20170531/185139989275.jpg",
-                            @"http://img.spriteapp.cn/spritead/20170531/185540702503.jpg",
-                            @"http://img.spriteapp.cn/spritead/20170531/185049847752.jpg",
-                            @"http://img.spriteapp.cn/spritead/20170531/185217240322.jpg"];
-    NSMutableArray *describeArray = [[NSMutableArray alloc] init];
-    for (NSInteger i = 0; i < imageArray.count; i++) {
-        NSString *tempDesc = [NSString stringWithFormat:@"Image Description %zd", i];
-        [describeArray addObject:tempDesc];
+    if ([self showAD]){
+        NSArray *imageArray = @[@"http://img.spriteapp.cn/spritead/20170531/185026958423.jpg",
+                                @"http://img.spriteapp.cn/spritead/20170531/185139989275.jpg",
+                                @"http://img.spriteapp.cn/spritead/20170531/185540702503.jpg",
+                                @"http://img.spriteapp.cn/spritead/20170531/185049847752.jpg",
+                                @"http://img.spriteapp.cn/spritead/20170531/185217240322.jpg"];
+        NSMutableArray *describeArray = [[NSMutableArray alloc] init];
+        for (NSInteger i = 0; i < imageArray.count; i++) {
+            NSString *tempDesc = [NSString stringWithFormat:@"Image Description %zd", i];
+            [describeArray addObject:tempDesc];
+        }
+        TGCarouselImageView *carouselIV = [TGCarouselImageView tg_carouselImageViewWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200) imageArrary:imageArray describeArray:nil placeholderImage:[UIImage imageNamed:@"adph3.jpg"] block:^(NSInteger index) {
+            TGLog(@"index: %zd", index)
+        }];
+        
+        UIImage * currentPageIndicatorImage = [UIImage imageWithColor:[UIColor redColor] andRect:CGRectMake(0, 0, 10, 4)];
+        UIImage * pageIndicatorImage = [UIImage imageWithColor:[[UIColor whiteColor] colorWithAlphaComponent:0.3 ] andRect:CGRectMake(0, 0, 10, 4)];
+        carouselIV.currentPageIndicatorImage = currentPageIndicatorImage;
+        carouselIV.pageIndicatorImage = pageIndicatorImage;
+        
+        self.tableView.tableHeaderView = carouselIV;
     }
-    TGCarouselImageView *carouselIV = [TGCarouselImageView tg_carouselImageViewWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200) imageArrary:imageArray describeArray:nil placeholderImage:[UIImage imageNamed:@"adph3.jpg"] block:^(NSInteger index) {
-        TGLog(@"index: %zd", index)
-    }];
-    
-    UIImage * currentPageIndicatorImage = [UIImage imageWithColor:[UIColor redColor] andRect:CGRectMake(0, 0, 10, 4)];
-    UIImage * pageIndicatorImage = [UIImage imageWithColor:[[UIColor whiteColor] colorWithAlphaComponent:0.3 ] andRect:CGRectMake(0, 0, 10, 4)];
-    carouselIV.currentPageIndicatorImage = currentPageIndicatorImage;
-    carouselIV.pageIndicatorImage = pageIndicatorImage;
-    
-    self.tableView.tableHeaderView = carouselIV;
     
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopics)];
     self.tableView.mj_header.automaticallyChangeAlpha = YES;

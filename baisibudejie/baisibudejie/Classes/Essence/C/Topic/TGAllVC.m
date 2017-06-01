@@ -18,4 +18,8 @@
     return TGTopicTypeAll;
 }
 
+-(BOOL) showAD{
+    return YES;
+}
+
 @end

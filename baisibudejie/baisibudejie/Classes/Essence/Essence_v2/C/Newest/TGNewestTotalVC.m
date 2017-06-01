@@ -19,4 +19,8 @@
     return [NSString stringWithFormat:@"http://s.budejie.com/topic/list/zuixin/1/bs0315-iphone-4.5.6/%@-20.json",nextpage];
 }
 
+-(BOOL) showAD{
+    return YES;
+}
+
 @end
