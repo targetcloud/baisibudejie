@@ -13,6 +13,8 @@
     return @{
              @"ID" : @"id",
              @"precmt" : @"precmts[0]",
+             @"voiceuri" : @"audio.audio[0]",
+             @"voicetime" : @"audio.duration",
              };
 }
 

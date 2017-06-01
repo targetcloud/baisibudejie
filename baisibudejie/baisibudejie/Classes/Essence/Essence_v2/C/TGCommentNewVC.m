@@ -36,7 +36,7 @@ static NSString *const headID = @"head";
 }
 
 -(NSString *) requesturl :(NSInteger) first :(NSInteger) nextpage{
-    return [NSString stringWithFormat:@"http://c.api.budejie.com/topic/comment_list/%@/%ld/bs0315-iphone-4.5.6/%ld-20.json",self.topic.ID,first, nextpage];
+    return [NSString stringWithFormat:@"http://c.api.budejie.com/topic/comment_list/%@/%zd/bs0315-iphone-4.5.6/%zd-20.json",self.topic.ID,first, nextpage];
 }
 
 - (AFHTTPSessionManager *)manager{
