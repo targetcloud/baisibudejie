@@ -49,7 +49,7 @@
     }else  if (self.content.length>0){
         _cellHeight += [self.content boundingRectWithSize:textMaxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil].size.height;
     }
-    
+    _cellHeight = _cellHeight < 80 ? 80 : _cellHeight;
     return _cellHeight;
 }
 

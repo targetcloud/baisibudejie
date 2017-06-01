@@ -205,7 +205,7 @@
     CGFloat bottomContainerHeight = 25;
     CGFloat pageControlDotWidth = 15;
     if (!_describeArray || _describeArray.count == 0) {
-        _pageControl.frame = CGRectMake(width * 0.5 - _pageControl.numberOfPages * pageControlDotWidth * 0.5, height - bottomContainerHeight,
+        _pageControl.frame = CGRectMake(width * 0.5 - _pageControl.numberOfPages * pageControlDotWidth * 0.5, height - bottomContainerHeight + 6,
                                         _pageControl.numberOfPages * pageControlDotWidth, bottomContainerHeight);
     } else {
         _bottomContainer.frame = CGRectMake(0, height - bottomContainerHeight, width, bottomContainerHeight);

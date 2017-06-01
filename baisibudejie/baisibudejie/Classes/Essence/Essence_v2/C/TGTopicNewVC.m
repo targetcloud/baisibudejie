@@ -140,7 +140,7 @@ static NSString * const TGTopicCellID = @"TGTopicNewCellID";
         }];
         
         UIImage * currentPageIndicatorImage = [UIImage imageWithColor:[UIColor redColor] andRect:CGRectMake(0, 0, 10, 2)];
-        UIImage * pageIndicatorImage = [UIImage imageWithColor:[[UIColor whiteColor] colorWithAlphaComponent:0.3 ] andRect:CGRectMake(0, 0, 10, 2)];
+        UIImage * pageIndicatorImage = [UIImage imageWithColor:[[UIColor whiteColor] colorWithAlphaComponent:0.1 ] andRect:CGRectMake(0, 0, 10, 2)];
         carouselIV.currentPageIndicatorImage = currentPageIndicatorImage;
         carouselIV.pageIndicatorImage = pageIndicatorImage;
         
