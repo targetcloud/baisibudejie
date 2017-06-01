@@ -60,6 +60,8 @@
 		6A05D51E1EDE8DC400C5BBF7 /* TGNewestGameVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A05D51D1EDE8DC400C5BBF7 /* TGNewestGameVC.m */; };
 		6A05D5211EDE8DD600C5BBF7 /* TGNewestSoundsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A05D5201EDE8DD600C5BBF7 /* TGNewestSoundsVC.m */; };
 		6A05D5241EDE901300C5BBF7 /* TGNewestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A05D5231EDE901300C5BBF7 /* TGNewestVC.m */; };
+		6A05D5291EDFDA4A00C5BBF7 /* TGCarouselImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A05D5281EDFDA4A00C5BBF7 /* TGCarouselImageView.m */; };
+		6A05D52C1EDFDBB100C5BBF7 /* TGCarouselImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A05D52B1EDFDBB100C5BBF7 /* TGCarouselImageManager.m */; };
 		6A127F561E6E9BD000FD7246 /* TGTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A127F551E6E9BD000FD7246 /* TGTextField.m */; };
 		6A127F591E6EA06C00FD7246 /* UITextField+placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A127F581E6EA06C00FD7246 /* UITextField+placeholder.m */; };
 		6A127F5B1E6EB2C600FD7246 /* TGMeVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A127F5A1E6EB2C600FD7246 /* TGMeVC.storyboard */; };
@@ -259,6 +261,10 @@
 		6A05D5201EDE8DD600C5BBF7 /* TGNewestSoundsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGNewestSoundsVC.m; sourceTree = "<group>"; };
 		6A05D5221EDE901300C5BBF7 /* TGNewestVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGNewestVC.h; sourceTree = "<group>"; };
 		6A05D5231EDE901300C5BBF7 /* TGNewestVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGNewestVC.m; sourceTree = "<group>"; };
+		6A05D5271EDFDA4A00C5BBF7 /* TGCarouselImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGCarouselImageView.h; sourceTree = "<group>"; };
+		6A05D5281EDFDA4A00C5BBF7 /* TGCarouselImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGCarouselImageView.m; sourceTree = "<group>"; };
+		6A05D52A1EDFDBB100C5BBF7 /* TGCarouselImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGCarouselImageManager.h; sourceTree = "<group>"; };
+		6A05D52B1EDFDBB100C5BBF7 /* TGCarouselImageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGCarouselImageManager.m; sourceTree = "<group>"; };
 		6A127F541E6E9BD000FD7246 /* TGTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGTextField.h; sourceTree = "<group>"; };
 		6A127F551E6E9BD000FD7246 /* TGTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGTextField.m; sourceTree = "<group>"; };
 		6A127F571E6EA06C00FD7246 /* UITextField+placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+placeholder.h"; sourceTree = "<group>"; };
@@ -449,6 +455,7 @@
 		6A02A7D01EDBF69C00C1D89D /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				6A05D5261EDFDA1A00C5BBF7 /* TGCarouselImageView */,
 				6A02A7D11EDBF69C00C1D89D /* TGSegment */,
 			);
 			path = Lib;
@@ -604,6 +611,17 @@
 				6A05D4FC1EDE8B4800C5BBF7 /* TGGameVC.m */,
 			);
 			path = Recommended;
+			sourceTree = "<group>";
+		};
+		6A05D5261EDFDA1A00C5BBF7 /* TGCarouselImageView */ = {
+			isa = PBXGroup;
+			children = (
+				6A05D5271EDFDA4A00C5BBF7 /* TGCarouselImageView.h */,
+				6A05D5281EDFDA4A00C5BBF7 /* TGCarouselImageView.m */,
+				6A05D52A1EDFDBB100C5BBF7 /* TGCarouselImageManager.h */,
+				6A05D52B1EDFDBB100C5BBF7 /* TGCarouselImageManager.m */,
+			);
+			path = TGCarouselImageView;
 			sourceTree = "<group>";
 		};
 		6A127F6D1E6F216600FD7246 /* Tool */ = {
@@ -1358,6 +1376,7 @@
 				6A02A81C1EDDC57F00C1D89D /* TGVoiceNewV.m in Sources */,
 				6AD4EB1F1E6C536000D8B260 /* TGFriendTrendVC.m in Sources */,
 				6A05D4FA1EDE8B0300C5BBF7 /* TGColdKnowledgeVC.m in Sources */,
+				6A05D5291EDFDA4A00C5BBF7 /* TGCarouselImageView.m in Sources */,
 				6AF7A9B91ED42FB20061EE22 /* TGCommentVC.m in Sources */,
 				6AE8759D1E75A44A007ED307 /* TGPicV.m in Sources */,
 				6AD4EB281E6C53C100D8B260 /* TGPublishVC.m in Sources */,
@@ -1371,6 +1390,7 @@
 				6A02A8271EDDE2A600C1D89D /* TGCommentNewCell.m in Sources */,
 				6A127F631E6EBD4200FD7246 /* TGSquareM.m in Sources */,
 				6A05D5091EDE8D5100C5BBF7 /* TGNewestJokesVC.m in Sources */,
+				6A05D52C1EDFDBB100C5BBF7 /* TGCarouselImageManager.m in Sources */,
 				6AE875A31E75A470007ED307 /* TGVoiceV.m in Sources */,
 				6AD4EB351E6C884700D8B260 /* UIView+frame.m in Sources */,
 				6A05D5241EDE901300C5BBF7 /* TGNewestVC.m in Sources */,

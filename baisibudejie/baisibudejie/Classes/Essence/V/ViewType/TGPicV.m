@@ -77,14 +77,6 @@
             [self.imageV.image drawInRect:CGRectMake(0, 0, imageW, imageH)];
             self.imageV.image = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
-            /*参考纯色图制作
-            CGSize imageSize =CGSizeMake(320,64);
-            UIGraphicsBeginImageContextWithOptions(imageSize,0, [UIScreen mainScreen].scale);
-            [NavTinColor set];
-            UIRectFill(CGRectMake(0,0, imageSize.width, imageSize.height));
-            UIImage *pressedColorImg = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
-            */
         }
         if ([topic.image1.pathExtension.lowercaseString isEqualToString:@"gif"]) {
             _url = topic.image1;
