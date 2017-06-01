@@ -36,7 +36,8 @@ static NSString *const headID = @"head";
 }
 
 -(NSString *) requesturl :(NSInteger) first :(NSInteger) nextpage{
-    return [NSString stringWithFormat:@"http://c.api.budejie.com/topic/comment_list/%@/%zd/bs0315-iphone-4.5.6/%zd-20.json",self.topic.ID,first, nextpage];
+    NSString * url = [NSString stringWithFormat:@"http://c.api.budejie.com/topic/comment_list/%@/%zd/bs0315-iphone-4.5.6/%zd-20.json",self.topic.ID,first, nextpage];
+    return url;
 }
 
 - (AFHTTPSessionManager *)manager{
@@ -66,8 +67,8 @@ static NSString *const headID = @"head";
     [self.tableV registerNib:[UINib nibWithNibName:NSStringFromClass([TGCommentNewCell class]) bundle:nil] forCellReuseIdentifier:commentID];
     self.tableV.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableV.backgroundColor = [TGGrayColor(244) colorWithAlphaComponent:0.3];
-    self.tableV.rowHeight = UITableViewAutomaticDimension;
-    self.tableV.estimatedRowHeight = 44;
+    //self.tableV.rowHeight = UITableViewAutomaticDimension;
+    //self.tableV.estimatedRowHeight = 44;
 }
 
 -(void)setupRefresh{
@@ -193,6 +194,10 @@ static NSString *const headID = @"head";
     TGCommentNewCell *cell = [tableView dequeueReusableCellWithIdentifier:commentID forIndexPath:indexPath];
     cell.comment = (indexPath.section == 0 && self.hotestComments.count) ? _hotestComments[indexPath.row] : _latestComments[indexPath.row];
     return cell;
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return  (indexPath.section == 0 && self.hotestComments.count) ? self.hotestComments[indexPath.row].cellHeight : self.latestComments[indexPath.row].cellHeight;
 }
 
 //- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {

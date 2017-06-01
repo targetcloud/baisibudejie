@@ -9,13 +9,48 @@
 #import "TGCommentNewM.h"
 
 @implementation TGCommentNewM
+{
+    CGFloat _cellHeight;
+    CGRect _middleFrame;
+}
+
 + (NSDictionary *)mj_replacedKeyFromPropertyName {
     return @{
              @"ID" : @"id",
              @"precmt" : @"precmts[0]",
              @"voiceuri" : @"audio.audio[0]",
              @"voicetime" : @"audio.duration",
+             @"image" : @"image.images[0]",
+             @"image_width" : @"image.width",
+             @"image_height" : @"image.height",
              };
+}
+
+- (CGFloat)cellHeight{
+    if (_cellHeight) return _cellHeight;
+    _cellHeight += 55;
+    
+    CGSize textMaxSize = CGSizeMake(ScreenW - 45 - 10, MAXFLOAT);
+    
+    if (self.image.length>0) {
+        CGFloat middleW = textMaxSize.width;
+        CGFloat middleH = middleW * self.image_height / self.image_width;
+        CGFloat middleY = _cellHeight - 15;
+        CGFloat middleX = 45;
+        _middleFrame = CGRectMake(middleX, middleY, middleW, middleH);
+        _cellHeight += middleH;
+    }else if (self.voiceuri.length>0){
+        CGFloat middleW = 115;
+        CGFloat middleH = 40;
+        CGFloat middleY = _cellHeight - 15;
+        CGFloat middleX = 45;
+        _middleFrame = CGRectMake(middleX, middleY, middleW, middleH);
+        _cellHeight += middleH;
+    }else  if (self.content.length>0){
+        _cellHeight += [self.content boundingRectWithSize:textMaxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil].size.height;
+    }
+    
+    return _cellHeight;
 }
 
 - (NSString *)passtime{

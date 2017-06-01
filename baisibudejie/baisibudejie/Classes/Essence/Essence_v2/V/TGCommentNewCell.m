@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *voiceBtn;
 @property (weak, nonatomic) IBOutlet UILabel *totalLikeCountLbl;
 @property (weak, nonatomic) IBOutlet UILabel *timeLbl;
+@property (weak, nonatomic) IBOutlet UIImageView *image;
 @property (strong, nonatomic) AVPlayerItem *playerItem;
 @end
 
@@ -61,6 +62,7 @@ static TGCommentNewM *lastCommentM_;
     [self.hateBtn setTitle: [NSString stringWithFormat:@"%zd",comment.hate_count]  forState:UIControlStateNormal];
     self.sexImageV.image = [UIImage imageNamed:[comment.user.sex isEqualToString:Boy] ? @"Profile_manIcon" : @"Profile_womanIcon"];
     self.voiceBtn.hidden = comment.voiceuri.length<=0;
+    self.image.hidden = comment.image.length<=0;
     self.timeLbl.text = comment.ctime;
     
     if (comment.user.total_cmt_like_count >= 1000) {
@@ -73,6 +75,14 @@ static TGCommentNewM *lastCommentM_;
     
     if (comment.voiceuri.length) {
         [self.voiceBtn setTitle:[NSString stringWithFormat:@"%zd''", comment.voicetime] forState:UIControlStateNormal];
+        self.commentLbl.text = @"";
+        self.voiceBtn.frame = comment.middleFrame;
+    }
+    
+    if (comment.image.length>0){
+        self.commentLbl.text = @"";
+        self.image.frame = comment.middleFrame;
+        [self.image tg_setOriginImage:comment.image thumbnailImage:nil placeholder:nil progress:nil completed:nil];
     }
     
     [self.voiceBtn setImage:[UIImage imageNamed:@"play-voice-icon-2"] forState:UIControlStateNormal];

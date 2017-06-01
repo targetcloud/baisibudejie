@@ -28,6 +28,14 @@
 @property (nonatomic, assign) NSInteger precid;
 @property (nonatomic, assign) NSInteger preuid;
 @property (nonatomic, assign) NSInteger status;
+
+@property (nonatomic, copy) NSString *image;
+@property (nonatomic, assign) NSInteger image_width;
+@property (nonatomic, assign) NSInteger image_height;
+
+@property (nonatomic, assign,readonly) CGFloat cellHeight;
+@property (nonatomic, assign,readonly) CGRect middleFrame;
+
 @property (strong , nonatomic) TGCommentNewM * precmt;
 @property (nonatomic, assign,getter=is_voicePlaying) BOOL voicePlaying;
 @end
