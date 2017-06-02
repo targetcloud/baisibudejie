@@ -30,6 +30,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *topCmtLbl;
 @property (weak, nonatomic) IBOutlet UIImageView *sinaV;
 @property (weak, nonatomic) IBOutlet UIImageView *vip;
+
+@property (weak, nonatomic) IBOutlet UIButton *spreadBtn;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *spreadViewBottomConstraint;
+
 @property (nonatomic, weak) TGPicNewV *picV;
 @property (nonatomic, weak) TGVideoNewV *videoV;
 @property (nonatomic, weak) TGVoiceNewV *voiceV;
@@ -74,7 +79,7 @@
 
 - (void)setTopic:(TGTopicNewM *)topic{
     _topic = topic;
-
+    
     self.sinaV.hidden = !topic.u.is_v;
     self.vip.hidden = !topic.u.is_vip;
     
@@ -93,6 +98,14 @@
     self.topCmtV.hidden = topic.top_comments.count <= 0 ;
     if (topic.top_comments.count){
         self.topCmtLbl.attributedText = topic.attrStrM;
+    }
+    
+    self.spreadV.hidden = (topic.textHeight <= TextHeightConstraint);
+    self.textHeightConstraint.constant = self.topic.textHeight > TextHeightConstraint? TextHeightConstraint : self.topic.textHeight;
+    if (!self.spreadV.hidden){
+        [self.spreadBtn setTitle:topic.cellHeight > self.topic.defaultHeight ? @"收缩" : @"展开" forState:UIControlStateNormal];
+        self.textHeightConstraint.constant = self.topic.isShowAllWithoutComment ?  self.topic.textHeight : topic.cellHeight > self.topic.defaultHeight ? self.topic.textHeight : TextHeightConstraint;
+        self.spreadViewBottomConstraint.constant = topic.cellHeight > self.topic.defaultHeight ? 19.f : 0;
     }
     
     self.picV.hidden = !([topic.type.lowercaseString isEqualToString:@"image"] || [topic.type.lowercaseString isEqualToString:@"gif"]);
@@ -152,6 +165,18 @@
         TGLog(@"点击了[取消]按钮")
     }]];
     [self.window.rootViewController presentViewController:controller animated:YES completion:nil];
+}
+
+- (IBAction)spreadBtnClick:(UIButton *)sender {
+    [self.spreadBtn setTitle: ([self.spreadBtn.currentTitle isEqualToString:@"展开"] ? @"收缩" : @"展开" ) forState:UIControlStateNormal];
+    
+    self.topic.middleFrame = CGRectMake(self.topic.middleFrame.origin.x,
+                                        [self.spreadBtn.currentTitle isEqualToString:@"收缩"] ?  self.topic.middleY + (self.topic.textHeight + 19.f - TextHeightConstraint) : self.topic.middleY,
+                                        self.topic.middleFrame.size.width,
+                                        self.topic.middleFrame.size.height);
+    
+    [self.topic setValue:@( [self.spreadBtn.currentTitle isEqualToString:@"收缩"] ? self.topic.cellHeight + (self.topic.textHeight + 19.f - TextHeightConstraint) : self.topic.defaultHeight) forKey:@"cellHeight" ];
+    !(self.block) ? : self.block();
 }
 
 @end

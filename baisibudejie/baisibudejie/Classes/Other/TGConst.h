@@ -30,3 +30,5 @@ UIKIT_EXTERN NSString  * const AcrossEssenceNotification;
 
 UIKIT_EXTERN NSString  * const Boy;
 UIKIT_EXTERN NSString  * const Girl;
+
+UIKIT_EXTERN CGFloat const TextHeightConstraint;

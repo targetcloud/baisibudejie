@@ -10,6 +10,7 @@
 
 #import <Foundation/Foundation.h>
 
+CGFloat const TextHeightConstraint = 120;
 CGFloat const Margin = 10;
 CGFloat const TabBarH = 49;
 CGFloat const NavMaxY = 64;

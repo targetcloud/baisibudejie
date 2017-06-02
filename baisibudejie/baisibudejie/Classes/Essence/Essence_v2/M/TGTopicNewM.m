@@ -10,9 +10,14 @@
 #import "TGCommentNewM.h"
 #import "TGUserNewM.h"
 
+static CGFloat const MiddleHeightConstraint = 300;
+
 @implementation TGTopicNewM
 {
-    CGFloat _cellHeight;
+    CGFloat _cellHeight;//cell高，会变化
+    CGFloat _defaultHeight;//第一次计算的缺省高度，不变，如长文本未展开前的高度
+    CGFloat _cellHeightWithoutComment;//没有评论的cell高度（已展开状态）
+    CGFloat _textHeight;
     CGFloat _commentVH;
     CGRect _middleFrame;
 }
@@ -84,24 +89,31 @@
 - (CGFloat)cellHeight{
     if (_cellHeight) return _cellHeight;
     _commentVH = 0;
+    _cellHeightWithoutComment = 0;
     _cellHeight += 55;
     
     CGSize textMaxSize = CGSizeMake(ScreenW - 2 * Margin , MAXFLOAT);
-    _cellHeight += [self.text boundingRectWithSize:textMaxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil].size.height + Margin;
+    
+    _textHeight = [self.text boundingRectWithSize:textMaxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil].size.height + 1;//+1是为了容错
     //   [self.text sizeWithFont:[UIFont systemFontOfSize:14] constrainedToSize:textMaxSize].height;
+    //长文本过长导致高度过高应受到高度约束
+    _cellHeightWithoutComment = _cellHeight + _textHeight + Margin;
+    _cellHeight += (_textHeight > TextHeightConstraint ? TextHeightConstraint : _textHeight) + Margin;
     
     if (![self.type isEqualToString: @"text"]) { //图片、视频
         CGFloat middleW = textMaxSize.width;
+        CGFloat middleX = Margin;
         CGFloat middleH = middleW * self.height / self.width;
         if (middleH >= ScreenH) { // 显示的图片高度超过一个屏幕，就是超长图片
-            middleH = 300;
+            middleH = MiddleHeightConstraint;
             _bigPicture = YES;
         }
         CGFloat middleY = _cellHeight;
-        CGFloat middleX = Margin;
+        _middleY = middleY;
         _middleFrame = CGRectMake(middleX, middleY, middleW, middleH);
         //TGLog(@"%ld,%ld, %@ , %@ ,%@", self.height, self.width,self.type,self.text, NSStringFromCGRect(_middleFrame))
         _cellHeight += middleH + Margin;
+        _cellHeightWithoutComment += middleH + Margin;
     }
     
     if (self.top_comments.count > 0){//评论
@@ -129,7 +141,9 @@
         _cellHeight += (_commentVH + 10);
     }
     _cellHeight += 35 ;//工具条
+    _cellHeightWithoutComment += 35;
     //TGLog(@"_cellHeight,%@,%@,%f",self.type, self.text, _cellHeight)
+    _defaultHeight = _cellHeight;
     return _cellHeight;
 }
 

@@ -116,6 +116,13 @@ static NSString * const TGTopicCellID = @"TGTopicNewCellID";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     TGTopicNewCell *cell = [tableView dequeueReusableCellWithIdentifier:TGTopicCellID];
     cell.topic = self.topics[indexPath.row];
+    //传入block，用于展开收缩
+    __weak typeof(self)weakSelf = self;
+    __weak typeof(cell)weakCell = cell;
+    cell.block = ^ {
+        weakCell.topic = weakSelf.topics[indexPath.row];
+        [weakSelf.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
+    };
     return cell;
 }
 
@@ -250,6 +257,7 @@ static NSString * const TGTopicCellID = @"TGTopicNewCellID";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     TGCommentNewVC *commentVc = [[TGCommentNewVC alloc] init];
+    [self.topics[indexPath.row] setShowAllWithoutComment:YES];
     commentVc.topic = self.topics[indexPath.row];
     [self.navigationController pushViewController:commentVc animated:YES];
 }

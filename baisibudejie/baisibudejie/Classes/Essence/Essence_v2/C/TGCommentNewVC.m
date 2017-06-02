@@ -82,15 +82,22 @@ static NSString *const headID = @"head";
 -(void)setupHeadView{
     self.savedTopCmt = self.topic.top_comments;
     self.topic.top_comments = nil;
-    [self.topic setValue:@0 forKey:@"cellHeight" ];
+    //[self.topic setValue:@0 forKey:@"cellHeight" ];
     [self.tableV registerClass:[TGCommentHeaderFooterV class] forHeaderFooterViewReuseIdentifier:headID];
     self.tableV.sectionHeaderHeight = [UIFont systemFontOfSize:13].lineHeight + Margin;
     
     UIView *headV = [[UIView alloc] init];
     TGTopicNewCell *topicCell = [TGTopicNewCell viewFromXIB];
     topicCell.backgroundColor = TGGrayColor(255);
+    
+    self.topic.middleFrame = CGRectMake(self.topic.middleFrame.origin.x,
+                                        self.topic.textHeight > TextHeightConstraint ? self.topic.middleY + (self.topic.textHeight - TextHeightConstraint) : self.topic.middleY,
+                                        self.topic.middleFrame.size.width,
+                                        self.topic.middleFrame.size.height);
     topicCell.topic = self.topic;
-    topicCell.frame = CGRectMake(0, 0, ScreenW, self.topic.cellHeight);
+    
+    topicCell.frame = CGRectMake(0, 0, ScreenW, self.topic.cellHeightWithoutComment);
+    topicCell.spreadV.hidden = YES;
     headV.height = topicCell.height;
     [headV addSubview:topicCell];
     self.tableV.tableHeaderView = headV;
@@ -167,7 +174,8 @@ static NSString *const headID = @"head";
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     self.topic.top_comments = self.savedTopCmt;
-    [self.topic setValue:@0 forKey:@"cellHeight"];
+    [self.topic setShowAllWithoutComment:NO];
+    //[self.topic setValue:@0 forKey:@"cellHeight"];
 }
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
