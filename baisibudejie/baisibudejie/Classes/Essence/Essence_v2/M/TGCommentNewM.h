@@ -21,8 +21,17 @@
 @property (nonatomic, assign) NSInteger floor;
 @property (nonatomic, copy) NSString *passtime;
 @property (nonatomic, copy) NSString *ctime;
+
 @property (nonatomic, assign) NSInteger voicetime;
 @property (nonatomic, copy) NSString *voiceuri;
+
+@property (nonatomic, assign) NSInteger video_width;
+@property (nonatomic, assign) NSInteger video_height;
+@property (nonatomic, assign) NSInteger videotime;
+@property (nonatomic, copy) NSString *videouri;
+@property (nonatomic, assign) BOOL avmixed;
+@property (nonatomic, copy) NSString *video_thumbnail;
+
 @property (nonatomic, copy) NSString *cmt_type;
 @property (nonatomic, copy) NSString *type;
 @property (nonatomic, assign) NSInteger precid;
@@ -38,4 +47,6 @@
 
 @property (strong , nonatomic) TGCommentNewM * precmt;
 @property (nonatomic, assign,getter=is_voicePlaying) BOOL voicePlaying;
+@property (nonatomic, assign,getter=is_videoPlaying) BOOL videoPlaying;
+
 @end

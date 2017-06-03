@@ -10,5 +10,5 @@
 @class TGCommentNewM;
 
 @interface TGCommentNewCell : UITableViewCell
-@property (strong , nonatomic)TGCommentNewM *comment;
+@property (strong , nonatomic)TGCommentNewM *commentM;
 @end

@@ -60,10 +60,10 @@
 @property (nonatomic, copy,readonly) NSString * image;
 
 @property (nonatomic, assign,readonly) CGFloat cellHeight;
-@property (nonatomic, assign,readonly) CGFloat middleY;
+@property (nonatomic, assign,readonly) CGFloat middleY;//用于收缩展开
 @property (nonatomic, assign,readonly) CGFloat defaultHeight;//用于收缩展开
+@property (nonatomic, assign,readonly) CGFloat textHeight;//用于收缩展开
 
-@property (nonatomic, assign,readonly) CGFloat textHeight;
 @property (nonatomic, assign) CGRect middleFrame;
 @property (nonatomic, assign, getter=isBigPicture) BOOL bigPicture;
 

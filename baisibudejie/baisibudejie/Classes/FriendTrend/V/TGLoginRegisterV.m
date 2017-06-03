@@ -24,6 +24,7 @@
 }
 
 -(void) awakeFromNib{
+    [super awakeFromNib];
     UIImage * img= _loginRegisterBtn.currentBackgroundImage;
     img = [img stretchableImageWithLeftCapWidth:img.size.width*0.5  topCapHeight:img.size.height*0.5];
     [_loginRegisterBtn setBackgroundImage:img forState:UIControlStateNormal];

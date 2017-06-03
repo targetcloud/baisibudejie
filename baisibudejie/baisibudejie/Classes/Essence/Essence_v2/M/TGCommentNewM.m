@@ -23,6 +23,11 @@
              @"image" : @"image.images[0]",
              @"image_width" : @"image.width",
              @"image_height" : @"image.height",
+             @"video_width" : @"video.width",
+             @"video_height" : @"video.height",
+             @"videotime" : @"video.duration",
+             @"videouri" : @"video.video[0]",
+             @"video_thumbnail" : @"video.thumbnail[0]",
              };
 }
 
@@ -31,10 +36,16 @@
     _cellHeight += 55;
     
     CGSize textMaxSize = CGSizeMake(ScreenW - 45 - 10, MAXFLOAT);
-    
-    if (self.image.length>0) {
-        CGFloat middleW = textMaxSize.width;
-        CGFloat middleH = middleW * self.image_height / self.image_width;
+    if (self.videouri.length>0){
+        CGFloat middleW = self.video_width>textMaxSize.width ? textMaxSize.width : self.video_width;
+        CGFloat middleH = self.video_width>textMaxSize.width ? middleW * self.video_height / self.video_width : self.video_height;
+        CGFloat middleY = _cellHeight - 15;
+        CGFloat middleX = 45;
+        _middleFrame = CGRectMake(middleX, middleY, middleW, middleH);
+        _cellHeight += middleH;
+    }else if (self.image.length>0) {
+        CGFloat middleW = self.image_width>textMaxSize.width ? textMaxSize.width : self.image_width;
+        CGFloat middleH = self.image_width>textMaxSize.width ? middleW * self.image_height / self.image_width : self.image_height;
         CGFloat middleY = _cellHeight - 15;
         CGFloat middleX = 45;
         _middleFrame = CGRectMake(middleX, middleY, middleW, middleH);
@@ -81,7 +92,8 @@
 
 - (NSString *)ctime{
     NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
-    fmt.dateFormat = @"yyyy-MM-ddTHH:mm:ss";
+    _ctime = [_ctime stringByReplacingOccurrencesOfString:@"T" withString:@" "];
+    fmt.dateFormat = @"yyyy-MM-dd HH:mm:ss";
     NSDate *create = [fmt dateFromString:_ctime];
     if (create.isThisYear) { // 今年
         if (create.isToday) { // 今天

@@ -200,7 +200,7 @@ static NSString *const headID = @"head";
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     TGCommentNewCell *cell = [tableView dequeueReusableCellWithIdentifier:commentID forIndexPath:indexPath];
-    cell.comment = (indexPath.section == 0 && self.hotestComments.count) ? _hotestComments[indexPath.row] : _latestComments[indexPath.row];
+    cell.commentM = (indexPath.section == 0 && self.hotestComments.count) ? _hotestComments[indexPath.row] : _latestComments[indexPath.row];
     return cell;
 }
 
