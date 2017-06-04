@@ -137,14 +137,15 @@ static CGFloat const MiddleHeightConstraint = 300;
             //}
             [com setValue:attrStr forKey:@"_attrStrM"];
             CGSize s = [cmtText boundingRectWithSize:textMaxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12]} context:nil].size;
-            CGFloat h = s.height + 10;//加10是上下各有5个高
-            h = h<30 ? 30 : h;//最小不能低于 图像20+上下各有5个高
-            h = com.voiceuri.length>0 ? 50 : h;//如果是声音，则固定按钮的高度为40+上下各有5个高
+            CGFloat h = s.height + 5;//加5是下有5个高
+            h = h<25 ? 25 : h;//最小不能低于 图像20+下有5个高
+            h = com.voiceuri.length>0 ? 45 : h;//如果是声音，则固定按钮的高度为40+下有5个高
             [com setValue:@(h) forKey:@"_topCommentCellHeight"];
             [com setValue:@(s.width) forKey:@"_topCommentWidth"];
             _commentVH += h;
         }
         //_attrStrM = attrStrM;
+        _commentVH += _commentVH>0 ? 5 : 0;//全部之后再加5个高，因为tableview离容器上面有5个高
         _cellHeight += _commentVH;
     }
     _cellHeight += 35 ;//工具条

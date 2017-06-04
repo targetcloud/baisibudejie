@@ -163,13 +163,13 @@
                         <rect key="frame" x="10" y="335.5" width="318" height="30"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="chD-ft-j88">
-                                <rect key="frame" x="0.0" y="0.0" width="318" height="30"/>
+                                <rect key="frame" x="0.0" y="5" width="318" height="25"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="chD-ft-j88" firstAttribute="top" secondItem="n1e-bD-1er" secondAttribute="top" id="7FW-A0-WOe"/>
+                            <constraint firstItem="chD-ft-j88" firstAttribute="top" secondItem="n1e-bD-1er" secondAttribute="top" constant="5" id="7FW-A0-WOe"/>
                             <constraint firstAttribute="trailing" secondItem="chD-ft-j88" secondAttribute="trailing" id="CYq-zU-mcz"/>
                             <constraint firstAttribute="height" constant="30" id="hQB-wK-j2g"/>
                             <constraint firstAttribute="bottom" secondItem="chD-ft-j88" secondAttribute="bottom" id="ouh-zj-Xge"/>
