@@ -49,6 +49,7 @@
                         </connections>
                     </button>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="J1G-pn-fTd" secondAttribute="trailing" constant="5" id="9OA-wW-X0a"/>
                     <constraint firstItem="6kL-3T-tTP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="Fwm-Ab-MDd"/>
@@ -59,6 +60,7 @@
                     <constraint firstItem="Jsb-L4-dkG" firstAttribute="leading" secondItem="J1G-pn-fTd" secondAttribute="leading" id="lp4-YD-OqY"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="commentLbl" destination="J1G-pn-fTd" id="cmr-XO-jtU"/>
                 <outlet property="commentLblCenterYConstratint" destination="NOA-D0-efw" id="zsW-Wg-mJn"/>
