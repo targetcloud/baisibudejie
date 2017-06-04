@@ -100,6 +100,7 @@ static NSString *const commentID = @"TGTopCommentCellID";
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    //TGLog(@"%f",self.topic.top_comments[indexPath.row].topCommentCellHeight)
     return  self.topic.top_comments[indexPath.row].topCommentCellHeight;
 }
 

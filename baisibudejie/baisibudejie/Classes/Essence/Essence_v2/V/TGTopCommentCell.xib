@@ -61,6 +61,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="commentLbl" destination="J1G-pn-fTd" id="cmr-XO-jtU"/>
+                <outlet property="commentLblCenterYConstratint" destination="NOA-D0-efw" id="zsW-Wg-mJn"/>
                 <outlet property="iconImageV" destination="6kL-3T-tTP" id="k53-yO-90Y"/>
                 <outlet property="voiceBtn" destination="Jsb-L4-dkG" id="hWr-Am-dWE"/>
                 <outlet property="voiceBtnLeftConstraint" destination="lp4-YD-OqY" id="aiG-Xk-8pi"/>

@@ -17,6 +17,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *commentLbl;
 @property (weak, nonatomic) IBOutlet UIButton *voiceBtn;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *voiceBtnLeftConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentLblCenterYConstratint;
+
 @property (strong, nonatomic) AVPlayerItem *playerItem;
 @end
 
@@ -51,6 +53,7 @@ static TGCommentNewM *lastCommentM_;
     self.commentLbl.attributedText = commentM.attrStrM;
     self.voiceBtn.hidden = commentM.voiceuri.length<=0;
     self.voiceBtnLeftConstraint.constant = commentM.topCommentWidth;
+    self.commentLblCenterYConstratint.constant = commentM.topCommentCellHeight > 30 ? 4 : 0;
     if (commentM.voiceuri.length) {
         [self.voiceBtn setTitle:[NSString stringWithFormat:@"%zd''", commentM.voicetime] forState:UIControlStateNormal];
     }
