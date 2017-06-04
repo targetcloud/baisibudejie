@@ -273,6 +273,10 @@ static UIProgressView *progress_;
 -(void)dealloc{
     [commentPlayer_ pause];
     [playerLayer_ removeFromSuperlayer];
+    lastCommentM_.voicePlaying = NO;
+    lastCommentM_.videoPlaying = NO;
+    [self setBtn:lastBtn_ play:lastCommentM_.voicePlaying];
+    [lastPlayBtn_ setImage:[UIImage imageNamed:@"video-play"] forState:UIControlStateNormal];
     [[NSNotificationCenter defaultCenter]removeObserver:self];
     //[avTimer_ invalidate];
     //avTimer_= nil;

@@ -166,6 +166,8 @@ static UIProgressView *progress_;
 -(void)dealloc{
     [video_player_ pause];
     [playerLayer_ removeFromSuperlayer];
+    lastTopicM_.videoPlaying = NO;
+    [lastPlayBtn_ setImage:[UIImage imageNamed:@"video-play"] forState:UIControlStateNormal];
     [[NSNotificationCenter defaultCenter]removeObserver:self];
     //[avTimer_ invalidate];
     //avTimer_= nil;

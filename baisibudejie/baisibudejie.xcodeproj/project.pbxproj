@@ -158,6 +158,8 @@
 		6AF7A9BE1ED4467A0061EE22 /* TGCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF7A9BC1ED4467A0061EE22 /* TGCommentCell.m */; };
 		6AF7A9BF1ED4467A0061EE22 /* TGCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AF7A9BD1ED4467A0061EE22 /* TGCommentCell.xib */; };
 		6AF7A9C21ED446B20061EE22 /* TGCommentHeaderFooterV.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF7A9C11ED446B20061EE22 /* TGCommentHeaderFooterV.m */; };
+		6AF7ABE51EE41B2600F1CF32 /* TGTopCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF7ABE31EE41B2600F1CF32 /* TGTopCommentCell.m */; };
+		6AF7ABE61EE41B2600F1CF32 /* TGTopCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AF7ABE41EE41B2600F1CF32 /* TGTopCommentCell.xib */; };
 		A736A34311D1DD0C69201815 /* libPods-baisibudejie.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72225DF6F24257616EB93259 /* libPods-baisibudejie.a */; };
 /* End PBXBuildFile section */
 
@@ -427,6 +429,9 @@
 		6AF7A9BD1ED4467A0061EE22 /* TGCommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TGCommentCell.xib; sourceTree = "<group>"; };
 		6AF7A9C01ED446B20061EE22 /* TGCommentHeaderFooterV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGCommentHeaderFooterV.h; sourceTree = "<group>"; };
 		6AF7A9C11ED446B20061EE22 /* TGCommentHeaderFooterV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGCommentHeaderFooterV.m; sourceTree = "<group>"; };
+		6AF7ABE21EE41B2600F1CF32 /* TGTopCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGTopCommentCell.h; sourceTree = "<group>"; };
+		6AF7ABE31EE41B2600F1CF32 /* TGTopCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGTopCommentCell.m; sourceTree = "<group>"; };
+		6AF7ABE41EE41B2600F1CF32 /* TGTopCommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TGTopCommentCell.xib; sourceTree = "<group>"; };
 		72225DF6F24257616EB93259 /* libPods-baisibudejie.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-baisibudejie.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFE0CD109C534BB43CE5F28F /* Pods-baisibudejie.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-baisibudejie.debug.xcconfig"; path = "Pods/Target Support Files/Pods-baisibudejie/Pods-baisibudejie.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -547,6 +552,9 @@
 				6A02A8241EDDE2A600C1D89D /* TGCommentNewCell.h */,
 				6A02A8251EDDE2A600C1D89D /* TGCommentNewCell.m */,
 				6A02A8261EDDE2A600C1D89D /* TGCommentNewCell.xib */,
+				6AF7ABE21EE41B2600F1CF32 /* TGTopCommentCell.h */,
+				6AF7ABE31EE41B2600F1CF32 /* TGTopCommentCell.m */,
+				6AF7ABE41EE41B2600F1CF32 /* TGTopCommentCell.xib */,
 			);
 			path = V;
 			sourceTree = "<group>";
@@ -1241,6 +1249,7 @@
 				6AE6C1791ED032DD00238D6B /* TGPublishV.xib in Resources */,
 				6A02A8111EDD918000C1D89D /* TGVideoNewV.xib in Resources */,
 				6ADF8D0F1E6D3C820042DADC /* LaunchImage-700-568h@2x.png in Resources */,
+				6AF7ABE61EE41B2600F1CF32 /* TGTopCommentCell.xib in Resources */,
 				6A02A80F1EDD917500C1D89D /* TGPicNewV.xib in Resources */,
 				6AF7A9BF1ED4467A0061EE22 /* TGCommentCell.xib in Resources */,
 				6A02A81E1EDDC9B000C1D89D /* TGVoiceNewV.xib in Resources */,
@@ -1386,6 +1395,7 @@
 				6AE6C1771ED032CD00238D6B /* TGPublishV.m in Sources */,
 				6A05D4DC1EDE87FA00C5BBF7 /* TGRecommendedVC.m in Sources */,
 				6AD4EB221E6C538300D8B260 /* TGMeVC.m in Sources */,
+				6AF7ABE51EE41B2600F1CF32 /* TGTopCommentCell.m in Sources */,
 				6A05D5151EDE8D9300C5BBF7 /* TGNewestVoteVC.m in Sources */,
 				6A02A8271EDDE2A600C1D89D /* TGCommentNewCell.m in Sources */,
 				6A127F631E6EBD4200FD7246 /* TGSquareM.m in Sources */,

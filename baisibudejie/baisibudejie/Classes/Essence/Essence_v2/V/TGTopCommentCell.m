@@ -1,40 +1,33 @@
 //
-//  TGCommentCell.m
+//  TGTopCommentCell.m
 //  baisibudejie
 //
-//  Created by targetcloud on 2017/5/23.
+//  Created by targetcloud on 2017/6/4.
 //  Copyright © 2017年 targetcloud. All rights reserved.
 //
 
-#import "TGCommentCell.h"
-#import "TGUserM.h"
-#import "TGCommentM.h"
+#import "TGTopCommentCell.h"
+#import "TGUserNewM.h"
+#import "TGCommentNewM.h"
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 
-@interface TGCommentCell ()
+@interface TGTopCommentCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageV;
-@property (weak, nonatomic) IBOutlet UILabel *nameLbl;
 @property (weak, nonatomic) IBOutlet UILabel *commentLbl;
-@property (weak, nonatomic) IBOutlet UIImageView *sexImageV;
-@property (weak, nonatomic) IBOutlet UIButton *likeBtn;
-@property (weak, nonatomic) IBOutlet UIButton *hateBtn;
 @property (weak, nonatomic) IBOutlet UIButton *voiceBtn;
-@property (weak, nonatomic) IBOutlet UILabel *totalLikeCountLbl;
-@property (weak, nonatomic) IBOutlet UILabel *timeLbl;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *voiceBtnLeftConstraint;
 @property (strong, nonatomic) AVPlayerItem *playerItem;
 @end
 
-static AVPlayer * commentVoicePlayer_;
+static AVPlayer * commentPlayer_;
 static UIButton *lastBtn_;
-static TGCommentM *lastCommentM_;
+static TGCommentNewM *lastCommentM_;
 
-@implementation TGCommentCell
+@implementation TGTopCommentCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    //self.backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"mainCellBackground"]];
-    [self.hateBtn setTitle:@"" forState:UIControlStateNormal];
     [self.voiceBtn setAdjustsImageWhenHighlighted:NO];
     UIImageView * imageView = self.voiceBtn.imageView;
     imageView.animationImages=[NSArray arrayWithObjects:
@@ -48,80 +41,66 @@ static TGCommentM *lastCommentM_;
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
--(void)setComment:(TGCommentM *)comment{
-    _comment = comment;
-    [self.iconImageV tg_setHeader:comment.user.profile_image];
-    self.nameLbl.text = comment.user.username;
-    self.commentLbl.text = comment.content;
-    [self.likeBtn setTitle: [NSString stringWithFormat:@"%zd",comment.like_count]  forState:UIControlStateNormal];
-    self.sexImageV.image = [UIImage imageNamed:[comment.user.sex isEqualToString:Boy] ? @"Profile_manIcon" : @"Profile_womanIcon"];
-    self.voiceBtn.hidden = comment.voiceuri.length<=0;
-    self.timeLbl.text = comment.ctime;
-    
-    if (comment.user.total_cmt_like_count >= 1000) {
-        self.totalLikeCountLbl.text = [NSString stringWithFormat:@"%.1fk", comment.user.total_cmt_like_count / 1000.0];
-        self.totalLikeCountLbl.backgroundColor = comment.user.total_cmt_like_count >= 10000 ? TGColor(250, 195, 198) : TGColor(212, 205, 214);
-    } else {
-        self.totalLikeCountLbl.text = [NSString stringWithFormat:@"%zd", comment.user.total_cmt_like_count];
-        self.totalLikeCountLbl.backgroundColor = TGColor(191, 205, 224);
+-(void)setCommentM:(TGCommentNewM *)commentM{
+    _commentM = commentM;
+    [self.iconImageV tg_setHeader:commentM.u.header.length>0 ? commentM.u.header : commentM.user.profile_image.length>0 ? commentM.user.profile_image : commentM.u.profile_image];
+    self.commentLbl.attributedText = commentM.attrStrM;
+    self.voiceBtn.hidden = commentM.voiceuri.length<=0;
+    self.voiceBtnLeftConstraint.constant = commentM.topCommentWidth;
+    if (commentM.voiceuri.length) {
+        [self.voiceBtn setTitle:[NSString stringWithFormat:@"%zd''", commentM.voicetime] forState:UIControlStateNormal];
     }
     
-    if (comment.voiceuri.length) {
-        [self.voiceBtn setTitle:[NSString stringWithFormat:@"%zd''", comment.voicetime] forState:UIControlStateNormal];
-    }
-
     [self.voiceBtn setImage:[UIImage imageNamed:@"play-voice-icon-2"] forState:UIControlStateNormal];
-    [self setBtn:self.voiceBtn play:comment.voicePlaying];
+    [self setBtn:self.voiceBtn play:commentM.voicePlaying];
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        self.playerItem = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:comment.voiceuri]];
-        commentVoicePlayer_ = [AVPlayer playerWithPlayerItem:self.playerItem];
+        self.playerItem = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:commentM.voiceuri]];
+        commentPlayer_ = [AVPlayer playerWithPlayerItem:self.playerItem];
+        commentPlayer_.volume = 1.0f;
     });
-}
-
-- (void)setFrame:(CGRect)frame{
-    //frame.size.height += 1;//frame.size.height -= 1 不采用背景图做为分隔,直接在cell里加一个0.5高度的view作为分隔线
-    [super setFrame:frame];
 }
 
 - (IBAction)voicePlay:(UIButton *)sender {
     sender.selected = !sender.isSelected;
     lastBtn_.selected = !lastBtn_.isSelected;
-    if (lastCommentM_ != self.comment) {
+    if (lastCommentM_ != self.commentM) {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
         
-        self.playerItem = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:self.comment.voiceuri]];
+        self.playerItem = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:self.commentM.voiceuri]];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(playerItemDidReachEnd:)
                                                      name:AVPlayerItemDidPlayToEndTimeNotification
                                                    object:self.playerItem];
         
-        [commentVoicePlayer_ replaceCurrentItemWithPlayerItem:self.playerItem];
-        [commentVoicePlayer_ play];
+        [commentPlayer_ replaceCurrentItemWithPlayerItem:self.playerItem];
+        [commentPlayer_ play];
         lastCommentM_.voicePlaying = NO;
-        self.comment.voicePlaying = YES;
+        self.commentM.voicePlaying = YES;
         [self setBtn:lastBtn_ play:lastCommentM_.voicePlaying];
-        [self setBtn:sender play:self.comment.voicePlaying];
+        [self setBtn:sender play:self.commentM.voicePlaying];
     }else{
         if(lastCommentM_.voicePlaying){
-            [commentVoicePlayer_ pause];
-            self.comment.voicePlaying = NO;
-            [self setBtn:sender play:self.comment.voicePlaying];
+            [commentPlayer_ pause];
+            self.commentM.voicePlaying = NO;
+            [self setBtn:sender play:self.commentM.voicePlaying];
         }else{
-            [commentVoicePlayer_ play];
+            [commentPlayer_ play];
+            lastCommentM_.voicePlaying = NO;
+            [self setBtn:lastBtn_ play:lastCommentM_.voicePlaying];
             [[NSNotificationCenter defaultCenter] addObserver:self
                                                      selector:@selector(playerItemDidReachEnd:)
                                                          name:AVPlayerItemDidPlayToEndTimeNotification
                                                        object:self.playerItem];
-            self.comment.voicePlaying = YES;
-            [self setBtn:sender play:self.comment.voicePlaying];
+            self.commentM.voicePlaying = YES;
+            [self setBtn:sender play:self.commentM.voicePlaying];
         }
     }
-    lastCommentM_ = self.comment;
+    lastCommentM_ = self.commentM;
     lastBtn_ = sender;
 }
 
@@ -133,17 +112,20 @@ static TGCommentM *lastCommentM_;
 -(void) playerItemDidReachEnd:(AVPlayerItem *)playerItem{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
     lastCommentM_.voicePlaying = NO;
-    self.comment.voicePlaying = NO;
-    [self setBtn:self.voiceBtn play:self.comment.voicePlaying];
+    self.commentM.voicePlaying = NO;
+    [self setBtn:self.voiceBtn play:self.commentM.voicePlaying];
     [self setBtn:lastBtn_ play:lastCommentM_.voicePlaying];
-    [commentVoicePlayer_ seekToTime:kCMTimeZero];
+    [commentPlayer_ pause];
+    [commentPlayer_ seekToTime:kCMTimeZero];
 }
 
 -(void)dealloc{
-    [commentVoicePlayer_ pause];
+    [commentPlayer_ pause];
     lastCommentM_.voicePlaying = NO;
     [self setBtn:lastBtn_ play:lastCommentM_.voicePlaying];
     [[NSNotificationCenter defaultCenter]removeObserver:self];
+    //[avTimer_ invalidate];
+    //avTimer_= nil;
 }
 
 - (BOOL)canBecomeFirstResponder{

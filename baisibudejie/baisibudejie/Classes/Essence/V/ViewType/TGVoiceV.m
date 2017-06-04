@@ -197,6 +197,8 @@ static DALabeledCircularProgressView  *progressV_;
 
 -(void)dealloc{
     [voice_player_ pause];
+    lastTopicM_.voicePlaying = NO;
+    [lastPlayBtn_ setImage:[UIImage imageNamed:@"playButtonPlay"] forState:UIControlStateNormal];
     [[NSNotificationCenter defaultCenter]removeObserver:self];
     //[avTimer_ invalidate];
     //avTimer_= nil;

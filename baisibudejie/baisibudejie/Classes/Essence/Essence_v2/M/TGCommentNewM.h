@@ -49,4 +49,8 @@
 @property (nonatomic, assign,getter=is_voicePlaying) BOOL voicePlaying;
 @property (nonatomic, assign,getter=is_videoPlaying) BOOL videoPlaying;
 
+@property (nonatomic, assign,readonly) CGFloat topCommentCellHeight;
+@property (nonatomic, assign,readonly) CGFloat topCommentWidth;
+@property (nonatomic, copy,readonly) NSMutableAttributedString * attrStrM;
+
 @end

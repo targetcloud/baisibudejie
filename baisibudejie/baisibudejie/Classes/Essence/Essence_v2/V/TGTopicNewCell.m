@@ -13,11 +13,12 @@
 #import "TGPicNewV.h"
 #import "TGVideoNewV.h"
 #import "TGVoiceNewV.h"
+#import "TGTopCommentCell.h"
 #import <UIImageView+WebCache.h>
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 
-@interface TGTopicNewCell()
+@interface TGTopicNewCell()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageV;
 @property (weak, nonatomic) IBOutlet UILabel *nameLbl;
 @property (weak, nonatomic) IBOutlet UILabel *passtimeLbl;
@@ -27,19 +28,24 @@
 @property (weak, nonatomic) IBOutlet UIButton *repostBtn;
 @property (weak, nonatomic) IBOutlet UIButton *commentBtn;
 @property (weak, nonatomic) IBOutlet UIView *topCmtV;
-@property (weak, nonatomic) IBOutlet UILabel *topCmtLbl;
+//@property (weak, nonatomic) IBOutlet UILabel *topCmtLbl;
+@property (weak, nonatomic) IBOutlet UITableView *topCmtTableV;
+
 @property (weak, nonatomic) IBOutlet UIImageView *sinaV;
 @property (weak, nonatomic) IBOutlet UIImageView *vip;
 
 @property (weak, nonatomic) IBOutlet UIButton *spreadBtn;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *spreadViewBottomConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topCommentViewConstraint;
 
 @property (nonatomic, weak) TGPicNewV *picV;
 @property (nonatomic, weak) TGVideoNewV *videoV;
 @property (nonatomic, weak) TGVoiceNewV *voiceV;
 @property (strong, nonatomic) AVPlayerItem *playerItem;
 @end
+
+static NSString *const commentID = @"TGTopCommentCellID";
 
 @implementation TGTopicNewCell
 
@@ -74,7 +80,27 @@
     [super awakeFromNib];
     //self.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mainCellBackground"]];
     self.textLbl.font = [UIFont systemFontOfSize:14];
-    self.topCmtLbl.font = [UIFont systemFontOfSize:12];
+    self.topCmtTableV.dataSource = self;
+    self.topCmtTableV.delegate = self;
+    [self.topCmtTableV registerNib:[UINib nibWithNibName:NSStringFromClass([TGTopCommentCell class]) bundle:nil] forCellReuseIdentifier:commentID];
+    self.topCmtTableV.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.topCmtTableV.backgroundColor = [UIColor clearColor];
+    //self.topCmtLbl.font = [UIFont systemFontOfSize:12];
+}
+
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return  self.topic.top_comments.count;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    TGTopCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:commentID forIndexPath:indexPath];
+    cell.commentM = self.topic.top_comments[indexPath.row];
+    return cell;
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return  self.topic.top_comments[indexPath.row].topCommentCellHeight;
 }
 
 - (void)setTopic:(TGTopicNewM *)topic{
@@ -97,7 +123,9 @@
     
     self.topCmtV.hidden = topic.top_comments.count <= 0 ;
     if (topic.top_comments.count){
-        self.topCmtLbl.attributedText = topic.attrStrM;
+        self.topCommentViewConstraint.constant = topic.commentVH;
+        [self.topCmtTableV reloadData];
+        //self.topCmtLbl.attributedText = topic.attrStrM;
     }
     
     self.spreadV.hidden = (topic.textHeight <= TextHeightConstraint);

@@ -263,6 +263,8 @@ static TGCommentM *lastCommentM_;
 
 -(void)dealloc{
     [top_cmt_player_ pause];
+    lastCommentM_.voicePlaying = NO;
+    [self setBtn:lastPlayBtn_ play:lastCommentM_.voicePlaying];
     [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 

@@ -160,21 +160,20 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n1e-bD-1er">
-                        <rect key="frame" x="10" y="341" width="318" height="24.5"/>
+                        <rect key="frame" x="10" y="335.5" width="318" height="30"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EkP-3y-I4g">
-                                <rect key="frame" x="5" y="5" width="308" height="14.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="chD-ft-j88">
+                                <rect key="frame" x="0.0" y="0.0" width="318" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="EkP-3y-I4g" secondAttribute="trailing" constant="5" id="WZP-yA-sQh"/>
-                            <constraint firstItem="EkP-3y-I4g" firstAttribute="leading" secondItem="n1e-bD-1er" secondAttribute="leading" constant="5" id="aSN-37-ssL"/>
-                            <constraint firstItem="EkP-3y-I4g" firstAttribute="top" secondItem="n1e-bD-1er" secondAttribute="top" constant="5" id="cZ1-IG-a87"/>
-                            <constraint firstAttribute="bottom" secondItem="EkP-3y-I4g" secondAttribute="bottom" constant="5" id="lMN-yM-u4j"/>
+                            <constraint firstItem="chD-ft-j88" firstAttribute="top" secondItem="n1e-bD-1er" secondAttribute="top" id="7FW-A0-WOe"/>
+                            <constraint firstAttribute="trailing" secondItem="chD-ft-j88" secondAttribute="trailing" id="CYq-zU-mcz"/>
+                            <constraint firstAttribute="height" constant="30" id="hQB-wK-j2g"/>
+                            <constraint firstAttribute="bottom" secondItem="chD-ft-j88" secondAttribute="bottom" id="ouh-zj-Xge"/>
+                            <constraint firstItem="chD-ft-j88" firstAttribute="leading" secondItem="n1e-bD-1er" secondAttribute="leading" id="rWN-mS-RzK"/>
                         </constraints>
                     </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile_AddV_authen" translatesAutoresizingMaskIntoConstraints="NO" id="a5a-ae-B9R">
@@ -255,8 +254,9 @@
                 <outlet property="spreadViewBottomConstraint" destination="vqs-yN-o35" id="UcO-w5-0MZ"/>
                 <outlet property="textHeightConstraint" destination="WUu-6Q-MZL" id="wRI-jo-CCS"/>
                 <outlet property="textLbl" destination="IKa-67-eiI" id="bwF-Qm-mVO"/>
-                <outlet property="topCmtLbl" destination="EkP-3y-I4g" id="xFt-qe-9Z8"/>
+                <outlet property="topCmtTableV" destination="chD-ft-j88" id="S9K-Kk-aEA"/>
                 <outlet property="topCmtV" destination="n1e-bD-1er" id="Y5s-fG-u8a"/>
+                <outlet property="topCommentViewConstraint" destination="hQB-wK-j2g" id="Xyx-EY-Nw1"/>
                 <outlet property="vip" destination="w8i-3n-GJy" id="7QO-cZ-jlY"/>
             </connections>
             <point key="canvasLocation" x="43" y="232.5"/>

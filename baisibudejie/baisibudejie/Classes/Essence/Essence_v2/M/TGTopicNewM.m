@@ -117,8 +117,8 @@ static CGFloat const MiddleHeightConstraint = 300;
     }
     
     if (self.top_comments.count > 0){//评论
-        textMaxSize = CGSizeMake(ScreenW - 2 * Margin - 10, MAXFLOAT);
-        NSMutableAttributedString *attrStrM = [[NSMutableAttributedString alloc] init];
+        textMaxSize = CGSizeMake(ScreenW - 2 * Margin - 10 -30, MAXFLOAT);
+        //NSMutableAttributedString *attrStrM = [[NSMutableAttributedString alloc] init];
         for (int i=0 ; i <self.top_comments.count; i++){
             TGCommentNewM * com = self.top_comments[i];
             NSString *content = com.content;
@@ -131,14 +131,21 @@ static CGFloat const MiddleHeightConstraint = 300;
             [attrStr addAttribute:NSForegroundColorAttributeName
                             value:TGColor(62, 114, 166)
                             range:NSMakeRange(0, username.length)];
-            [attrStrM appendAttributedString:attrStr];
-            if (i != self.top_comments.count-1){
-                [attrStrM appendAttributedString: [[NSAttributedString alloc] initWithString:@"\n"]];
-            }
-            _commentVH += [cmtText boundingRectWithSize:textMaxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12]} context:nil].size.height;
+            //[attrStrM appendAttributedString:attrStr];
+            //if (i != self.top_comments.count-1){
+            //    [attrStrM appendAttributedString: [[NSAttributedString alloc] initWithString:@"\n"]];
+            //}
+            [com setValue:attrStr forKey:@"_attrStrM"];
+            CGSize s = [cmtText boundingRectWithSize:textMaxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12]} context:nil].size;
+            CGFloat h = s.height + 10;//加10是上下各有5个高
+            h = h<30 ? 30 : h;//最小不能低于 图像20+上下各有5个高
+            h = com.voiceuri.length>0 ? 50 : h;//如果是声音，则固定按钮的高度为40+上下各有5个高
+            [com setValue:@(h) forKey:@"_topCommentCellHeight"];
+            [com setValue:@(s.width) forKey:@"_topCommentWidth"];
+            _commentVH += h;
         }
-        _attrStrM = attrStrM;
-        _cellHeight += (_commentVH + 10);
+        //_attrStrM = attrStrM;
+        _cellHeight += _commentVH;
     }
     _cellHeight += 35 ;//工具条
     _cellHeightWithoutComment += 35;
