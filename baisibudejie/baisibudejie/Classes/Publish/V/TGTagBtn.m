@@ -13,8 +13,11 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = TagBgColor;
+        [self setTitleColor:TagTitleColor forState:UIControlStateNormal];
         self.titleLabel.font = TagFont;
         [self setImage:[UIImage imageNamed:@"chose_tag_close_icon"] forState:UIControlStateNormal];
+        self.layer.masksToBounds = YES;
+        self.layer.cornerRadius = 5;
     }
     return self;
 }

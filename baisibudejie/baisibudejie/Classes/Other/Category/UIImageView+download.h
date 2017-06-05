@@ -10,6 +10,6 @@
 #import <UIImageView+WebCache.h>
 
 @interface UIImageView (download)
-- (void)tg_setOriginImage:(NSString *)originImageURL thumbnailImage:(NSString *)thumbnailImageURL placeholder:(UIImage *)placeholder progress:(nullable SDWebImageDownloaderProgressBlock)progressBlock completed:(SDExternalCompletionBlock)completedBlock;
-- (void)tg_setHeader:(NSString *)headerUrl;
+- (void)tg_setOriginImage:(NSString *_Nullable)originImageURL thumbnailImage:(NSString *_Nullable)thumbnailImageURL placeholder:(UIImage *_Nullable)placeholder progress:(nullable SDWebImageDownloaderProgressBlock)progressBlock completed:(SDExternalCompletionBlock _Nullable )completedBlock;
+- (void)tg_setHeader:(NSString *_Nullable)headerUrl;
 @end

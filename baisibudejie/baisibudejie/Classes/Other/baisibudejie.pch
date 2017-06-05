@@ -41,6 +41,7 @@
 #define TGLog(...)
 #endif
 
-#define TagBgColor TGColor(74,139,209) 
+#define TagBgColor [UIColor whiteColor]//TGColor(74,139,209)
+#define TagTitleColor TGColor(74,139,209)
 #define TagFont [UIFont systemFontOfSize:14]
 #define IOS(version) ([UIDevice currentDevice].systemVersion.doubleValue >= (version))

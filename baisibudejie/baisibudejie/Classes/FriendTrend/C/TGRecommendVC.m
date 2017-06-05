@@ -45,7 +45,8 @@ static NSString * const TGUserId = @"user";
 }
 
 - (void)loadCategories{
-    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
+    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
+    //[SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"a"] = @"category";

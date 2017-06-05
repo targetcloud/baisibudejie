@@ -49,4 +49,16 @@
     return  [[UIBarButtonItem alloc] initWithCustomView:backButton];
 }
 
++ (UIBarButtonItem *)itemWithColor:(UIColor *)color highColor:(UIColor *)highColor target:(id)target action:(SEL)action title:(NSString *)title{
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button.titleLabel setFont:[UIFont systemFontOfSize:15]];
+    [button setTitle:title forState:UIControlStateNormal];
+    [button setTitleColor:color forState:UIControlStateNormal];
+    [button setTitleColor:highColor forState:UIControlStateHighlighted];
+    [button sizeToFit];
+    button.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+    [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
+    return  [[UIBarButtonItem alloc] initWithCustomView:button];
+}
+
 @end

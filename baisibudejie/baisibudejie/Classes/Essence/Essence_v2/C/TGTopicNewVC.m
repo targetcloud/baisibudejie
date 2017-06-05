@@ -144,7 +144,7 @@ static NSString * const TGTopicCellID = @"TGTopicNewCellID";
             [describeArray addObject:tempDesc];
         }
         NSArray * urlArray = @[
-                               @"https://github.com/targetcloud/baisibudejie",
+                               @"https://github.com/targetcloud",
                                @"http://weibo.com/targetcloud",
                                @"http://blog.csdn.net/callzjy",
                                @"http://www.jianshu.com/p/718a12502887",

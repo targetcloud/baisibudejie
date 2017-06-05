@@ -55,12 +55,14 @@
         UILabel *tagLbl = [[UILabel alloc] init];
         tagLbl.backgroundColor = TagBgColor;
         tagLbl.text = tags[i];
-        tagLbl.textColor = [UIColor whiteColor];
+        tagLbl.textColor = TagTitleColor;//[UIColor whiteColor];
         tagLbl.textAlignment = NSTextAlignmentCenter;
         tagLbl.font = TagFont;
         [tagLbl sizeToFit];
         tagLbl.height = self.addBtn.height;
         tagLbl.width += 2 * TagMargin;
+        tagLbl.layer.masksToBounds = YES;
+        tagLbl.layer.cornerRadius = 5;
         [self.topV addSubview:tagLbl];
         [self.tagLbls addObject:tagLbl];
     }
