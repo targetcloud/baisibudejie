@@ -13,6 +13,7 @@
 #import "TGTopicNewCell.h"
 #import "TGCommentNewVC.h"
 #import "TGCarouselImageView.h"
+#import "TGWebVC.h"
 #import <AFNetworking.h>
 #import <SVProgressHUD.h>
 #import <MJExtension.h>
@@ -142,8 +143,18 @@ static NSString * const TGTopicCellID = @"TGTopicNewCellID";
             NSString *tempDesc = [NSString stringWithFormat:@"Image Description %zd", i];
             [describeArray addObject:tempDesc];
         }
+        NSArray * urlArray = @[
+                               @"https://github.com/targetcloud/baisibudejie",
+                               @"http://weibo.com/targetcloud",
+                               @"http://blog.csdn.net/callzjy",
+                               @"http://www.jianshu.com/p/718a12502887",
+                               @"https://www.cnblogs.com/targetcloud"
+                               ];
         TGCarouselImageView *carouselIV = [TGCarouselImageView tg_carouselImageViewWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200) imageArrary:imageArray describeArray:nil placeholderImage:[UIImage imageNamed:@"adph3.jpg"] block:^(NSInteger index) {
-            TGLog(@"index: %zd", index)
+            //TGLog(@"index: %zd", index)
+            TGWebVC *webVc = [[TGWebVC alloc] init];
+            webVc.url = [NSURL URLWithString:urlArray[index]];
+            [self.navigationController pushViewController:webVc animated:YES];
         }];
         
         UIImage * currentPageIndicatorImage = [UIImage imageWithColor:[UIColor redColor] andRect:CGRectMake(0, 0, 10, 2)];
