@@ -79,6 +79,9 @@ static NSString * const TGUserId = @"user";
 }
 
 - (void)loadNewUsers{
+    [self.userTableV.mj_footer endRefreshing];
+    [self.manager.tasks makeObjectsPerformSelector:@selector(cancel)];
+    
     TGRecommendCategoryM *rc = self.categories[self.categoryTableV.indexPathForSelectedRow.row];
     rc.currentPage = 1;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -105,6 +108,9 @@ static NSString * const TGUserId = @"user";
 }
 
 - (void)loadMoreUsers{
+    [self.userTableV.mj_header endRefreshing];
+    [self.manager.tasks makeObjectsPerformSelector:@selector(cancel)];
+    
     TGRecommendCategoryM *category = self.categories[self.categoryTableV.indexPathForSelectedRow.row];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"a"] = @"list";
