@@ -7,12 +7,14 @@
 //
 
 #import "TGTagTextField.h"
+#import "UITextField+placeholder.h"
 
 @implementation TGTagTextField
 
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
         self.placeholder = @"多个标签用换行或者逗号隔开!";
+        self.placeholderColor = [UIColor lightGrayColor];
         [self setValue:[UIColor lightGrayColor] forKeyPath:@"_placeholderLabel.textColor"];
         self.height = TagH;
     }

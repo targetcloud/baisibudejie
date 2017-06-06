@@ -26,7 +26,9 @@
         UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
         addButton.width = self.contentV.width;
         addButton.height = 35;
-        addButton.backgroundColor = TagBgColor;
+        addButton.layer.masksToBounds = YES;
+        addButton.layer.cornerRadius = 5;
+        addButton.backgroundColor = TagTitleColor;//TagBgColor;
         addButton.titleLabel.font = TagFont;
         [addButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [addButton addTarget:self action:@selector(addBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -175,6 +177,7 @@
         self.textField.y = CGRectGetMaxY(lastTagBtn.frame) + TagMargin;
     }
     _addBtn.y = CGRectGetMaxY(self.textField.frame) + TagMargin;
+    self.textField.placeholder = (self.tagBtns.count == 0) ? @"输入标签,标签打得好,精华上得早!" : @"多个标签用换行或者逗号隔开!";
 }
 
 - (CGFloat)textFieldWidth{

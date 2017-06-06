@@ -31,7 +31,7 @@
     [super prepareLayout];
     NSInteger count = [self.collectionView numberOfItemsInSection:0];
     for (NSInteger i = 0; i < self.cols ; i++) {
-        [_heights setObject:@(self.sectionInset.top) forKey:[NSString stringWithFormat:@"%d",i]];
+        [_heights setObject:@(self.sectionInset.top) forKey:[NSString stringWithFormat:@"%ld",(long)i]];
     }
     for (NSInteger i = 0 ; i < count; i ++) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
