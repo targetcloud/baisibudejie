@@ -64,14 +64,14 @@
     [self setupProgressView];
     [self setupLaunchImage];
     [self loadAdData];
-    _timer =  [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeChange) userInfo:nil repeats:YES];
+    _timer =  [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timeChange) userInfo:nil repeats:YES];
 }
 
 -(void) setupProgressView{
     self.progressV.roundedCorners = YES;
     self.progressV.progressLabel.textColor = [UIColor redColor];
-    //self.progressV.trackTintColor = [UIColor clearColor];
-    self.progressV.progressTintColor = [UIColor redColor];
+    self.progressV.trackTintColor = [UIColor redColor];
+    self.progressV.progressTintColor = [TGGrayColor(170) colorWithAlphaComponent:0.7];
     self.progressV.hidden = YES;
     self.progressV.progressLabel.text = @"";
     self.progressV.thicknessRatio = 0.1;
@@ -79,9 +79,9 @@
 }
 
 - (void)timeChange{
-    static int i = 3;
+    static int i = 30;
     self.progressV.hidden = NO;
-    CGFloat progress = 1.0 * (3.0 - i + 1) / 3.0;
+    CGFloat progress = 1.0 * (30.0 - i + 1) / 30.0;
     [self.progressV setProgress:progress animated:YES];
     //[self.progressV.progressLabel setText:[NSString stringWithFormat:@"%.0f%%",progress * 100]];
     
@@ -90,7 +90,7 @@
         [self clickJump:nil];
     }
     i--;
-    [_jumpBtn setTitle:[NSString stringWithFormat:@"跳转 (%d)",i] forState:UIControlStateNormal];
+    //[_jumpBtn setTitle:[NSString stringWithFormat:@"跳转 %d",i/10] forState:UIControlStateNormal];
 }
 
 - (void)setupLaunchImage{

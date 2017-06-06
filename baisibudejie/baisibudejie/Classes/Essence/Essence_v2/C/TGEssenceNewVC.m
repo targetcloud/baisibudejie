@@ -75,7 +75,8 @@
               .indicateExtraW(8)
               .indicateH(2)
               .indicateColor([UIColor whiteColor])
-              //.showMore(YES)
+              .showMore(NO)//是否显示更多面板
+              .circleScroll(YES)//是否循环滚动，第0个再向前，那么到最后一个;最后一个向后，那么到第0个
               .moreCellBGColor([[UIColor grayColor] colorWithAlphaComponent:0.3])
               .moreBGColor([UIColor clearColor])
               .moreCellFont([UIFont systemFontOfSize:13])

@@ -16,6 +16,10 @@
 @end
 
 @implementation TGSementBarVC
+{
+    CGFloat _beginDraggingContentOffsetX;
+    NSInteger _circleIndex;
+}
 
 #pragma mark - 以下为懒加载
 - (TGSegmentBar *)segmentBar {
@@ -89,10 +93,29 @@
 }
 
 #pragma mark - UIScrollViewDelegate
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    //TGLog(@"scrollViewWillBeginDragging %f",self.contentV.contentOffset.x);
+    _beginDraggingContentOffsetX = self.contentV.contentOffset.x;
+}
+
+-(void) scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
+    //TGLog(@"scrollViewWillEndDragging %f",self.contentV.contentOffset.x);
+    CGFloat willEndDraggingContentOffsetX = self.contentV.contentOffset.x;
+    if (willEndDraggingContentOffsetX < -100  && _beginDraggingContentOffsetX == 0){//滚到最后一个去
+        _circleIndex = scrollView.contentSize.width / self.contentV.width - 1;
+    }else if (willEndDraggingContentOffsetX + self.contentV.frame.size.width - scrollView.contentSize.width > 100 && _beginDraggingContentOffsetX == scrollView.contentSize.width - self.contentV.frame.size.width){//滚到第一个去
+        _circleIndex = 0;
+    }else {
+        _circleIndex = -1;
+    }
+    _circleIndex = self.segmentBar.segmentConfig.isCircleScroll ? _circleIndex : -1;
+}
+
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    NSInteger index = self.contentV.contentOffset.x / self.contentV.width;
+    //NSInteger index = self.contentV.contentOffset.x / self.contentV.width;
     //[self showChildVCViewsAtIndex:index];
-    self.segmentBar.selectedIndex = index;
+    self.segmentBar.selectedIndex = ((_circleIndex == -1) ? (self.contentV.contentOffset.x / self.contentV.width) : _circleIndex);
 }
 
 #pragma mark - 辅助方法

@@ -220,6 +220,13 @@
     };
 }
 
+- (TGSegmentConfig *(^)(BOOL isCircle))circleScroll{
+    return ^(BOOL isCircle){
+        self.isCircleScroll = isCircle;
+        return self;
+    };
+}
+
 - (TGSegmentConfig *(^)(UIColor *))indicateColor{
     return ^(UIColor *color){
         self.indicatorColor = color;
