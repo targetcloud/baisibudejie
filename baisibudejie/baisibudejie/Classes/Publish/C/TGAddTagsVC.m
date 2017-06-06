@@ -142,9 +142,9 @@
     tagBtn.height = self.textField.height;
     [self.contentV addSubview:tagBtn];
     [self.tagBtns addObject:tagBtn];
-    [self updateTagButtonAndTextFieldFrame];
     self.textField.text = nil;
     self.addBtn.hidden = YES;
+    [self updateTagButtonAndTextFieldFrame];
 }
 
 - (void)updateTagButtonAndTextFieldFrame{
@@ -177,12 +177,13 @@
         self.textField.y = CGRectGetMaxY(lastTagBtn.frame) + TagMargin;
     }
     _addBtn.y = CGRectGetMaxY(self.textField.frame) + TagMargin;
-    self.textField.placeholder = (self.tagBtns.count == 0) ? @"输入标签,标签打得好,精华上得早!" : @"多个标签用换行或者逗号隔开!";
+    self.textField.placeholder = (self.tagBtns.count == 0) ? @"输入标签,标签打得好,精华上得早!" :
+                                                             @"多个标签用换行或者逗号隔开!";
 }
 
 - (CGFloat)textFieldWidth{
-    CGFloat textWidth =  [self.textField.text sizeWithAttributes:@{NSFontAttributeName : self.textField.font}].width;
-    return MAX(100, textWidth);
+    CGFloat textWidth =  [self.textField.text.length > 0 ? self.textField.text : self.textField.placeholder sizeWithAttributes:@{NSFontAttributeName : self.textField.font}].width;
+    return MAX(100, textWidth);//100已经没用了，有文字按文字，否则按占位文字，最后如果连占位文字都没有才会是最小100宽来计算
 }
 
 - (void)tagBtnClick:(TGTagBtn *)tagBtn{
