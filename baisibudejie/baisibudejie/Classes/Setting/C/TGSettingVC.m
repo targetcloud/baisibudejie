@@ -65,7 +65,7 @@ static NSString * const ID = @"cell";
     } else if (totalSize > 1000) {
         sizeStr = [NSString stringWithFormat:@"%@(%.1fKB)",sizeStr,totalSize / 1000.0];
     } else if (totalSize > 0) {
-        sizeStr = [NSString stringWithFormat:@"%@(%.ldB)",sizeStr,totalSize];
+        sizeStr = [NSString stringWithFormat:@"%@(%.dB)",sizeStr,totalSize];
     }
     return sizeStr;
 }
