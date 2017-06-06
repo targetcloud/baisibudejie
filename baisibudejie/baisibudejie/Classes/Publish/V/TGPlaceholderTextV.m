@@ -45,13 +45,15 @@
 - (void)setPlaceholder:(NSString *)placeholder{
     _placeholder = [placeholder copy];
     self.placeholderLbl.text = placeholder;
-    [self updatePlaceholderLabelSize];
-    
+    //[self updatePlaceholderLabelSize];
+    [self setNeedsLayout];
 }
 
 -(void)setFont:(UIFont *)font{
     [super setFont:font];
     self.placeholderLbl.font = font;
+    //[self updatePlaceholderLabelSize];
+    [self setNeedsLayout];
 }
 
 -(void)setText:(NSString *)text{

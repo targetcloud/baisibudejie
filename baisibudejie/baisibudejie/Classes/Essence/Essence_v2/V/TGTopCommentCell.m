@@ -53,7 +53,8 @@ static TGCommentNewM *lastCommentM_;
     self.commentLbl.attributedText = commentM.attrStrM;
     self.voiceBtn.hidden = commentM.voiceuri.length<=0;
     self.voiceBtnLeftConstraint.constant = commentM.topCommentWidth;
-    self.commentLblCenterYConstratint.constant = commentM.topCommentCellHeight > 25 ? (commentM.topCommentCellHeight - 25) * .5: 0;
+    self.commentLblCenterYConstratint.constant = commentM.voiceuri.length>0 ? 0 : commentM.topCommentCellHeight > 25 ? (commentM.topCommentCellHeight - 25) * .5: 0;
+    
     if (commentM.voiceuri.length) {
         [self.voiceBtn setTitle:[NSString stringWithFormat:@"%zd''", commentM.voicetime] forState:UIControlStateNormal];
     }

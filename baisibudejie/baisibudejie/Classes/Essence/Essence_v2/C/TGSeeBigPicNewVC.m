@@ -51,36 +51,55 @@
     _scrollV = scrollView;
     
     FLAnimatedImageView *imageView = [[FLAnimatedImageView alloc] init];
-    [imageView tg_setOriginImage:self.topic.image thumbnailImage:self.topic.image_small placeholder:nil progress:^(NSInteger receivedSize, NSInteger expectedSize,NSURL * _Nullable targetURL) {
-        self.progressV.hidden = NO;
-        CGFloat progress = 1.0 * receivedSize / expectedSize;
-        self.topic.picProgress = progress<=0.01 ? 0.01 : progress;
-        [self.progressV setProgress:self.topic.picProgress animated:YES];
-        [self.progressV.progressLabel setText:[NSString stringWithFormat:@"%.0f%%",self.topic.picProgress * 100]];
-        TGLog(@"%f,%@,%@",progress,self.progressV.progressLabel.text,NSStringFromCGRect(self.progressV.progressLabel.frame));
-    }  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        if (!image) return;
-        self.progressV.hidden = YES;
-        _saveBtn.enabled = YES;
-    }];
+    imageView.contentMode = UIViewContentModeScaleToFill;
     imageView.width = scrollView.width;
     imageView.height = imageView.width * self.topic.height / self.topic.width;
-    imageView.x = 0;
-    if (imageView.height > ScreenH) {
-        imageView.y = 0;
-        scrollView.contentSize = CGSizeMake(0, imageView.height);
-    } else {
-        imageView.centerY = scrollView.height * 0.5;
-    }
+    scrollView.contentSize = CGSizeMake(0, imageView.height);
+    _imageV = imageView;
     [scrollView addSubview:imageView];
     
-    _imageV = imageView;
+    //TGLog(@"%@,%@",NSStringFromCGRect(imageView.frame),self.topic.image)
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [_imageV tg_setOriginImage:self.topic.image thumbnailImage:self.topic.image_small placeholder:nil progress:^(NSInteger receivedSize, NSInteger expectedSize,NSURL * _Nullable targetURL) {
+            self.progressV.hidden = NO;
+            CGFloat progress = 1.0 * receivedSize / expectedSize;
+            self.topic.picProgress = progress<=0.01 ? 0.01 : progress;
+            [self.progressV setProgress:self.topic.picProgress animated:YES];
+            [self.progressV.progressLabel setText:[NSString stringWithFormat:@"%.0f%%",self.topic.picProgress * 100]];
+            TGLog(@"%f,%@,%@",progress,self.progressV.progressLabel.text,NSStringFromCGRect(self.progressV.progressLabel.frame));
+        }  completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            if (!image) return;
+            if (error){
+                TGLog(@"%@",error)
+                return;
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.progressV.hidden = YES;
+                _saveBtn.enabled = YES;
+                
+                //如果图片的大小与topic不一样，则重新设置，以image为准
+                CGFloat w = CGImageGetWidth(image.CGImage);
+                CGFloat h = CGImageGetHeight(image.CGImage);
+                _imageV.height = _imageV.width * h / w;
+                _scrollV.contentSize = CGSizeMake(0, _imageV.height);
+                //TGLog(@"实际宽高 %f,%f | 模型宽高 %ld,%ld | 图片控件宽高%f,%f",w,h,self.topic.width,self.topic.height,_imageV.width,_imageV.height);
+                
+                _imageV.x = 0;
+                if (_imageV.height > ScreenH) {
+                    _imageV.y = 0;
+                } else {
+                    _imageV.centerY = _scrollV.height * 0.5;
+                }
+                
+                CGFloat maxScale = w / _imageV.width;
+                if (maxScale > 1) {
+                    _scrollV.maximumZoomScale = maxScale;
+                    _scrollV.delegate = self;
+                }
+            });
+        }];
+    });
     
-    CGFloat maxScale = self.topic.width / imageView.width;
-    if (maxScale > 1) {
-        scrollView.maximumZoomScale = maxScale;
-        scrollView.delegate = self;
-    }
     if ([self.topic.images_gif.pathExtension.lowercaseString isEqualToString:@"gif"]) {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             FLAnimatedImage *flImage = [FLAnimatedImage animatedImageWithGIFData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.topic.images_gif]]];

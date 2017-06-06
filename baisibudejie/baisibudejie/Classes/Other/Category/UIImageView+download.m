@@ -25,6 +25,7 @@ typedef void(^SDInternalCompletionBlock)(UIImage * _Nullable image, NSData * _Nu
 typedef void(^SDWebImageCompletionBlock)(UIImage *           image,                          NSError *           error, SDImageCacheType cacheType,                NSURL *           imageURL);
 */
 - (void)tg_setOriginImage:(NSString *)originImageURL thumbnailImage:(NSString *)thumbnailImageURL placeholder:(UIImage *)placeholder progress:(nullable SDWebImageDownloaderProgressBlock)progressBlock completed:(SDExternalCompletionBlock)completedBlock{
+    
     AFNetworkReachabilityManager *mgr = [AFNetworkReachabilityManager sharedManager];
     UIImage *originImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:originImageURL];
     if (originImage) {

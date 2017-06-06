@@ -32,7 +32,6 @@
     
     //self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"发表" style:UIBarButtonItemStyleDone target:self action:@selector(post)];
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithColor:[UIColor whiteColor] highColor:[UIColor redColor] target:self action:@selector(post) title:@"发表"];
-    self.navigationItem.rightBarButtonItem.enabled = NO;
     [self.navigationController.navigationBar layoutIfNeeded];
 }
 
@@ -81,6 +80,7 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    self.navigationItem.rightBarButtonItem.enabled = NO;
     [self.view endEditing:YES];
     [self.textV becomeFirstResponder];
 }
