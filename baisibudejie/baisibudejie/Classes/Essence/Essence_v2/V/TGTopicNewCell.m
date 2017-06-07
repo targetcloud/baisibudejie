@@ -56,8 +56,8 @@ static NSString *const commentID = @"TGTopCommentCellID";
         _coverBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _coverBtn.frame = self.dingBtn.frame;
         _coverBtn.alpha = 0;
-        [_coverBtn setImage:[UIImage imageNamed:@"commentLikeButtonClick"] forState:UIControlStateSelected];
-        [_coverBtn setImage:[UIImage imageNamed:@"commentLikeButtonClick"] forState:UIControlStateNormal];
+        [_coverBtn setImage:[UIImage imageNamed:@"timeline_icon_like"] forState:UIControlStateSelected];
+        [_coverBtn setImage:[UIImage imageNamed:@"timeline_icon_like"] forState:UIControlStateNormal];
     }
     return _coverBtn;
 }
@@ -99,8 +99,6 @@ static NSString *const commentID = @"TGTopCommentCellID";
     self.topCmtTableV.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.topCmtTableV.backgroundColor = [UIColor clearColor];
     //self.topCmtLbl.font = [UIFont systemFontOfSize:12];
-    
-    [self.toolBarV insertSubview:self.coverBtn belowSubview:self.dingBtn];
 }
 
 
@@ -176,8 +174,6 @@ static NSString *const commentID = @"TGTopCommentCellID";
     }else if ([self.topic.type.lowercaseString isEqualToString:@"video"]) { // 视频
         self.videoV.frame = self.topic.middleFrame;
     }
-    
-    self.coverBtn.frame = self.dingBtn.imageView.frame;
 }
 
 - (void)setupButtonTitle:(UIButton *)button number:(NSInteger)number placeholder:(NSString *)placeholder{
@@ -231,15 +227,15 @@ static NSString *const commentID = @"TGTopCommentCellID";
     !_upBlock ? : _upBlock(self.topic.ID);
     
     if (!self.dingBtn.selected) {
-        //self.dingBtn.userInteractionEnabled = NO;
+        [self.coverBtn removeFromSuperview];
+        [self.toolBarV insertSubview:self.coverBtn belowSubview:self.dingBtn];
+        self.coverBtn.frame = self.dingBtn.imageView.frame;
+        [self.coverBtn setImage:[UIImage imageNamed:@"timeline_icon_like"] forState:UIControlStateSelected];
+        [self.coverBtn setImage:[UIImage imageNamed:@"timeline_icon_like"] forState:UIControlStateNormal];
         self.userInteractionEnabled = NO;
         self.coverBtn.alpha = 1;
         [UIView animateWithDuration:1.0f animations:^{
-            self.coverBtn.frame = CGRectMake(self.dingBtn.imageView.frame.origin.x,
-                                             self.dingBtn.imageView.frame.origin.y-70,
-                                             self.coverBtn.frame.size.width*2,
-                                             self.coverBtn.frame.size.height*2);
-            
+            self.coverBtn.y -= 50;
             CAKeyframeAnimation *anima = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation"];
             NSValue *value1 = [NSNumber numberWithFloat:-M_PI/180*5];
             NSValue *value2 = [NSNumber numberWithFloat:M_PI/180*5];
@@ -247,12 +243,9 @@ static NSString *const commentID = @"TGTopCommentCellID";
             anima.values = @[value1,value2,value3];
             anima.repeatCount = MAXFLOAT;
             [self.coverBtn.layer addAnimation:anima forKey:nil];
-            
             self.coverBtn.alpha = 0;
-            self.coverBtn.centerX = self.dingBtn.centerX;
         } completion:^(BOOL finished) {
             self.coverBtn.frame = self.dingBtn.imageView.frame;
-            //self.dingBtn.userInteractionEnabled = YES;
             self.userInteractionEnabled = YES;
         }];
     }
@@ -265,6 +258,33 @@ static NSString *const commentID = @"TGTopCommentCellID";
 
 - (IBAction)downClick:(UIButton *)sender {
     !_downBlock ? : _downBlock(self.topic.ID);
+    
+    if (!self.caiBtn.selected) {
+        [self.coverBtn removeFromSuperview];
+        [self.toolBarV insertSubview:self.coverBtn belowSubview:self.caiBtn];
+        self.coverBtn.frame = self.caiBtn.imageView.frame;
+        self.coverBtn.x += CGRectGetMaxX(self.dingBtn.frame);
+        [self.coverBtn setImage:[UIImage imageNamed:@"icon_unlike_h"] forState:UIControlStateSelected];
+        [self.coverBtn setImage:[UIImage imageNamed:@"icon_unlike_h"] forState:UIControlStateNormal];
+        self.userInteractionEnabled = NO;
+        self.coverBtn.alpha = 1;
+        [UIView animateWithDuration:1.0f animations:^{
+            self.coverBtn.transform = CGAffineTransformMakeScale(2, 2);
+            CAKeyframeAnimation *anima = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation"];
+            NSValue *value1 = [NSNumber numberWithFloat:-M_PI/180*5];
+            NSValue *value2 = [NSNumber numberWithFloat:M_PI/180*5];
+            NSValue *value3 = [NSNumber numberWithFloat:-M_PI/180*5];
+            anima.values = @[value1,value2,value3];
+            anima.repeatCount = MAXFLOAT;
+            [self.coverBtn.layer addAnimation:anima forKey:nil];
+            
+            self.coverBtn.alpha = 0;
+        } completion:^(BOOL finished) {
+            self.coverBtn.transform = CGAffineTransformIdentity;
+            self.userInteractionEnabled = YES;
+        }];
+    }
+    
     self.topic.down += self.topic.downSelected ? -1 : 1;
     self.topic.downSelected = !self.topic.downSelected;
     self.caiBtn.selected = !self.caiBtn.selected;

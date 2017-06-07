@@ -67,10 +67,10 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
-                                <state key="normal" title="顶" image="mainCellDing">
+                                <state key="normal" title="顶" image="timeline_icon_unlike">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <state key="selected" image="mainCellDingClick"/>
+                                <state key="selected" image="timeline_icon_like"/>
                                 <connections>
                                     <action selector="upClick:" destination="RE9-fU-ZXh" eventType="touchUpInside" id="pcm-TU-gb1"/>
                                 </connections>
@@ -79,10 +79,10 @@
                                 <rect key="frame" x="84.5" y="0.0" width="84.5" height="35"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
-                                <state key="normal" title="踩" image="mainCellCai">
+                                <state key="normal" title="踩" image="icon_unlike_normal">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <state key="selected" image="mainCellCaiClick"/>
+                                <state key="selected" image="icon_unlike_h"/>
                                 <connections>
                                     <action selector="downClick:" destination="RE9-fU-ZXh" eventType="touchUpInside" id="goC-21-COU"/>
                                 </connections>
@@ -91,10 +91,10 @@
                                 <rect key="frame" x="253.5" y="0.0" width="84.5" height="35"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
-                                <state key="normal" title="评论" image="mainCellComment">
+                                <state key="normal" title="评论" image="timeline_icon_comment">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <state key="highlighted" image="mainCellCommentClick"/>
+                                <state key="highlighted" image="timeline_icon_comment"/>
                                 <connections>
                                     <action selector="commentClick:" destination="RE9-fU-ZXh" eventType="touchUpInside" id="VIp-Ek-cEF"/>
                                 </connections>
@@ -103,10 +103,10 @@
                                 <rect key="frame" x="169" y="0.0" width="84.5" height="35"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
-                                <state key="normal" title="转发" image="mainCellShare">
+                                <state key="normal" title="转发" image="timeline_icon_retweet">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <state key="highlighted" image="mainCellShareClick"/>
+                                <state key="highlighted" image="timeline_icon_retweet"/>
                                 <connections>
                                     <action selector="repostClick:" destination="RE9-fU-ZXh" eventType="touchUpInside" id="AVD-t1-xBx"/>
                                 </connections>
@@ -284,14 +284,12 @@
         <image name="cell-button-line" width="1" height="29"/>
         <image name="cell-content-line" width="299" height="1"/>
         <image name="cellmorebtnnormal" width="24" height="20"/>
-        <image name="mainCellCai" width="20" height="20"/>
-        <image name="mainCellCaiClick" width="20" height="20"/>
-        <image name="mainCellComment" width="20" height="20"/>
-        <image name="mainCellCommentClick" width="20" height="20"/>
-        <image name="mainCellDing" width="20" height="20"/>
-        <image name="mainCellDingClick" width="20" height="20"/>
-        <image name="mainCellShare" width="20" height="20"/>
-        <image name="mainCellShareClick" width="23" height="23"/>
+        <image name="icon_unlike_h" width="18" height="18"/>
+        <image name="icon_unlike_normal" width="18" height="18"/>
         <image name="nav_title_vip_icon" width="16" height="12"/>
+        <image name="timeline_icon_comment" width="18" height="18"/>
+        <image name="timeline_icon_like" width="18" height="18"/>
+        <image name="timeline_icon_retweet" width="18" height="18"/>
+        <image name="timeline_icon_unlike" width="18" height="18"/>
     </resources>
 </document>
