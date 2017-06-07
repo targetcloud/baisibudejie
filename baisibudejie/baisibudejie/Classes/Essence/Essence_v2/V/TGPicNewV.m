@@ -71,7 +71,7 @@
         //移至线程中
         if (topic.isBigPicture) {
             CGFloat imageW = topic.middleFrame.size.width;
-            CGFloat imageH = imageW * topic.height / topic.width;//大图等比例缩小至topic.middleFrame.size.width，小图等比例放大至topic.middleFrame.size.width
+            CGFloat imageH = topic.width > 0 && topic.height > 0 ? imageW * topic.height / topic.width : 200;//大图等比例缩小至topic.middleFrame.size.width，小图等比例放大至topic.middleFrame.size.width
             //UIGraphicsBeginImageContext(CGSizeMake(imageW, imageH));
             UIGraphicsBeginImageContextWithOptions(self.topic.middleFrame.size,0, [UIScreen mainScreen].scale);
             [self.imageV.image drawInRect:CGRectMake(0, 0, imageW, imageH)];

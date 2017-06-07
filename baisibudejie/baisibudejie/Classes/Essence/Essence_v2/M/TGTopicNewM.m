@@ -101,9 +101,10 @@ static CGFloat const MiddleHeightConstraint = 300;
     _cellHeight += (_textHeight > TextHeightConstraint ? TextHeightConstraint : _textHeight) + Margin;
     
     if (![self.type isEqualToString: @"text"]) { //图片、视频
+        //self.image_width = 0;//测试
         CGFloat middleW = textMaxSize.width;
         CGFloat middleX = Margin;
-        CGFloat middleH = middleW * self.height / self.width;
+        CGFloat middleH = self.width > 0 && self.height > 0 ? middleW * self.height / self.width : 200;
         if (middleH >= ScreenH) { // 显示的图片高度超过一个屏幕，就是超长图片
             middleH = MiddleHeightConstraint;
             _bigPicture = YES;

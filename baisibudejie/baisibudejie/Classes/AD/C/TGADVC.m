@@ -71,7 +71,7 @@
     self.progressV.roundedCorners = YES;
     self.progressV.progressLabel.textColor = [UIColor redColor];
     self.progressV.trackTintColor = [UIColor redColor];
-    self.progressV.progressTintColor = [TGGrayColor(170) colorWithAlphaComponent:0.7];
+    self.progressV.progressTintColor = TGGrayColor(242);
     self.progressV.hidden = YES;
     self.progressV.progressLabel.text = @"";
     self.progressV.thicknessRatio = 0.1;
