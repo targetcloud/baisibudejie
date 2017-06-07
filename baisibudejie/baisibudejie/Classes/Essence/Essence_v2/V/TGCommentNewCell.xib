@@ -68,19 +68,27 @@
                         <state key="normal" title="2" image="commentLikeButton">
                             <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <state key="selected" image="commentLikeButtonClick"/>
                         <state key="highlighted" image="commentLikeButtonClick"/>
+                        <connections>
+                            <action selector="likeClick:" destination="TJh-lO-ASW" eventType="touchUpInside" id="hxU-L0-2HO"/>
+                        </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MD3-ch-VRj">
-                        <rect key="frame" x="275" y="7" width="40" height="15"/>
+                        <rect key="frame" x="275" y="7" width="40" height="18"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="0Iz-bZ-GRq"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <state key="normal" title="1" image="comment_cai_icon">
+                        <state key="normal" title="1" image="icon_unlike_normal">
                             <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
-                        <state key="highlighted" image="comment_cai_icon_click"/>
+                        <state key="selected" image="icon_unlike_h"/>
+                        <state key="highlighted" image="icon_unlike_h"/>
+                        <connections>
+                            <action selector="hateClick:" destination="TJh-lO-ASW" eventType="touchUpInside" id="OAY-14-6vg"/>
+                        </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2017-05-21 17:55:11" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xer-CO-YH1">
                         <rect key="frame" x="45" y="23" width="257" height="15"/>
@@ -204,8 +212,8 @@
         <image name="Profile_manIcon" width="13" height="13"/>
         <image name="commentLikeButton" width="18" height="18"/>
         <image name="commentLikeButtonClick" width="19" height="19"/>
-        <image name="comment_cai_icon" width="15" height="15"/>
-        <image name="comment_cai_icon_click" width="15" height="15"/>
+        <image name="icon_unlike_h" width="18" height="18"/>
+        <image name="icon_unlike_normal" width="18" height="18"/>
         <image name="play-voice-bg" width="115" height="40"/>
         <image name="play-voice-bg-select" width="115" height="40"/>
         <image name="play-voice-icon-2" width="17" height="17"/>

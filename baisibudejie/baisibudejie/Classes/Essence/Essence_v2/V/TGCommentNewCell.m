@@ -27,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *playDurationLbl;
 
 @property (strong, nonatomic) AVPlayerItem *playerItem;
+@property (nonatomic, strong) UIButton *coverBtn;
 @end
 
 static AVPlayer * commentPlayer_;
@@ -38,6 +39,18 @@ static NSTimer *avTimer_;
 static UIProgressView *progress_;
 
 @implementation TGCommentNewCell
+
+- (UIButton*)coverBtn{
+    if (!_coverBtn) {
+        _coverBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _coverBtn.frame = self.likeBtn.imageView.frame;
+        _coverBtn.x += self.likeBtn.x;
+        _coverBtn.alpha = 0;
+        [_coverBtn setImage:[UIImage imageNamed:@"timeline_icon_like"] forState:UIControlStateSelected];
+        [_coverBtn setImage:[UIImage imageNamed:@"timeline_icon_like"] forState:UIControlStateNormal];
+    }
+    return _coverBtn;
+}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -81,6 +94,8 @@ static UIProgressView *progress_;
     self.playDurationLbl.hidden = commentM.videouri.length<=0;
     self.imageV.hidden = commentM.image.length<=0 && commentM.videouri.length<=0;
     self.timeLbl.text = commentM.ctime;
+    self.likeBtn.selected = self.commentM.isUpSelected;
+    self.hateBtn.selected = self.commentM.isDownSelected;
     
     if (commentM.user.total_cmt_like_count >= 1000) {
         self.totalLikeCountLbl.text = [NSString stringWithFormat:@"%.1fk", commentM.user.total_cmt_like_count / 1000.0];
@@ -288,6 +303,70 @@ static UIProgressView *progress_;
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender{
     return NO;
+}
+
+- (IBAction)likeClick:(UIButton *)sender {
+    if (!self.likeBtn.selected) {
+        [self.coverBtn removeFromSuperview];
+        [self insertSubview:self.coverBtn belowSubview:self.likeBtn];
+        self.coverBtn.frame = self.likeBtn.imageView.frame;
+        self.coverBtn.x += self.likeBtn.x;
+        [self.coverBtn setImage:[UIImage imageNamed:@"timeline_icon_like"] forState:UIControlStateSelected];
+        [self.coverBtn setImage:[UIImage imageNamed:@"timeline_icon_like"] forState:UIControlStateNormal];
+        self.userInteractionEnabled = NO;
+        self.coverBtn.alpha = 1;
+        [UIView animateWithDuration:1.0f animations:^{
+            self.coverBtn.y -= 50;
+            CAKeyframeAnimation *anima = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation"];
+            NSValue *value1 = [NSNumber numberWithFloat:-M_PI/180*5];
+            NSValue *value2 = [NSNumber numberWithFloat:M_PI/180*5];
+            NSValue *value3 = [NSNumber numberWithFloat:-M_PI/180*5];
+            anima.values = @[value1,value2,value3];
+            anima.repeatCount = MAXFLOAT;
+            [self.coverBtn.layer addAnimation:anima forKey:nil];
+            self.coverBtn.alpha = 0;
+        } completion:^(BOOL finished) {
+            self.coverBtn.frame = self.likeBtn.imageView.frame;
+            self.userInteractionEnabled = YES;
+        }];
+    }
+    
+    self.commentM.like_count += self.commentM.upSelected ? -1 : 1;
+    self.commentM.upSelected = !self.commentM.upSelected;
+    self.likeBtn.selected = !self.likeBtn.selected;
+    [self.likeBtn setTitle: [NSString stringWithFormat:@"%zd",self.commentM.like_count]  forState:UIControlStateNormal];
+}
+
+- (IBAction)hateClick:(UIButton *)sender {
+    if (!self.hateBtn.selected) {
+        [self.coverBtn removeFromSuperview];
+        [self insertSubview:self.coverBtn belowSubview:self.hateBtn];
+        self.coverBtn.frame = self.hateBtn.imageView.frame;
+        self.coverBtn.x += self.hateBtn.x;
+        [self.coverBtn setImage:[UIImage imageNamed:@"icon_unlike_h"] forState:UIControlStateSelected];
+        [self.coverBtn setImage:[UIImage imageNamed:@"icon_unlike_h"] forState:UIControlStateNormal];
+        self.userInteractionEnabled = NO;
+        self.coverBtn.alpha = 1;
+        [UIView animateWithDuration:1.0f animations:^{
+            self.coverBtn.transform = CGAffineTransformMakeScale(2, 2);
+            CAKeyframeAnimation *anima = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation"];
+            NSValue *value1 = [NSNumber numberWithFloat:-M_PI/180*5];
+            NSValue *value2 = [NSNumber numberWithFloat:M_PI/180*5];
+            NSValue *value3 = [NSNumber numberWithFloat:-M_PI/180*5];
+            anima.values = @[value1,value2,value3];
+            anima.repeatCount = MAXFLOAT;
+            [self.coverBtn.layer addAnimation:anima forKey:nil];
+            self.coverBtn.alpha = 0;
+        } completion:^(BOOL finished) {
+            self.coverBtn.transform = CGAffineTransformIdentity;
+            self.userInteractionEnabled = YES;
+        }];
+    }
+    
+    self.commentM.hate_count += self.commentM.downSelected ? -1 : 1;
+    self.commentM.downSelected = !self.commentM.downSelected;
+    self.hateBtn.selected = !self.hateBtn.selected;
+    [self.hateBtn setTitle: [NSString stringWithFormat:@"%zd",self.commentM.hate_count]  forState:UIControlStateNormal];
 }
 
 @end

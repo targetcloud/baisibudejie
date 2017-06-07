@@ -53,4 +53,7 @@
 @property (nonatomic, assign,readonly) CGFloat topCommentWidth;
 @property (nonatomic, copy,readonly) NSMutableAttributedString * attrStrM;
 
+@property (nonatomic, assign, getter=isUpSelected) BOOL upSelected;
+@property (nonatomic, assign, getter=isDownSelected) BOOL downSelected;
+
 @end
