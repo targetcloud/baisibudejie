@@ -38,7 +38,10 @@ pop
 
 其他功能如自定义图片缓存、链式编程与masonry编程风格选择、启动页广告、引导页、pop动画、特色进度条、两张图片实现无限轮播、长文本伸缩展开等功能等待你去品味...
 
-使用TGSegment的代码如下（若要显示更多按钮功能，那么//.showMore(YES)去掉这句注释即可，本示例使用的链式编程语法）
+使用TGSegment的代码如下
+若要显示更多按钮功能，那么.showMore(YES)传YES即可，
+是否循环滚动（第0个再向前，那么到最后一个;最后一个向后，那么到第0个）.circleScroll(YES)传YES即可，
+（本示例使用的链式编程语法）
 ```objc
 @interface TGEssenceNewVC ()
 @property (nonatomic, weak) TGSementBarVC *segmentBarVC;
@@ -89,7 +92,8 @@ pop
               .indicateExtraW(8)
               .indicateH(2)
               .indicateColor([UIColor whiteColor])
-              //.showMore(YES)
+              .showMore(NO)//是否显示更多面板
+              .circleScroll(YES)//是否循环滚动，第0个再向前，那么到最后一个;最后一个向后，那么到第0个
               .moreCellBGColor([[UIColor grayColor] colorWithAlphaComponent:0.3])
               .moreBGColor([UIColor clearColor])
               .moreCellFont([UIFont systemFontOfSize:13])
@@ -108,10 +112,10 @@ pop
 ```
 ##### 截图
 #### 1
-<img src="https://github.com/targetcloud/baisibudejie/blob/master/IMG_2014.PNG" width = "60%" />
+<img src="https://github.com/targetcloud/baisibudejie/blob/master/IMG_2157.PNG" width = "60%" />
 
 #### 2
-<img src="https://github.com/targetcloud/baisibudejie/blob/master/IMG_1978.PNG" width = "60%" />
+<img src="https://github.com/targetcloud/baisibudejie/blob/master/IMG_2158.PNG" width = "60%" />
 
 #### 3
 <img src="https://github.com/targetcloud/baisibudejie/blob/master/IMG_2016.PNG" width = "60%" />
