@@ -16,6 +16,10 @@
 @property CGFloat centerX;
 @property CGFloat centerY;
 @property CGSize size;
+@property CGFloat left;
+@property CGFloat right;
+@property CGFloat top;
+@property CGFloat bottom;
 + (instancetype)viewFromXIB;
 - (BOOL)isShowingOnKeyWindow;
 @end

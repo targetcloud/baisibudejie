@@ -124,6 +124,15 @@ static NSString * const TGTopicCellID = @"TGTopicNewCellID";
         weakCell.topic = weakSelf.topics[indexPath.row];
         [weakSelf.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
     };
+    [cell setCommentBlock:^(NSString * topicId){
+        TGCommentNewVC *commentVc = [[TGCommentNewVC alloc] init];
+        [weakSelf.topics[indexPath.row] setShowAllWithoutComment:YES];
+        commentVc.topic = weakSelf.topics[indexPath.row];
+        [weakSelf.navigationController pushViewController:commentVc animated:YES];
+    }];
+    [cell setUpBlock:^(NSString * topicId){
+        
+    }];
     return cell;
 }
 

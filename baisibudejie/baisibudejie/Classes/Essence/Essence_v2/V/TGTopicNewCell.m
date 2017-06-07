@@ -30,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UIView *topCmtV;
 //@property (weak, nonatomic) IBOutlet UILabel *topCmtLbl;
 @property (weak, nonatomic) IBOutlet UITableView *topCmtTableV;
+@property (weak, nonatomic) IBOutlet UIView *toolBarV;
 
 @property (weak, nonatomic) IBOutlet UIImageView *sinaV;
 @property (weak, nonatomic) IBOutlet UIImageView *vip;
@@ -43,11 +44,23 @@
 @property (nonatomic, weak) TGVideoNewV *videoV;
 @property (nonatomic, weak) TGVoiceNewV *voiceV;
 @property (strong, nonatomic) AVPlayerItem *playerItem;
+@property (nonatomic, strong) UIButton *coverBtn;
 @end
 
 static NSString *const commentID = @"TGTopCommentCellID";
 
 @implementation TGTopicNewCell
+
+- (UIButton*)coverBtn{
+    if (!_coverBtn) {
+        _coverBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _coverBtn.frame = self.dingBtn.frame;
+        _coverBtn.alpha = 0;
+        [_coverBtn setImage:[UIImage imageNamed:@"commentLikeButtonClick"] forState:UIControlStateSelected];
+        [_coverBtn setImage:[UIImage imageNamed:@"commentLikeButtonClick"] forState:UIControlStateNormal];
+    }
+    return _coverBtn;
+}
 
 - (TGVoiceNewV *)voiceV{
     if (!_voiceV) {
@@ -86,6 +99,8 @@ static NSString *const commentID = @"TGTopCommentCellID";
     self.topCmtTableV.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.topCmtTableV.backgroundColor = [UIColor clearColor];
     //self.topCmtLbl.font = [UIFont systemFontOfSize:12];
+    
+    [self.toolBarV insertSubview:self.coverBtn belowSubview:self.dingBtn];
 }
 
 
@@ -121,6 +136,8 @@ static NSString *const commentID = @"TGTopCommentCellID";
     [self setupButtonTitle:self.caiBtn number:topic.down placeholder:@"踩"];
     [self setupButtonTitle:self.repostBtn number:topic.forward placeholder:@"分享"];
     [self setupButtonTitle:self.commentBtn number:topic.comment placeholder:@"评论"];
+    self.dingBtn.selected = self.topic.isUpSelected;
+    self.caiBtn.selected = self.topic.isDownSelected;
     
     self.topCmtV.hidden = topic.top_comments.count <= 0 ;
     if (topic.top_comments.count){
@@ -159,6 +176,8 @@ static NSString *const commentID = @"TGTopCommentCellID";
     }else if ([self.topic.type.lowercaseString isEqualToString:@"video"]) { // 视频
         self.videoV.frame = self.topic.middleFrame;
     }
+    
+    self.coverBtn.frame = self.dingBtn.imageView.frame;
 }
 
 - (void)setupButtonTitle:(UIButton *)button number:(NSInteger)number placeholder:(NSString *)placeholder{
@@ -206,6 +225,58 @@ static NSString *const commentID = @"TGTopCommentCellID";
     
     [self.topic setValue:@( [self.spreadBtn.currentTitle isEqualToString:@"收缩"] ? self.topic.cellHeight + (self.topic.textHeight + 19.f - TextHeightConstraint) : self.topic.defaultHeight) forKey:@"cellHeight" ];
     !(self.block) ? : self.block();
+}
+
+- (IBAction)upClick:(UIButton *)sender {
+    !_upBlock ? : _upBlock(self.topic.ID);
+    
+    if (!self.dingBtn.selected) {
+        //self.dingBtn.userInteractionEnabled = NO;
+        self.userInteractionEnabled = NO;
+        self.coverBtn.alpha = 1;
+        [UIView animateWithDuration:1.0f animations:^{
+            self.coverBtn.frame = CGRectMake(self.dingBtn.imageView.frame.origin.x,
+                                             self.dingBtn.imageView.frame.origin.y-70,
+                                             self.coverBtn.frame.size.width*2,
+                                             self.coverBtn.frame.size.height*2);
+            
+            CAKeyframeAnimation *anima = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation"];
+            NSValue *value1 = [NSNumber numberWithFloat:-M_PI/180*5];
+            NSValue *value2 = [NSNumber numberWithFloat:M_PI/180*5];
+            NSValue *value3 = [NSNumber numberWithFloat:-M_PI/180*5];
+            anima.values = @[value1,value2,value3];
+            anima.repeatCount = MAXFLOAT;
+            [self.coverBtn.layer addAnimation:anima forKey:nil];
+            
+            self.coverBtn.alpha = 0;
+            self.coverBtn.centerX = self.dingBtn.centerX;
+        } completion:^(BOOL finished) {
+            self.coverBtn.frame = self.dingBtn.imageView.frame;
+            //self.dingBtn.userInteractionEnabled = YES;
+            self.userInteractionEnabled = YES;
+        }];
+    }
+    
+    self.topic.up += self.topic.upSelected ? -1 : 1;
+    self.topic.upSelected = !self.topic.upSelected;
+    self.dingBtn.selected = !self.dingBtn.selected;
+    [self setupButtonTitle:self.dingBtn number:self.topic.up placeholder:@"顶"];
+}
+
+- (IBAction)downClick:(UIButton *)sender {
+    !_downBlock ? : _downBlock(self.topic.ID);
+    self.topic.down += self.topic.downSelected ? -1 : 1;
+    self.topic.downSelected = !self.topic.downSelected;
+    self.caiBtn.selected = !self.caiBtn.selected;
+    [self setupButtonTitle:self.caiBtn number:self.topic.down placeholder:@"踩"];
+}
+
+- (IBAction)repostClick:(UIButton *)sender {
+    !_repostBlock ? : _repostBlock(self.topic.ID);
+}
+
+- (IBAction)commentClick:(UIButton *)sender {
+    !_commentBlock ? : _commentBlock(self.topic.ID);
 }
 
 @end

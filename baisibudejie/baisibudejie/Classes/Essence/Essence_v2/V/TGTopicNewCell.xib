@@ -70,6 +70,10 @@
                                 <state key="normal" title="顶" image="mainCellDing">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <state key="selected" image="mainCellDingClick"/>
+                                <connections>
+                                    <action selector="upClick:" destination="RE9-fU-ZXh" eventType="touchUpInside" id="pcm-TU-gb1"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MID-Gw-bv4">
                                 <rect key="frame" x="84.5" y="0.0" width="84.5" height="35"/>
@@ -78,6 +82,10 @@
                                 <state key="normal" title="踩" image="mainCellCai">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <state key="selected" image="mainCellCaiClick"/>
+                                <connections>
+                                    <action selector="downClick:" destination="RE9-fU-ZXh" eventType="touchUpInside" id="goC-21-COU"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QXr-oq-QTA">
                                 <rect key="frame" x="253.5" y="0.0" width="84.5" height="35"/>
@@ -86,6 +94,10 @@
                                 <state key="normal" title="评论" image="mainCellComment">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <state key="highlighted" image="mainCellCommentClick"/>
+                                <connections>
+                                    <action selector="commentClick:" destination="RE9-fU-ZXh" eventType="touchUpInside" id="VIp-Ek-cEF"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VgV-wn-G0f">
                                 <rect key="frame" x="169" y="0.0" width="84.5" height="35"/>
@@ -94,6 +106,10 @@
                                 <state key="normal" title="转发" image="mainCellShare">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <state key="highlighted" image="mainCellShareClick"/>
+                                <connections>
+                                    <action selector="repostClick:" destination="RE9-fU-ZXh" eventType="touchUpInside" id="AVD-t1-xBx"/>
+                                </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cell-button-line" translatesAutoresizingMaskIntoConstraints="NO" id="dUB-HP-afn">
                                 <rect key="frame" x="169" y="10" width="1" height="15"/>
@@ -254,6 +270,7 @@
                 <outlet property="spreadViewBottomConstraint" destination="vqs-yN-o35" id="UcO-w5-0MZ"/>
                 <outlet property="textHeightConstraint" destination="WUu-6Q-MZL" id="wRI-jo-CCS"/>
                 <outlet property="textLbl" destination="IKa-67-eiI" id="bwF-Qm-mVO"/>
+                <outlet property="toolBarV" destination="Y9F-V7-R6c" id="gjA-Ng-WKu"/>
                 <outlet property="topCmtTableV" destination="chD-ft-j88" id="S9K-Kk-aEA"/>
                 <outlet property="topCmtV" destination="n1e-bD-1er" id="Y5s-fG-u8a"/>
                 <outlet property="topCommentViewConstraint" destination="hQB-wK-j2g" id="Xyx-EY-Nw1"/>
@@ -268,9 +285,13 @@
         <image name="cell-content-line" width="299" height="1"/>
         <image name="cellmorebtnnormal" width="24" height="20"/>
         <image name="mainCellCai" width="20" height="20"/>
+        <image name="mainCellCaiClick" width="20" height="20"/>
         <image name="mainCellComment" width="20" height="20"/>
+        <image name="mainCellCommentClick" width="20" height="20"/>
         <image name="mainCellDing" width="20" height="20"/>
+        <image name="mainCellDingClick" width="20" height="20"/>
         <image name="mainCellShare" width="20" height="20"/>
+        <image name="mainCellShareClick" width="23" height="23"/>
         <image name="nav_title_vip_icon" width="16" height="12"/>
     </resources>
 </document>

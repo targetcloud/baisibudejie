@@ -75,4 +75,7 @@
 @property (nonatomic, assign,getter=is_videoPlaying) BOOL videoPlaying;
 @property (nonatomic, assign,readonly) CGFloat commentVH;
 @property (nonatomic, copy,readonly) NSMutableAttributedString * attrStrM;
+
+@property (nonatomic, assign, getter=isUpSelected) BOOL upSelected;
+@property (nonatomic, assign, getter=isDownSelected) BOOL downSelected;
 @end
