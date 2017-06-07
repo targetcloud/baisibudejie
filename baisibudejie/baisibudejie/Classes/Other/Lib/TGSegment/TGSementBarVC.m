@@ -102,9 +102,9 @@
 -(void) scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
     //TGLog(@"scrollViewWillEndDragging %f",self.contentV.contentOffset.x);
     CGFloat willEndDraggingContentOffsetX = self.contentV.contentOffset.x;
-    if (willEndDraggingContentOffsetX < -100  && _beginDraggingContentOffsetX == 0){//滚到最后一个去
+    if (willEndDraggingContentOffsetX < -self.segmentBar.segmentConfig.circleScrollOffset  && _beginDraggingContentOffsetX == 0){//滚到最后一个去
         _circleIndex = scrollView.contentSize.width / self.contentV.width - 1;
-    }else if (willEndDraggingContentOffsetX + self.contentV.frame.size.width - scrollView.contentSize.width > 100 && _beginDraggingContentOffsetX == scrollView.contentSize.width - self.contentV.frame.size.width){//滚到第一个去
+    }else if (willEndDraggingContentOffsetX + self.contentV.frame.size.width - scrollView.contentSize.width > self.segmentBar.segmentConfig.circleScrollOffset && _beginDraggingContentOffsetX == scrollView.contentSize.width - self.contentV.frame.size.width){//滚到第一个去
         _circleIndex = 0;
     }else {
         _circleIndex = -1;

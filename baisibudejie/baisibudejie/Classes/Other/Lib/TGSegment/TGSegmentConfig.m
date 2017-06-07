@@ -86,6 +86,13 @@
     return _segmentBarH;
 }
 
+- (CGFloat)circleScrollOffset {
+    if (_circleScrollOffset <= 0) {
+        _circleScrollOffset = 50;
+    }
+    return _circleScrollOffset;
+}
+
 - (NSInteger) showMoreVCRowCount{
     if (_showMoreVCRowCount <= 0) {
         _showMoreVCRowCount = 3;
@@ -265,6 +272,13 @@
 - (TGSegmentConfig *(^)(CGFloat ))margin{
     return ^(CGFloat margin){
         self.limitMargin = margin;
+        return self;
+    };
+}
+
+- (TGSegmentConfig *(^)(CGFloat ))circleOffset{
+    return ^(CGFloat offset){
+        self.circleScrollOffset = offset;
         return self;
     };
 }

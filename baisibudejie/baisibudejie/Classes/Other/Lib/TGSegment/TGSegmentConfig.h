@@ -17,6 +17,7 @@
 @property (nonatomic, assign) CGFloat segmentBarH;//标题栏的高度
 @property (nonatomic, assign) BOOL isShowMore;//是否显示更多
 @property (nonatomic, assign) BOOL isCircleScroll;//是否支持循环滚动，即已经在第0个了，再向前滚动的话，那么滚到最后一个，如果在最后一个，再向后滚动，那么滚动到第0个
+@property (nonatomic, assign) CGFloat circleScrollOffset;//循环滚动Offset,只有达到这个值，才进入循环滚动,默认50
 @property (nonatomic, strong) UIColor *indicatorColor;//指示器颜色
 @property (nonatomic, assign) CGFloat indicatorH;//指示器高度
 @property (nonatomic, assign) CGFloat indicatorExtraW;//指示器左右扩展的宽度
@@ -54,6 +55,7 @@
 - (TGSegmentConfig *(^)(UIFont *font))normalFont;
 - (TGSegmentConfig *(^)(UIFont *font))selectedFont;
 - (TGSegmentConfig *(^)(CGFloat margin))margin;
+- (TGSegmentConfig *(^)(CGFloat offset))circleOffset;
 - (TGSegmentConfig *(^)(CGFloat height))barH;
 - (TGSegmentConfig *(^)(UIColor *color))moreBGColor;
 - (TGSegmentConfig *(^)(UIColor *color))moreCellBGColor;
