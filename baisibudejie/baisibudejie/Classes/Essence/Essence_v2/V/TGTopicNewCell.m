@@ -199,6 +199,11 @@ static NSString *const commentID = @"TGTopCommentCellID";
 
 - (IBAction)more:(id)sender {
     UIAlertController *controller = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    [controller addAction:[UIAlertAction actionWithTitle:@"评论" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        !_commentBlock ? : _commentBlock(self.topic.ID);
+    }]];
+    
     [controller addAction:[UIAlertAction actionWithTitle:@"收藏" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         TGLog(@"点击了[收藏]按钮")
     }]];
