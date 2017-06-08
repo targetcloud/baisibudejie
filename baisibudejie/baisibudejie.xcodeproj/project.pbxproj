@@ -90,6 +90,10 @@
 		6A6425CA1E70494100C737C0 /* TGPicVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6425C91E70494100C737C0 /* TGPicVC.m */; };
 		6A6425CD1E70495D00C737C0 /* TGVideoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6425CC1E70495D00C737C0 /* TGVideoVC.m */; };
 		6A6425D01E70497400C737C0 /* TGVoiceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A6425CF1E70497400C737C0 /* TGVoiceVC.m */; };
+		6A65A4B11EE9D8500005DE9B /* TGLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A65A4B01EE9D8500005DE9B /* TGLayout.m */; };
+		6A65A4B41EE9DEFE0005DE9B /* TGLookingAroundV.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A65A4B31EE9DEFE0005DE9B /* TGLookingAroundV.m */; };
+		6A65A4B61EE9DF5B0005DE9B /* TGLookingAroundV.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A65A4B51EE9DF5B0005DE9B /* TGLookingAroundV.xib */; };
+		6A65A4B91EE9E3730005DE9B /* TGLookingAroundVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A65A4B81EE9E3730005DE9B /* TGLookingAroundVC.m */; };
 		6A69EF0C1ED74D7500E7AF4D /* TGTopWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A69EF0B1ED74D7400E7AF4D /* TGTopWindow.m */; };
 		6A71771F1E6CA3F500B234F3 /* TGSettingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A71771E1E6CA3F500B234F3 /* TGSettingVC.m */; };
 		6A7177221E6CA81C00B234F3 /* TGNavigationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7177211E6CA81C00B234F3 /* TGNavigationVC.m */; };
@@ -317,6 +321,13 @@
 		6A6425CC1E70495D00C737C0 /* TGVideoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGVideoVC.m; sourceTree = "<group>"; };
 		6A6425CE1E70497400C737C0 /* TGVoiceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGVoiceVC.h; sourceTree = "<group>"; };
 		6A6425CF1E70497400C737C0 /* TGVoiceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGVoiceVC.m; sourceTree = "<group>"; };
+		6A65A4AF1EE9D8500005DE9B /* TGLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGLayout.h; sourceTree = "<group>"; };
+		6A65A4B01EE9D8500005DE9B /* TGLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGLayout.m; sourceTree = "<group>"; };
+		6A65A4B21EE9DEFE0005DE9B /* TGLookingAroundV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGLookingAroundV.h; sourceTree = "<group>"; };
+		6A65A4B31EE9DEFE0005DE9B /* TGLookingAroundV.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGLookingAroundV.m; sourceTree = "<group>"; };
+		6A65A4B51EE9DF5B0005DE9B /* TGLookingAroundV.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TGLookingAroundV.xib; sourceTree = "<group>"; };
+		6A65A4B71EE9E3730005DE9B /* TGLookingAroundVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGLookingAroundVC.h; sourceTree = "<group>"; };
+		6A65A4B81EE9E3730005DE9B /* TGLookingAroundVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGLookingAroundVC.m; sourceTree = "<group>"; };
 		6A69EF0A1ED74D7400E7AF4D /* TGTopWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGTopWindow.h; sourceTree = "<group>"; };
 		6A69EF0B1ED74D7400E7AF4D /* TGTopWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGTopWindow.m; sourceTree = "<group>"; };
 		6A71771D1E6CA3F500B234F3 /* TGSettingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGSettingVC.h; sourceTree = "<group>"; };
@@ -460,6 +471,7 @@
 		6A02A7D01EDBF69C00C1D89D /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				6A65A4AE1EE9D8430005DE9B /* TGLayout */,
 				6A05D5261EDFDA1A00C5BBF7 /* TGCarouselImageView */,
 				6A02A7D11EDBF69C00C1D89D /* TGSegment */,
 			);
@@ -517,6 +529,8 @@
 				6A02A8211EDDE24400C1D89D /* TGCommentNewVC.xib */,
 				6A05D5221EDE901300C5BBF7 /* TGNewestVC.h */,
 				6A05D5231EDE901300C5BBF7 /* TGNewestVC.m */,
+				6A65A4B71EE9E3730005DE9B /* TGLookingAroundVC.h */,
+				6A65A4B81EE9E3730005DE9B /* TGLookingAroundVC.m */,
 			);
 			path = C;
 			sourceTree = "<group>";
@@ -555,6 +569,9 @@
 				6AF7ABE21EE41B2600F1CF32 /* TGTopCommentCell.h */,
 				6AF7ABE31EE41B2600F1CF32 /* TGTopCommentCell.m */,
 				6AF7ABE41EE41B2600F1CF32 /* TGTopCommentCell.xib */,
+				6A65A4B21EE9DEFE0005DE9B /* TGLookingAroundV.h */,
+				6A65A4B31EE9DEFE0005DE9B /* TGLookingAroundV.m */,
+				6A65A4B51EE9DF5B0005DE9B /* TGLookingAroundV.xib */,
 			);
 			path = V;
 			sourceTree = "<group>";
@@ -1014,6 +1031,15 @@
 			path = Topic;
 			sourceTree = "<group>";
 		};
+		6A65A4AE1EE9D8430005DE9B /* TGLayout */ = {
+			isa = PBXGroup;
+			children = (
+				6A65A4AF1EE9D8500005DE9B /* TGLayout.h */,
+				6A65A4B01EE9D8500005DE9B /* TGLayout.m */,
+			);
+			path = TGLayout;
+			sourceTree = "<group>";
+		};
 		6A7177191E6CA3BC00B234F3 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
@@ -1272,6 +1298,7 @@
 				6AF4E1A61ECAACA800BCFE2F /* TGRecommendUserCell.xib in Resources */,
 				6ADF8D271E6DB29A0042DADC /* TGFriendTrendVC.xib in Resources */,
 				6A02A8071EDD8BC100C1D89D /* TGTopicNewCell.xib in Resources */,
+				6A65A4B61EE9DF5B0005DE9B /* TGLookingAroundV.xib in Resources */,
 				6ADF8D121E6D3C820042DADC /* LaunchImage-800-Portrait-736h@3x.png in Resources */,
 				6AE6C1841ED06B5A00238D6B /* TGAddToolBar.xib in Resources */,
 				6ADF8D311E6DC0A80042DADC /* TGLoginRegisterV.xib in Resources */,
@@ -1355,6 +1382,7 @@
 				6A05D4DF1EDE88B200C5BBF7 /* TGVideoPlayVC.m in Sources */,
 				6ACE8F111E746C1B0061AEC5 /* TGTopicM.m in Sources */,
 				6A05D5061EDE8D4100C5BBF7 /* TGNewestPictureVC.m in Sources */,
+				6A65A4B91EE9E3730005DE9B /* TGLookingAroundVC.m in Sources */,
 				6ADF8D211E6D767F0042DADC /* TGSubTagCell.m in Sources */,
 				6AD4EB321E6C823100D8B260 /* TGTabBar.m in Sources */,
 				6A6425C41E70491100C737C0 /* TGAllVC.m in Sources */,
@@ -1383,6 +1411,7 @@
 				6AD4EB251E6C53A500D8B260 /* TGNewVC.m in Sources */,
 				6ADF8D251E6D7E720042DADC /* UIImageView+download.m in Sources */,
 				6A02A81C1EDDC57F00C1D89D /* TGVoiceNewV.m in Sources */,
+				6A65A4B41EE9DEFE0005DE9B /* TGLookingAroundV.m in Sources */,
 				6AD4EB1F1E6C536000D8B260 /* TGFriendTrendVC.m in Sources */,
 				6A05D4FA1EDE8B0300C5BBF7 /* TGColdKnowledgeVC.m in Sources */,
 				6A05D5291EDFDA4A00C5BBF7 /* TGCarouselImageView.m in Sources */,
@@ -1397,6 +1426,7 @@
 				6AD4EB221E6C538300D8B260 /* TGMeVC.m in Sources */,
 				6AF7ABE51EE41B2600F1CF32 /* TGTopCommentCell.m in Sources */,
 				6A05D5151EDE8D9300C5BBF7 /* TGNewestVoteVC.m in Sources */,
+				6A65A4B11EE9D8500005DE9B /* TGLayout.m in Sources */,
 				6A02A8271EDDE2A600C1D89D /* TGCommentNewCell.m in Sources */,
 				6A127F631E6EBD4200FD7246 /* TGSquareM.m in Sources */,
 				6A05D5091EDE8D5100C5BBF7 /* TGNewestJokesVC.m in Sources */,

@@ -86,6 +86,30 @@ static CGFloat const MiddleHeightConstraint = 300;
            [_type isEqualToString:@"audio"] ? _audio_height : 0;
 }
 
+-(CGFloat) cellHeightWithoutComment{
+    if (_cellHeightWithoutComment) return _cellHeightWithoutComment;
+    [self cellHeight];
+    return _cellHeightWithoutComment;
+}
+
+-(CGFloat) defaultHeight{
+    if (_defaultHeight) return _defaultHeight;
+    [self cellHeight];
+    return _defaultHeight;
+}
+
+-(CGFloat) textHeight{
+    if (_textHeight) return _textHeight;
+    [self cellHeight];
+    return _textHeight;
+}
+
+-(CGFloat) commentVH{
+    if (_commentVH) return _commentVH;
+    [self cellHeight];
+    return _commentVH;
+}
+
 - (CGFloat)cellHeight{
     if (_cellHeight) return _cellHeight;
     _commentVH = 0;

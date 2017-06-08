@@ -23,6 +23,7 @@
 #import "TGBeautyVC.h"
 #import "TGColdKnowledgeVC.h"
 #import "TGGameVC.h"
+#import "TGLookingAroundVC.h"
 
 @interface TGEssenceNewVC ()
 @property (nonatomic, weak) TGSementBarVC *segmentBarVC;
@@ -51,9 +52,10 @@
     self.segmentBarVC.view.frame = self.view.bounds;
     //使用segmentBarVC
     [self.view addSubview:self.segmentBarVC.view];
-    NSArray *items = @[@"推荐", @"视频", @"图片", @"段子",@"排行",@"互动区",@"网红",@"社会",@"投票",@"美女",@"冷知识",@"游戏"];
+    NSArray *items = @[@"推荐",@"随听", @"视频", @"图片", @"段子",@"排行",@"互动区",@"网红",@"社会",@"投票",@"美女",@"冷知识",@"游戏"];
     NSMutableArray* childVCs = [NSMutableArray array];
     [childVCs addObject:[[TGRecommendedVC alloc] init]];
+    [childVCs addObject:[[TGLookingAroundVC alloc] init]];
     [childVCs addObject:[[TGVideoPlayVC alloc] init]];
     [childVCs addObject:[[TGPictureVC alloc] init]];
     [childVCs addObject:[[TGJokesVC alloc] init]];
@@ -65,6 +67,7 @@
     [childVCs addObject:[[TGBeautyVC alloc] init]];
     [childVCs addObject:[[TGColdKnowledgeVC alloc] init]];
     [childVCs addObject:[[TGGameVC alloc] init]];
+    
     [self.segmentBarVC setupWithItems:items childVCs:childVCs];
 
     [self.segmentBarVC.segmentBar updateViewWithConfig:^(TGSegmentConfig *config) {
