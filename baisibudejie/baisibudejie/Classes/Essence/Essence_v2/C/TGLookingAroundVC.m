@@ -207,13 +207,13 @@ static NSString * const TGCollectionViewCellId = @"LookingAroundCellId";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     TGLookingAroundV *cell = [collectionView dequeueReusableCellWithReuseIdentifier:TGCollectionViewCellId forIndexPath:indexPath];
     cell.topic = self.topics[indexPath.item];
-//    __weak typeof(self)weakSelf = self;
-//    [cell setCommentBlock:^(NSString * topicId){
-//        TGCommentNewVC *commentVc = [[TGCommentNewVC alloc] init];
-//        [weakSelf.topics[indexPath.row] setShowAllWithoutComment:YES];
-//        commentVc.topic = weakSelf.topics[indexPath.row];
-//        [weakSelf.navigationController pushViewController:commentVc animated:YES];
-//    }];
+    __weak typeof(self)weakSelf = self;
+    [cell setCommentBlock:^(NSString * topicId){
+        TGCommentNewVC *commentVc = [[TGCommentNewVC alloc] init];
+        [weakSelf.topics[indexPath.row] setShowAllWithoutComment:YES];
+        commentVc.topic = weakSelf.topics[indexPath.row];
+        [weakSelf.navigationController pushViewController:commentVc animated:YES];
+    }];
     return cell;
 }
 
@@ -239,12 +239,12 @@ static NSString * const TGCollectionViewCellId = @"LookingAroundCellId";
     return UIEdgeInsetsMake(2, 0, 0, 0);
 }
 
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    //TGFunc
-    TGCommentNewVC *commentVc = [[TGCommentNewVC alloc] init];
-    [self.topics[indexPath.row] setShowAllWithoutComment:YES];
-    commentVc.topic = self.topics[indexPath.row];
-    [self.navigationController pushViewController:commentVc animated:YES];
-}
+//-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+//    //TGFunc
+//    TGCommentNewVC *commentVc = [[TGCommentNewVC alloc] init];
+//    [self.topics[indexPath.row] setShowAllWithoutComment:YES];
+//    commentVc.topic = self.topics[indexPath.row];
+//    [self.navigationController pushViewController:commentVc animated:YES];
+//}
 
 @end
