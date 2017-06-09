@@ -23,6 +23,7 @@
 
 static AVPlayer * walkman_;
 static UIButton *lastPlayBtn_;
+static UIImageView * lastProfileImageV;
 static TGTopicNewM *lastTopicM_;
 static NSTimer *avTimer_;
 static DALabeledCircularProgressView  *progressV_;
@@ -49,7 +50,7 @@ static CGFloat const progressTrackW = 3;
         [progressV_ removeFromSuperview];
     }
     
-    [self.profileImageV tg_setHeader:topic.u.header borderWidth:1 borderColor:nil];
+    [self.profileImageV tg_setHeader:topic.u.header borderWidth:2 borderColor:nil];
     [self.imageV tg_setOriginImage:topic.image thumbnailImage:nil placeholder:nil progress:nil completed:nil];
     
     if (topic.audio_playcount >= 10000) {
@@ -83,6 +84,21 @@ static CGFloat const progressTrackW = 3;
         [self.contentView insertSubview:progressV_ belowSubview:self.voicePlayBtn];
         progressV_.hidden = !topic.voicePlaying;
     }
+}
+
+-(void)addRotationAnimation{
+    int direction = 1;  //or -1
+    CABasicAnimation* rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    rotationAnimation.toValue = [NSNumber numberWithFloat:(2 * M_PI) * direction];
+    rotationAnimation.duration = 4.0f;
+    rotationAnimation.repeatCount = HUGE_VALF;
+    //rotationAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    [self.profileImageV.layer addAnimation:rotationAnimation forKey:@"rotateAnimation"];
+}
+
+-(void)removeRotateAnimation{
+    [lastProfileImageV.layer removeAllAnimations];
+    [self.profileImageV.layer removeAllAnimations];
 }
 
 -(void) layoutSubviews{
@@ -119,6 +135,8 @@ static CGFloat const progressTrackW = 3;
         [progressV_ setProgress:0 animated:NO];
         
         [walkman_ play];
+        [lastProfileImageV.layer removeAllAnimations];
+        [self addRotationAnimation];
         [avTimer_ setFireDate:[NSDate date]];
         lastTopicM_.voicePlaying = NO;
         self.topic.voicePlaying = YES;
@@ -127,6 +145,7 @@ static CGFloat const progressTrackW = 3;
     }else{
         if(lastTopicM_.voicePlaying){
             [walkman_ pause];
+            [self removeRotateAnimation];
             [avTimer_ setFireDate:[NSDate distantFuture]];
             self.topic.voicePlaying = NO;
             [playBtn setImage:[UIImage imageNamed:@"playButtonPlay"] forState:UIControlStateNormal];
@@ -139,6 +158,8 @@ static CGFloat const progressTrackW = 3;
             [self.contentView insertSubview:progressV_ belowSubview:self.voicePlayBtn];
             
             [walkman_ play];
+            [lastProfileImageV.layer removeAllAnimations];
+            [self addRotationAnimation];
             [avTimer_ setFireDate:[NSDate date]];
             self.topic.voicePlaying = YES;
             [playBtn setImage:[UIImage imageNamed:@"walkman_pause"] forState:UIControlStateNormal];
@@ -146,6 +167,7 @@ static CGFloat const progressTrackW = 3;
     }
     lastTopicM_ = self.topic;
     lastPlayBtn_ = playBtn;
+    lastProfileImageV = self.profileImageV;
     progressV_.hidden = !self.topic.voicePlaying;
 }
 
@@ -156,6 +178,7 @@ static CGFloat const progressTrackW = 3;
     [lastPlayBtn_ setImage:[UIImage imageNamed:@"playButtonPlay"] forState:UIControlStateNormal];
     [self.voicePlayBtn setImage:[UIImage imageNamed:@"playButtonPlay"] forState:UIControlStateNormal];
     [walkman_ seekToTime:kCMTimeZero];
+    [self removeRotateAnimation];
     [progressV_ setProgress:0 animated:NO];
     [progressV_ removeFromSuperview];
     progressV_.hidden = YES;
@@ -163,6 +186,7 @@ static CGFloat const progressTrackW = 3;
 
 -(void)dealloc{
     [walkman_ pause];
+    [self removeRotateAnimation];
     lastTopicM_.voicePlaying = NO;
     [lastPlayBtn_ setImage:[UIImage imageNamed:@"playButtonPlay"] forState:UIControlStateNormal];
     [[NSNotificationCenter defaultCenter]removeObserver:self];
