@@ -60,7 +60,7 @@ static CGFloat const progressTrackW = 3;
     
     self.voicetimeLbl.text = [NSString stringWithFormat:@"%02zd:%02zd", topic.audio_duration / 60, topic.audio_duration % 60];
     
-    [self.voicePlayBtn setImage:[UIImage imageNamed:topic.voicePlaying ? @"btn_player_pause":@"playButtonPlay"] forState:UIControlStateNormal];
+    [self.voicePlayBtn setImage:[UIImage imageNamed:topic.voicePlaying ? @"walkman_pause":@"playButtonPlay"] forState:UIControlStateNormal];
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         self.playerItem = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:self.topic.audio_uri]];
@@ -80,7 +80,7 @@ static CGFloat const progressTrackW = 3;
         
     });
     if (topic.voicePlaying){
-        [self insertSubview:progressV_ belowSubview:self.voicePlayBtn];
+        [self.contentView insertSubview:progressV_ belowSubview:self.voicePlayBtn];
         progressV_.hidden = !topic.voicePlaying;
     }
 }
@@ -115,7 +115,7 @@ static CGFloat const progressTrackW = 3;
         [walkman_ replaceCurrentItemWithPlayerItem:self.playerItem];
         
         progressV_.frame = CGRectMake(playBtn.frame.origin.x-2, playBtn.frame.origin.y-2, playBtn.frame.size.width+4, playBtn.frame.size.height+4);
-        [self insertSubview:progressV_ belowSubview:self.voicePlayBtn];
+        [self.contentView insertSubview:progressV_ belowSubview:self.voicePlayBtn];
         [progressV_ setProgress:0 animated:NO];
         
         [walkman_ play];
@@ -123,7 +123,7 @@ static CGFloat const progressTrackW = 3;
         lastTopicM_.voicePlaying = NO;
         self.topic.voicePlaying = YES;
         [lastPlayBtn_ setImage:[UIImage imageNamed:@"playButtonPlay"] forState:UIControlStateNormal];
-        [playBtn setImage:[UIImage imageNamed:@"btn_player_pause"] forState:UIControlStateNormal];
+        [playBtn setImage:[UIImage imageNamed:@"walkman_pause"] forState:UIControlStateNormal];
     }else{
         if(lastTopicM_.voicePlaying){
             [walkman_ pause];
@@ -136,12 +136,12 @@ static CGFloat const progressTrackW = 3;
                                                          name:AVPlayerItemDidPlayToEndTimeNotification
                                                        object:self.playerItem];
             progressV_.frame = CGRectMake(playBtn.frame.origin.x-2, playBtn.frame.origin.y-2, playBtn.frame.size.width+4, playBtn.frame.size.height+4);
-            [self insertSubview:progressV_ belowSubview:self.voicePlayBtn];
+            [self.contentView insertSubview:progressV_ belowSubview:self.voicePlayBtn];
             
             [walkman_ play];
             [avTimer_ setFireDate:[NSDate date]];
             self.topic.voicePlaying = YES;
-            [playBtn setImage:[UIImage imageNamed:@"btn_player_pause"] forState:UIControlStateNormal];
+            [playBtn setImage:[UIImage imageNamed:@"walkman_pause"] forState:UIControlStateNormal];
         }
     }
     lastTopicM_ = self.topic;
