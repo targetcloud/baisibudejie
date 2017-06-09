@@ -86,6 +86,12 @@ static CGFloat const MiddleHeightConstraint = 300;
            [_type isEqualToString:@"audio"] ? _audio_height : 0;
 }
 
+-(CGRect)middleFrame{
+    if (!CGRectEqualToRect(_middleFrame,CGRectNull) && !CGRectEqualToRect(_middleFrame,CGRectZero)) return _middleFrame;
+    [self cellHeight];
+    return _middleFrame;
+}
+
 -(CGFloat) cellHeightWithoutComment{
     if (_cellHeightWithoutComment) return _cellHeightWithoutComment;
     [self cellHeight];

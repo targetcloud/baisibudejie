@@ -55,7 +55,7 @@ static NSString * const TGCollectionViewCellId = @"LookingAroundCellId";
 - (void)viewDidLoad {
     [super viewDidLoad];
     _np = @"0";
-    self.view.backgroundColor = TGGrayColor(206);
+    self.view.backgroundColor = TGGrayColor(246);
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tabBarButtonDidRepeatClick) name:TabBarButtonDidRepeatClickNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(titleButtonDidRepeatClick) name:TitleButtonDidRepeatClickNotification object:nil];
     
@@ -188,7 +188,7 @@ static NSString * const TGCollectionViewCellId = @"LookingAroundCellId";
     layout.delegate = self;
     
     UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
-    collectionView.backgroundColor = TGGrayColor(206);
+    collectionView.backgroundColor = TGGrayColor(246);
     collectionView.dataSource = self;
     collectionView.delegate = self;
     [self.view addSubview:collectionView];

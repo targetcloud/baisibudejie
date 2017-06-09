@@ -12,10 +12,14 @@
 
 @implementation UIImageView (download)
 - (void)tg_setHeader:(NSString *)headerUrl{
+    [self tg_setHeader:headerUrl borderWidth:0 borderColor:nil];
+}
+
+- (void)tg_setHeader:(NSString *)headerUrl borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor{
     UIImage *placeholder = [UIImage tg_circleImageNamed:@"defaultUserIcon"];
     [self sd_setImageWithURL:[NSURL URLWithString:headerUrl] placeholderImage:placeholder options:0 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         if (!image) return;
-        self.image = [image tg_circleImage];
+        self.image =  borderWidth>0 ? [image tg_circleImageBorderWidth:borderWidth borderColor:borderColor] : [image tg_circleImage];
     }];
 }
 /*

@@ -32,7 +32,7 @@
 
 - (void)setTopic:(TGTopicNewM *)topic{
     _topic = topic;
-    [self.profileImageV tg_setHeader:topic.u.header];
+    [self.profileImageV tg_setHeader:topic.u.header borderWidth:1 borderColor:nil];
     [self.imageV tg_setOriginImage:topic.image thumbnailImage:nil placeholder:nil progress:nil completed:nil];
     
     if (topic.audio_playcount >= 10000) {

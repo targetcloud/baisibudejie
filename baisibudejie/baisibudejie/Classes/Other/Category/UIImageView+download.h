@@ -11,5 +11,6 @@
 
 @interface UIImageView (download)
 - (void)tg_setOriginImage:(NSString *_Nullable)originImageURL thumbnailImage:(NSString *_Nullable)thumbnailImageURL placeholder:(UIImage *_Nullable)placeholder progress:(nullable SDWebImageDownloaderProgressBlock)progressBlock completed:(SDExternalCompletionBlock _Nullable )completedBlock;
-- (void)tg_setHeader:(NSString *_Nullable)headerUrl;
+- (void)tg_setHeader:(NSString *_Nonnull)headerUrl;
+- (void)tg_setHeader:(NSString *_Nonnull)headerUrl borderWidth:(CGFloat)borderWidth borderColor:(UIColor *_Nullable)borderColor;
 @end
