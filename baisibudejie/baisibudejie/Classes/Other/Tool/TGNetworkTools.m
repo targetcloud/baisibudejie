@@ -4,7 +4,13 @@
 //
 //  Created by targetcloud on 2017/6/13.
 //  Copyright © 2017年 targetcloud. All rights reserved.
-//
+//  Blog http://blog.csdn.net/callzjy
+//  Mail targetcloud@163.com
+//  Github https://github.com/targetcloud
+
+//以下错误的解决 
+//Attempted to create a task in a session that has been invalidated
+//*** Terminating app due to uncaught exception 'NSGenericException', reason: 'Task created in a session that has been invalidated'
 
 #import "TGNetworkTools.h"
 @protocol HTTPProxy <NSObject>
