@@ -142,7 +142,7 @@ static NSString * const TGTopicCellID = @"TGTopicCellID";
     }
     cell.textLabel.text = [NSString stringWithFormat:@"%@-%zd", self.class, indexPath.row];
      */
-    TGTopicCell *cell = [tableView dequeueReusableCellWithIdentifier:TGTopicCellID];
+    TGTopicCell *cell = [tableView dequeueReusableCellWithIdentifier:TGTopicCellID forIndexPath:indexPath];
     cell.topic = self.topics[indexPath.row];
     return cell;
 }

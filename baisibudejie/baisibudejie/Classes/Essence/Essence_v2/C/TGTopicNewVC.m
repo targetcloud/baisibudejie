@@ -115,7 +115,7 @@ static NSString * const TGTopicCellID = @"TGTopicNewCellID";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    TGTopicNewCell *cell = [tableView dequeueReusableCellWithIdentifier:TGTopicCellID];
+    TGTopicNewCell *cell = [tableView dequeueReusableCellWithIdentifier:TGTopicCellID forIndexPath:indexPath];
     cell.topic = self.topics[indexPath.row];
     //传入block，用于展开收缩
     __weak typeof(self)weakSelf = self;
