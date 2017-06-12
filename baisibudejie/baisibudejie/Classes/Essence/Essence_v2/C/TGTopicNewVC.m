@@ -195,7 +195,7 @@ static NSString * const TGTopicCellID = @"TGTopicNewCellID";
     
     TGNetworkTools *tools = [TGNetworkTools sharedTools];
     //[tools.tasks makeObjectsPerformSelector:@selector(cancel)];
-    [tools request:GET urlString:[self requesturl:@"0"] parameters:parameters finished:^(id responseObject, NSError * error) {
+    [tools netrequest:GET urlString:[self requesturl:@"0"] parameters:parameters finished:^(id responseObject, NSError * error) {
         if (error != nil) {
             if (self.params != parameters) return ;
             if (error.code != NSURLErrorCancelled) { // 并非是取消任务导致的error，其他网络问题导致的error

@@ -16,4 +16,5 @@ typedef enum : NSUInteger {
 @interface TGNetworkTools : AFHTTPSessionManager
 + (instancetype) sharedTools;
 - (void) request:(HTTPMethod)method urlString:(NSString *)urlString  parameters:(id)parameters finished:(void(^)(id ,NSError *))finished;
+- (void)netrequest:(HTTPMethod)method urlString:(NSString *)urlString parameters:(id)parameters finished:(void (^)(id, NSError *))finished;
 @end
