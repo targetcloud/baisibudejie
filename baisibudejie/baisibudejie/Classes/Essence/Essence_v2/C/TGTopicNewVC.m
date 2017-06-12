@@ -144,10 +144,11 @@ static NSString * const TGTopicCellID = @"TGTopicNewCellID";
 
 - (void)setupRefresh{
     if ([self showAD]){
-        NSArray *imageArray = @[@"http://img.spriteapp.cn/spritead/20170531/185026958423.jpg",
+        NSArray *imageArray = @[@"http://wimg.spriteapp.cn//ugc/2017/06/11/20170611150020704685.jpg",
+                                @"http://img.spriteapp.cn/spritead/20170531/185026958423.jpg",
                                 @"http://img.spriteapp.cn/spritead/20170531/185139989275.jpg",
                                 @"http://img.spriteapp.cn/spritead/20170531/185540702503.jpg",
-                                @"http://img.spriteapp.cn/spritead/20170531/185049847752.jpg",
+                                @"http://img.spriteapp.cn/spritead/20170612/194445627195.jpg",
                                 @"http://img.spriteapp.cn/spritead/20170531/185217240322.jpg"];
         NSMutableArray *describeArray = [[NSMutableArray alloc] init];
         for (NSInteger i = 0; i < imageArray.count; i++) {
@@ -159,6 +160,7 @@ static NSString * const TGTopicCellID = @"TGTopicNewCellID";
                                @"http://weibo.com/targetcloud",
                                @"http://blog.csdn.net/callzjy",
                                @"http://www.jianshu.com/p/718a12502887",
+                               @"https://github.com/targetcloud/baisibudejie",
                                @"https://www.cnblogs.com/targetcloud"
                                ];
         TGCarouselImageView *carouselIV = [TGCarouselImageView tg_carouselImageViewWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200) imageArrary:imageArray describeArray:nil placeholderImage:[UIImage imageNamed:@"adph3.jpg"] block:^(NSInteger index) {

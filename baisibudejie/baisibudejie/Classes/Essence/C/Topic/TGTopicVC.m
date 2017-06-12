@@ -168,8 +168,11 @@ static NSString * const TGTopicCellID = @"TGTopicCellID";
     self.tableView.tableHeaderView = label;
     */
     if ([self showAD]){
-        NSArray *imageArray = @[@"http://pgdt.gtimg.cn/gdt/0/DAALCBEAUAALQABgBZG91dAJ9Xbcmb.jpg/0?ck=b6702b77e6a8e7034439a460c24e8a1d",
-                                @"http://pgdt.gtimg.cn/gdt/0/15e08f34b958e105e658cb7be92ae497.JPG/0?ck=b2b25b3a666748f9515af9037445a26d"];
+        NSArray *imageArray = @[@"http://img.spriteapp.cn/spritead/20170612/194445627195.jpg",
+                                @"http://img.spriteapp.cn/spritead/20170612/194558124643.jpg",
+                                @"http://pgdt.gtimg.cn/gdt/0/DAALCBEAUAALQABgBZG91dAJ9Xbcmb.jpg/0?ck=b6702b77e6a8e7034439a460c24e8a1d",
+                                @"http://wimg.spriteapp.cn//ugc/2017/06/11/20170611150020704685.jpg"];
+        
         NSMutableArray *describeArray = [[NSMutableArray alloc] init];
         for (NSInteger i = 0; i < imageArray.count; i++) {
             NSString *tempDesc = [NSString stringWithFormat:@"Image Description %zd", i];
