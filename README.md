@@ -20,6 +20,12 @@
 
 ![](https://github.com/targetcloud/baisibudejie/blob/master/2.gif) 
 
+### 点赞效果
+![](https://github.com/targetcloud/baisibudejie/blob/master/c.gif) 
+
+### 随听模块效果
+![](https://github.com/targetcloud/baisibudejie/blob/master/b.gif) 
+
 本DEMO高仿最新版百思不得姐（4.5.6），运用了以下第三方框架
 DACircularProgress
 FLAnimatedImage
