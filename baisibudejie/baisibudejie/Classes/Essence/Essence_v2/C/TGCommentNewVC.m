@@ -219,7 +219,7 @@ static NSString *const headID = @"head";
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter]removeObserver:self];
     //[self.manager invalidateSessionCancelingTasks:YES];
-    [[TGNetworkTools sharedTools] invalidateSessionCancelingTasks:YES];
+    //[[TGNetworkTools sharedTools] invalidateSessionCancelingTasks:YES];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
