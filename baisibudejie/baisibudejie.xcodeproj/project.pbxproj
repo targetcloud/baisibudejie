@@ -146,6 +146,7 @@
 		6AE875A51E75A47C007ED307 /* TGPicV.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AE875A41E75A47C007ED307 /* TGPicV.xib */; };
 		6AE875A71E75A489007ED307 /* TGVideoV.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AE875A61E75A489007ED307 /* TGVideoV.xib */; };
 		6AE875A91E75A494007ED307 /* TGVoiceV.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AE875A81E75A494007ED307 /* TGVoiceV.xib */; };
+		6AEDF2EF1EEF1B6600B782EF /* TGNetworkTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEDF2EE1EEF1B6600B782EF /* TGNetworkTools.m */; };
 		6AF4E1921ECA1AD300BCFE2F /* TGRecommendVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF4E1901ECA1AD300BCFE2F /* TGRecommendVC.m */; };
 		6AF4E1931ECA1AD300BCFE2F /* TGRecommendVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AF4E1911ECA1AD300BCFE2F /* TGRecommendVC.xib */; };
 		6AF4E1961ECA232D00BCFE2F /* Foundation+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF4E1951ECA232D00BCFE2F /* Foundation+Log.m */; };
@@ -414,6 +415,8 @@
 		6AE875A41E75A47C007ED307 /* TGPicV.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TGPicV.xib; sourceTree = "<group>"; };
 		6AE875A61E75A489007ED307 /* TGVideoV.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TGVideoV.xib; sourceTree = "<group>"; };
 		6AE875A81E75A494007ED307 /* TGVoiceV.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TGVoiceV.xib; sourceTree = "<group>"; };
+		6AEDF2ED1EEF1B6600B782EF /* TGNetworkTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGNetworkTools.h; sourceTree = "<group>"; };
+		6AEDF2EE1EEF1B6600B782EF /* TGNetworkTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGNetworkTools.m; sourceTree = "<group>"; };
 		6AF4E18F1ECA1AD300BCFE2F /* TGRecommendVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGRecommendVC.h; sourceTree = "<group>"; };
 		6AF4E1901ECA1AD300BCFE2F /* TGRecommendVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGRecommendVC.m; sourceTree = "<group>"; };
 		6AF4E1911ECA1AD300BCFE2F /* TGRecommendVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TGRecommendVC.xib; sourceTree = "<group>"; };
@@ -654,6 +657,8 @@
 			children = (
 				6A127F6E1E6F218A00FD7246 /* TGFileTool.h */,
 				6A127F6F1E6F218A00FD7246 /* TGFileTool.m */,
+				6AEDF2ED1EEF1B6600B782EF /* TGNetworkTools.h */,
+				6AEDF2EE1EEF1B6600B782EF /* TGNetworkTools.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -1393,6 +1398,7 @@
 				6A02A7EC1EDBF69C00C1D89D /* TGSegmentMoreBtn.m in Sources */,
 				6A02A7FF1EDD538600C1D89D /* TGUserNewM.m in Sources */,
 				6ADF8D031E6D36710042DADC /* TGADVC.m in Sources */,
+				6AEDF2EF1EEF1B6600B782EF /* TGNetworkTools.m in Sources */,
 				6A05D5211EDE8DD600C5BBF7 /* TGNewestSoundsVC.m in Sources */,
 				6A02A8191EDDC16400C1D89D /* TGTopicNewVC.m in Sources */,
 				6A127F591E6EA06C00FD7246 /* UITextField+placeholder.m in Sources */,

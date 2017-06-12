@@ -7,7 +7,8 @@
 //
 
 #import "TGRecommendVC.h"
-#import <AFNetworking.h>
+//#import <AFNetworking.h>
+#import "TGNetworkTools.h"
 #import <SVProgressHUD.h>
 #import <MJExtension.h>
 #import <MJRefresh.h>
@@ -21,7 +22,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *categoryTableV;
 @property (weak, nonatomic) IBOutlet UITableView *userTableV;
 @property (nonatomic, strong) NSMutableDictionary *params;
-@property (nonatomic, strong) AFHTTPSessionManager *manager;
+//@property (nonatomic, strong) AFHTTPSessionManager *manager;
 @end
 
 static NSString * const TGCategoryId = @"category";
@@ -29,12 +30,12 @@ static NSString * const TGUserId = @"user";
 
 @implementation TGRecommendVC
 
-- (AFHTTPSessionManager *)manager{
-    if (!_manager) {
-        _manager = [AFHTTPSessionManager manager];
-    }
-    return _manager;
-}
+//- (AFHTTPSessionManager *)manager{
+//    if (!_manager) {
+//        _manager = [AFHTTPSessionManager manager];
+//    }
+//    return _manager;
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -52,15 +53,28 @@ static NSString * const TGUserId = @"user";
     params[@"a"] = @"category";
     params[@"c"] = @"subscribe";
     
-    [self.manager GET:@"http://api.budejie.com/api/api_open.php" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+    TGNetworkTools *tools = [TGNetworkTools sharedTools];
+    [tools request:GET urlString:@"http://api.budejie.com/api/api_open.php" parameters:params finished:^(id responseObject, NSError * error) {
+        if (error != nil) {
+            [SVProgressHUD showErrorWithStatus:@"加载推荐信息失败!"];
+            return;
+        }
         [SVProgressHUD dismiss];
         self.categories = [TGRecommendCategoryM mj_objectArrayWithKeyValuesArray:responseObject[@"list"]];
         [self.categoryTableV reloadData];
         [self.categoryTableV selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
         [self.userTableV.mj_header beginRefreshing];
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:@"加载推荐信息失败!"];
     }];
+    
+//    [self.manager GET:@"http://api.budejie.com/api/api_open.php" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+//        [SVProgressHUD dismiss];
+//        self.categories = [TGRecommendCategoryM mj_objectArrayWithKeyValuesArray:responseObject[@"list"]];
+//        [self.categoryTableV reloadData];
+//        [self.categoryTableV selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:NO scrollPosition:UITableViewScrollPositionTop];
+//        [self.userTableV.mj_header beginRefreshing];
+//    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+//        [SVProgressHUD showErrorWithStatus:@"加载推荐信息失败!"];
+//    }];
 }
 
 - (void)setupTableView{
@@ -81,7 +95,7 @@ static NSString * const TGUserId = @"user";
 
 - (void)loadNewUsers{
     [self.userTableV.mj_footer endRefreshing];
-    [self.manager.tasks makeObjectsPerformSelector:@selector(cancel)];
+    //[self.manager.tasks makeObjectsPerformSelector:@selector(cancel)];
     
     TGRecommendCategoryM *rc = self.categories[self.categoryTableV.indexPathForSelectedRow.row];
     rc.currentPage = 1;
@@ -92,7 +106,15 @@ static NSString * const TGUserId = @"user";
     params[@"page"] = @(rc.currentPage);
     self.params = params;
     
-    [self.manager GET:@"http://api.budejie.com/api/api_open.php" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+    TGNetworkTools *tools = [TGNetworkTools sharedTools];
+    [tools.tasks makeObjectsPerformSelector:@selector(cancel)];
+    [tools request:GET urlString:@"http://api.budejie.com/api/api_open.php" parameters:params finished:^(id responseObject, NSError * error) {
+        if (error != nil) {
+            if (self.params != params) return;
+            [SVProgressHUD showErrorWithStatus:@"加载用户数据失败"];
+            [self.userTableV.mj_header endRefreshing];
+            return;
+        }
         NSArray *users = [TGRecommendUserM mj_objectArrayWithKeyValuesArray:responseObject[@"list"]];
         [rc.users removeAllObjects];
         [rc.users addObjectsFromArray:users];
@@ -101,16 +123,27 @@ static NSString * const TGUserId = @"user";
         [self.userTableV reloadData];
         [self.userTableV.mj_header endRefreshing];
         [self checkFooterState];
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        if (self.params != params) return;
-        [SVProgressHUD showErrorWithStatus:@"加载用户数据失败"];
-        [self.userTableV.mj_header endRefreshing];
     }];
+    
+//    [self.manager GET:@"http://api.budejie.com/api/api_open.php" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+//        NSArray *users = [TGRecommendUserM mj_objectArrayWithKeyValuesArray:responseObject[@"list"]];
+//        [rc.users removeAllObjects];
+//        [rc.users addObjectsFromArray:users];
+//        rc.total = [responseObject[@"total"] integerValue];
+//        if (self.params != params) return;
+//        [self.userTableV reloadData];
+//        [self.userTableV.mj_header endRefreshing];
+//        [self checkFooterState];
+//    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+//        if (self.params != params) return;
+//        [SVProgressHUD showErrorWithStatus:@"加载用户数据失败"];
+//        [self.userTableV.mj_header endRefreshing];
+//    }];
 }
 
 - (void)loadMoreUsers{
     [self.userTableV.mj_header endRefreshing];
-    [self.manager.tasks makeObjectsPerformSelector:@selector(cancel)];
+    //[self.manager.tasks makeObjectsPerformSelector:@selector(cancel)];
     
     TGRecommendCategoryM *category = self.categories[self.categoryTableV.indexPathForSelectedRow.row];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -120,18 +153,35 @@ static NSString * const TGUserId = @"user";
     params[@"page"] = @(++category.currentPage);
     self.params = params;
     
-    [self.manager GET:@"http://api.budejie.com/api/api_open.php" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+    TGNetworkTools *tools = [TGNetworkTools sharedTools];
+    [tools.tasks makeObjectsPerformSelector:@selector(cancel)];
+    [tools request:GET urlString:@"http://api.budejie.com/api/api_open.php" parameters:params finished:^(id responseObject, NSError * error) {
+        if (error != nil) {
+            if (self.params != params) return;
+            category.currentPage--;
+            [SVProgressHUD showErrorWithStatus:@"加载用户数据失败"];
+            [self.userTableV.mj_footer endRefreshing];
+            return;
+        }
         NSArray *users = [TGRecommendUserM mj_objectArrayWithKeyValuesArray:responseObject[@"list"]];
         [category.users addObjectsFromArray:users];
         if (self.params != params) return;
         [self.userTableV reloadData];
         [self checkFooterState];
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        if (self.params != params) return;
-        category.currentPage--;
-        [SVProgressHUD showErrorWithStatus:@"加载用户数据失败"];
-        [self.userTableV.mj_footer endRefreshing];
     }];
+    
+//    [self.manager GET:@"http://api.budejie.com/api/api_open.php" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+//        NSArray *users = [TGRecommendUserM mj_objectArrayWithKeyValuesArray:responseObject[@"list"]];
+//        [category.users addObjectsFromArray:users];
+//        if (self.params != params) return;
+//        [self.userTableV reloadData];
+//        [self checkFooterState];
+//    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+//        if (self.params != params) return;
+//        category.currentPage--;
+//        [SVProgressHUD showErrorWithStatus:@"加载用户数据失败"];
+//        [self.userTableV.mj_footer endRefreshing];
+//    }];
 }
 
 - (void)checkFooterState{
@@ -178,6 +228,7 @@ static NSString * const TGUserId = @"user";
 }
 
 - (void)dealloc{
-    [self.manager.operationQueue cancelAllOperations];
+    //[self.manager.operationQueue cancelAllOperations];
+     [[TGNetworkTools sharedTools].operationQueue cancelAllOperations];
 }
 @end

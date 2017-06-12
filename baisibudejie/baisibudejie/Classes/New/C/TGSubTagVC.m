@@ -9,15 +9,14 @@
 #import "TGSubTagVC.h"
 #import "TGSubTagM.h"
 #import "TGSubTagCell.h"
+#import "TGNetworkTools.h"
 #import <MJExtension/MJExtension.h>
-#import <AFNetworking/AFNetworking.h>
 #import <SVProgressHUD/SVProgressHUD.h>
 
 static NSString * const ID = @"cell";
 
 @interface TGSubTagVC ()
 @property (nonatomic, strong) NSArray *subTags;
-@property (nonatomic, weak) AFHTTPSessionManager *mgr;
 @end
 
 @implementation TGSubTagVC
@@ -38,28 +37,27 @@ static NSString * const ID = @"cell";
 }
 
 - (void)loadData{
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    _mgr = mgr;
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"a"] = @"tag_recommend";
     parameters[@"action"] = @"sub";
     parameters[@"c"] = @"topic";
     
-    [mgr GET:CommonURL parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable responseObject) {
+    [[TGNetworkTools sharedTools] request:GET urlString:CommonURL parameters:parameters finished:^(id responseObject, NSError * error) {
+        if (error != nil) {
+            [SVProgressHUD dismiss];
+            return;
+        }
         NSLog(@"%@",responseObject);
         [SVProgressHUD dismiss];
         _subTags = [TGSubTagM mj_objectArrayWithKeyValuesArray:responseObject];
         [self.tableView reloadData];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"%@",error);
-        [SVProgressHUD dismiss];
     }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [SVProgressHUD dismiss];
-    [_mgr.tasks makeObjectsPerformSelector:@selector(cancel)];//取消之前的请求
+    [[TGNetworkTools sharedTools].tasks makeObjectsPerformSelector:@selector(cancel)];//取消之前的请求
     
 }
 
