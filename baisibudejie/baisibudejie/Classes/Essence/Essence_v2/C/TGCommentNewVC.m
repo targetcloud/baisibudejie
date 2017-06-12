@@ -16,12 +16,13 @@
 #import "TGCommentNewM.h"
 #import <MJExtension.h>
 #import <MJRefresh.h>
-#import <AFNetworking.h>
+//#import <AFNetworking.h>
+#import "TGNetworkTools.h"
 
 @interface TGCommentNewVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomMargin;
 @property (weak, nonatomic) IBOutlet UITableView *tableV;
-@property (weak ,nonatomic) AFHTTPSessionManager *manager;
+//@property (weak ,nonatomic) AFHTTPSessionManager *manager;
 @property (nonatomic, strong) NSArray<TGCommentNewM *> *hotestComments;
 @property (nonatomic, strong) NSMutableArray<TGCommentNewM *> *latestComments;
 @property (nonatomic, strong) NSArray<TGCommentNewM *> *savedTopCmt;
@@ -40,12 +41,12 @@ static NSString *const headID = @"head";
     return url;
 }
 
-- (AFHTTPSessionManager *)manager{
-    if (!_manager) {
-        _manager = [AFHTTPSessionManager manager];
-    }
-    return _manager;
-}
+//- (AFHTTPSessionManager *)manager{
+//    if (!_manager) {
+//        _manager = [AFHTTPSessionManager manager];
+//    }
+//    return _manager;
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -109,10 +110,17 @@ static NSString *const headID = @"head";
 }
 
 -(void)loadNewComment{
-    [self.manager.tasks makeObjectsPerformSelector:@selector(cancel)];
+    //[self.manager.tasks makeObjectsPerformSelector:@selector(cancel)];
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     __weak typeof(self) weakSelf = self;
-    [self.manager GET:[self requesturl:0 :0] parameters:parameters progress:nil  success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+    
+    TGNetworkTools *tools = [TGNetworkTools sharedTools];
+    //[tools.tasks makeObjectsPerformSelector:@selector(cancel)];
+    [tools request:GET urlString:[self requesturl:0 :0] parameters:parameters finished:^(id responseObject, NSError * error) {
+        if (error != nil) {
+            [weakSelf.tableV.mj_header endRefreshing];
+            return;
+        }
         if (![responseObject isKindOfClass:[NSDictionary class]]) {
             [weakSelf.tableV.mj_header endRefreshing];
             return;
@@ -127,16 +135,40 @@ static NSString *const headID = @"head";
             np = [responseObject[@"normal"][@"info"][@"np"] intValue];
         }
         weakSelf.tableV.mj_footer.hidden = weakSelf.latestComments.count >= total;
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [weakSelf.tableV.mj_header endRefreshing];
     }];
+    
+//    [self.manager GET:[self requesturl:0 :0] parameters:parameters progress:nil  success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+//        if (![responseObject isKindOfClass:[NSDictionary class]]) {
+//            [weakSelf.tableV.mj_header endRefreshing];
+//            return;
+//        }
+//        weakSelf.latestComments = [TGCommentNewM mj_objectArrayWithKeyValuesArray:responseObject[@"normal"][@"list"]];
+//        weakSelf.hotestComments = [TGCommentNewM mj_objectArrayWithKeyValuesArray:responseObject[@"hot"][@"list"]];
+//        [weakSelf.tableV reloadData];
+//        [weakSelf.tableV.mj_header endRefreshing];
+//        
+//        NSInteger total = [responseObject[@"normal"][@"info"][@"count"] intValue];
+//        if (responseObject[@"normal"][@"info"][@"np"] != [NSNull null]){
+//            np = [responseObject[@"normal"][@"info"][@"np"] intValue];
+//        }
+//        weakSelf.tableV.mj_footer.hidden = weakSelf.latestComments.count >= total;
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        [weakSelf.tableV.mj_header endRefreshing];
+//    }];
 }
 
 -(void)loadMoreComment{
-    [self.manager.tasks makeObjectsPerformSelector:@selector(cancel)];
+    //[self.manager.tasks makeObjectsPerformSelector:@selector(cancel)];
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     __weak typeof(self) weakSelf = self;
-    [self.manager GET:[self requesturl:2 :np] parameters:parameters progress:nil  success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+    
+    TGNetworkTools *tools = [TGNetworkTools sharedTools];
+    //[tools.tasks makeObjectsPerformSelector:@selector(cancel)];
+    [tools request:GET urlString:[self requesturl:2 :np] parameters:parameters finished:^(id responseObject, NSError * error) {
+        if (error != nil) {
+            [weakSelf.tableV.mj_footer endRefreshing];
+            return;
+        }
         if (![responseObject isKindOfClass:[NSDictionary class]]) {
             [weakSelf.tableV.mj_footer endRefreshing];
             return;
@@ -152,9 +184,27 @@ static NSString *const headID = @"head";
         }
         TGLog(@"total %zd, count %zd",total,weakSelf.latestComments.count)
         weakSelf.tableV.mj_footer.hidden = weakSelf.latestComments.count >=  total;
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [weakSelf.tableV.mj_footer endRefreshing];
     }];
+    
+//    [self.manager GET:[self requesturl:2 :np] parameters:parameters progress:nil  success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
+//        if (![responseObject isKindOfClass:[NSDictionary class]]) {
+//            [weakSelf.tableV.mj_footer endRefreshing];
+//            return;
+//        }
+//        NSArray *moreComment = [TGCommentNewM mj_objectArrayWithKeyValuesArray:responseObject[@"normal"][@"list"]];
+//        [weakSelf.latestComments addObjectsFromArray:moreComment];
+//        [weakSelf.tableV reloadData];
+//        [weakSelf.tableV.mj_footer endRefreshing];
+//        
+//        NSInteger total = [responseObject[@"normal"][@"info"][@"count"] integerValue];
+//        if (responseObject[@"normal"][@"info"][@"np"] != [NSNull null] ){
+//            np = [responseObject[@"normal"][@"info"][@"np"] intValue];
+//        }
+//        TGLog(@"total %zd, count %zd",total,weakSelf.latestComments.count)
+//        weakSelf.tableV.mj_footer.hidden = weakSelf.latestComments.count >=  total;
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        [weakSelf.tableV.mj_footer endRefreshing];
+//    }];
 }
 
 -(void)KeyboardWillChangeFrame:(NSNotification *)not{
@@ -168,7 +218,8 @@ static NSString *const headID = @"head";
 
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter]removeObserver:self];
-    [self.manager invalidateSessionCancelingTasks:YES];
+    //[self.manager invalidateSessionCancelingTasks:YES];
+    [[TGNetworkTools sharedTools] invalidateSessionCancelingTasks:YES];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{

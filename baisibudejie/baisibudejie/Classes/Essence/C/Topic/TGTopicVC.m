@@ -12,18 +12,19 @@
 #import "TGCommentVC.h"
 #import "TGNewVC.h"
 #import "TGCarouselImageView.h"
-#import <AFNetworking.h>
+//#import <AFNetworking.h>
 #import <SVProgressHUD.h>
 #import <MJExtension.h>
 #import <SDImageCache.h>
 #import <MJRefresh.h>
+#import "TGNetworkTools.h"
 
 static NSString * const TGTopicCellID = @"TGTopicCellID";
 
 @interface TGTopicVC ()
 @property (nonatomic, copy) NSString *maxtime;
 @property (nonatomic, strong) NSMutableArray<TGTopicM *> *topics;
-@property (nonatomic, strong) AFHTTPSessionManager *manager;
+//@property (nonatomic, strong) AFHTTPSessionManager *manager;
 @property (nonatomic, assign) NSInteger page;
 @property (nonatomic, strong) NSMutableDictionary *params;
 @property (nonatomic, assign) NSInteger lastSelectedIndex;
@@ -60,13 +61,13 @@ static NSString * const TGTopicCellID = @"TGTopicCellID";
 //    return TGTopicTypeVoice;
     return 0;
 }
-
-- (AFHTTPSessionManager *)manager{
-    if (!_manager) {
-        _manager = [AFHTTPSessionManager manager];
-    }
-    return _manager;
-}
+//
+//- (AFHTTPSessionManager *)manager{
+//    if (!_manager) {
+//        _manager = [AFHTTPSessionManager manager];
+//    }
+//    return _manager;
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -103,7 +104,8 @@ static NSString * const TGTopicCellID = @"TGTopicCellID";
 
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];//一起移除
-    [self.manager invalidateSessionCancelingTasks:YES];
+    //[self.manager invalidateSessionCancelingTasks:YES];
+    //[[TGNetworkTools sharedTools] invalidateSessionCancelingTasks:YES];
 }
 
 - (void)tabBarButtonDidRepeatClick{
@@ -232,38 +234,59 @@ static NSString * const TGTopicCellID = @"TGTopicCellID";
 
 - (void)loadNewTopics{
     [self.tableView.mj_footer endRefreshing];
-    [self.manager.tasks makeObjectsPerformSelector:@selector(cancel)];
+    //[self.manager.tasks makeObjectsPerformSelector:@selector(cancel)];
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"a"] = self.a;
     parameters[@"c"] = @"data";
     parameters[@"type"] = @(self.type);
     self.params = parameters;
-    [self.manager GET:CommonURL parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+    
+    TGNetworkTools *tools = [TGNetworkTools sharedTools];
+    //[tools.tasks makeObjectsPerformSelector:@selector(cancel)];
+    [tools request:GET urlString:CommonURL parameters:parameters finished:^(id responseObject, NSError * error) {
+        if (error != nil) {
+            if (self.params != parameters) return ;
+            if (error.code != NSURLErrorCancelled) { // 并非是取消任务导致的error，其他网络问题导致的error
+                [SVProgressHUD showErrorWithStatus:@"网络繁忙，请稍后再试！"];
+            }
+            [self.tableView.mj_header endRefreshing];
+            return;
+        }
         if (self.params != parameters) return ;
-        AFNWriteToPlist(new_topics)
+        //AFNWriteToPlist(new_topics)
         _maxtime = responseObject[@"info"][@"maxtime"];
         self.topics = [TGTopicM mj_objectArrayWithKeyValuesArray:responseObject[@"list"]];
         [self.tableView reloadData];
-        /*
-        [self headerEndRefreshing];
-         */
         self.page = 0;
         [self.tableView.mj_header endRefreshing];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        if (self.params != parameters) return ;
-        if (error.code != NSURLErrorCancelled) { // 并非是取消任务导致的error，其他网络问题导致的error
-            [SVProgressHUD showErrorWithStatus:@"网络繁忙，请稍后再试！"];
-        }
-        /*
-        [self headerEndRefreshing];
-         */
-        [self.tableView.mj_header endRefreshing];
     }];
+
+//    [self.manager GET:CommonURL parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+//        if (self.params != parameters) return ;
+//        AFNWriteToPlist(new_topics)
+//        _maxtime = responseObject[@"info"][@"maxtime"];
+//        self.topics = [TGTopicM mj_objectArrayWithKeyValuesArray:responseObject[@"list"]];
+//        [self.tableView reloadData];
+//        /*
+//        [self headerEndRefreshing];
+//         */
+//        self.page = 0;
+//        [self.tableView.mj_header endRefreshing];
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        if (self.params != parameters) return ;
+//        if (error.code != NSURLErrorCancelled) { // 并非是取消任务导致的error，其他网络问题导致的error
+//            [SVProgressHUD showErrorWithStatus:@"网络繁忙，请稍后再试！"];
+//        }
+//        /*
+//        [self headerEndRefreshing];
+//         */
+//        [self.tableView.mj_header endRefreshing];
+//    }];
 }
 
 - (void)loadMoreTopics{
     [self.tableView.mj_header endRefreshing];
-    [self.manager.tasks makeObjectsPerformSelector:@selector(cancel)];
+    //[self.manager.tasks makeObjectsPerformSelector:@selector(cancel)];
     self.page++;
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"a"] = self.a;
@@ -272,28 +295,49 @@ static NSString * const TGTopicCellID = @"TGTopicCellID";
     parameters[@"type"] = @(self.type);
     parameters[@"maxtime"] = _maxtime;
     self.params = parameters;
-    [self.manager GET:CommonURL parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+    
+    TGNetworkTools *tools = [TGNetworkTools sharedTools];
+    //[tools.tasks makeObjectsPerformSelector:@selector(cancel)];
+    [tools request:GET urlString:CommonURL parameters:parameters finished:^(id responseObject, NSError * error) {
+        if (error != nil) {
+            if (self.params != parameters) return ;
+            if (error.code != NSURLErrorCancelled) { // 并非是取消任务导致的error，其他网络问题导致的error
+                [SVProgressHUD showErrorWithStatus:@"网络繁忙，请稍后再试！"];
+            }
+            [self.tableView.mj_footer endRefreshing];
+            self.page--;
+            return;
+        }
         if (self.params != parameters) return ;
         _maxtime = responseObject[@"info"][@"maxtime"];
         NSArray *moreTopics = [TGTopicM mj_objectArrayWithKeyValuesArray:responseObject[@"list"]];
         [self.topics addObjectsFromArray:moreTopics];
         [self.tableView reloadData];
-        /*
-        [self footerEndRefreshing];
-         */
         [self.tableView.mj_footer endRefreshing];
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        if (self.params != parameters) return ;
-        if (error.code != NSURLErrorCancelled) { // 并非是取消任务导致的error，其他网络问题导致的error
-            [SVProgressHUD showErrorWithStatus:@"网络繁忙，请稍后再试！"];
-        }
-        /*
-        [self footerEndRefreshing];
-         */
-        [self.tableView.mj_footer endRefreshing];
-        self.page--;
     }];
+//
+//    [self.manager GET:CommonURL parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+//        if (self.params != parameters) return ;
+//        _maxtime = responseObject[@"info"][@"maxtime"];
+//        NSArray *moreTopics = [TGTopicM mj_objectArrayWithKeyValuesArray:responseObject[@"list"]];
+//        [self.topics addObjectsFromArray:moreTopics];
+//        [self.tableView reloadData];
+//        /*
+//        [self footerEndRefreshing];
+//         */
+//        [self.tableView.mj_footer endRefreshing];
+//        
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        if (self.params != parameters) return ;
+//        if (error.code != NSURLErrorCancelled) { // 并非是取消任务导致的error，其他网络问题导致的error
+//            [SVProgressHUD showErrorWithStatus:@"网络繁忙，请稍后再试！"];
+//        }
+//        /*
+//        [self footerEndRefreshing];
+//         */
+//        [self.tableView.mj_footer endRefreshing];
+//        self.page--;
+//    }];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{//只会触发下拉刷新

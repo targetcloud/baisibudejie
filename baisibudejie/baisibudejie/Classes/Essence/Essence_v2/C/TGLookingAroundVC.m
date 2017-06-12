@@ -12,13 +12,14 @@
 #import "TGLayout.h"
 #import "TGCommentNewVC.h"
 #import <MJRefresh.h>
-#import <AFNetworking.h>
+//#import <AFNetworking.h>
 #import <MJExtension.h>
 #import <SVProgressHUD.h>
+#import "TGNetworkTools.h"
 
 @interface TGLookingAroundVC ()<UICollectionViewDataSource,UICollectionViewDelegate, TGLayoutDelegate>
 @property (nonatomic, strong) NSMutableArray<TGTopicNewM *> *topics;
-@property (nonatomic, strong) AFHTTPSessionManager *manager;
+//@property (nonatomic, strong) AFHTTPSessionManager *manager;
 @property (nonatomic, strong) NSMutableDictionary *params;
 @property (nonatomic, assign) NSInteger lastSelectedIndex;
 @property (nonatomic, weak) UICollectionView *collectionV;
@@ -40,12 +41,12 @@ static NSString * const TGCollectionViewCellId = @"LookingAroundCellId";
     return _topics;
 }
 
-- (AFHTTPSessionManager *)manager{
-    if (!_manager) {
-        _manager = [AFHTTPSessionManager manager];
-    }
-    return _manager;
-}
+//- (AFHTTPSessionManager *)manager{
+//    if (!_manager) {
+//        _manager = [AFHTTPSessionManager manager];
+//    }
+//    return _manager;
+//}
 
 -(NSString *) requesturl :(NSString *) nextpage{
     //http://s.budejie.com/topic/list/zuixin/31/bs0315-iphone-4.5.6/0-20.json
@@ -81,7 +82,8 @@ static NSString * const TGCollectionViewCellId = @"LookingAroundCellId";
 
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self.manager invalidateSessionCancelingTasks:YES];
+    //[self.manager invalidateSessionCancelingTasks:YES];
+    //[[TGNetworkTools sharedTools] invalidateSessionCancelingTasks:YES];
 }
 
 - (void)tabBarButtonDidRepeatClick{
@@ -131,10 +133,21 @@ static NSString * const TGCollectionViewCellId = @"LookingAroundCellId";
 
 - (void)loadNewTopics{
     [self.collectionV.mj_footer endRefreshing];
-    [self.manager.tasks makeObjectsPerformSelector:@selector(cancel)];
+    //[self.manager.tasks makeObjectsPerformSelector:@selector(cancel)];
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     self.params = parameters;
-    [self.manager GET:[self requesturl:@"0"] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+    
+    TGNetworkTools *tools = [TGNetworkTools sharedTools];
+    //[tools.tasks makeObjectsPerformSelector:@selector(cancel)];
+    [tools request:GET urlString:[self requesturl:@"0"] parameters:parameters finished:^(id responseObject, NSError * error) {
+        if (error != nil) {
+            if (self.params != parameters) return ;
+            if (error.code != NSURLErrorCancelled) { // 并非是取消任务导致的error，其他网络问题导致的error
+                [SVProgressHUD showErrorWithStatus:@"网络繁忙，请稍后再试！"];
+            }
+            [self.collectionV.mj_header endRefreshing];
+            return;
+        }
         if (self.params != parameters) return ;
         AFNWriteToPlist(new_topics)
         _np = responseObject[@"info"][@"np"];
@@ -147,21 +160,47 @@ static NSString * const TGCollectionViewCellId = @"LookingAroundCellId";
         }];
         [self.collectionV reloadData];
         [self.collectionV.mj_header endRefreshing];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        if (self.params != parameters) return ;
-        if (error.code != NSURLErrorCancelled) { // 并非是取消任务导致的error，其他网络问题导致的error
-            [SVProgressHUD showErrorWithStatus:@"网络繁忙，请稍后再试！"];
-        }
-        [self.collectionV.mj_header endRefreshing];
     }];
+    
+//    [self.manager GET:[self requesturl:@"0"] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+//        if (self.params != parameters) return ;
+//        AFNWriteToPlist(new_topics)
+//        _np = responseObject[@"info"][@"np"];
+//        self.topics = [TGTopicNewM mj_objectArrayWithKeyValuesArray:responseObject[@"list"]];
+//        //过滤html
+//        [self.topics enumerateObjectsUsingBlock:^(TGTopicNewM * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//            if ([obj.type isEqualToString:@"html"]){
+//                [self.topics removeObject:obj];
+//            }
+//        }];
+//        [self.collectionV reloadData];
+//        [self.collectionV.mj_header endRefreshing];
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        if (self.params != parameters) return ;
+//        if (error.code != NSURLErrorCancelled) { // 并非是取消任务导致的error，其他网络问题导致的error
+//            [SVProgressHUD showErrorWithStatus:@"网络繁忙，请稍后再试！"];
+//        }
+//        [self.collectionV.mj_header endRefreshing];
+//    }];
 }
 
 - (void)loadMoreTopics{
     [self.collectionV.mj_header endRefreshing];
-    [self.manager.tasks makeObjectsPerformSelector:@selector(cancel)];
+    //[self.manager.tasks makeObjectsPerformSelector:@selector(cancel)];
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     self.params = parameters;
-    [self.manager GET:[self requesturl:_np] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+    
+    TGNetworkTools *tools = [TGNetworkTools sharedTools];
+    //[tools.tasks makeObjectsPerformSelector:@selector(cancel)];
+    [tools request:GET urlString:[self requesturl:_np] parameters:parameters finished:^(id responseObject, NSError * error) {
+        if (error != nil) {
+            if (self.params != parameters) return ;
+            if (error.code != NSURLErrorCancelled) { // 并非是取消任务导致的error，其他网络问题导致的error
+                [SVProgressHUD showErrorWithStatus:@"网络繁忙，请稍后再试！"];
+            }
+            [self.collectionV.mj_footer endRefreshing];
+            return;
+        }
         if (self.params != parameters) return ;
         _np = responseObject[@"info"][@"np"];
         NSMutableArray *moreTopics = [TGTopicNewM mj_objectArrayWithKeyValuesArray:responseObject[@"list"]];
@@ -174,13 +213,28 @@ static NSString * const TGCollectionViewCellId = @"LookingAroundCellId";
         [self.topics addObjectsFromArray:moreTopics];
         [self.collectionV reloadData];
         [self.collectionV.mj_footer endRefreshing];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        if (self.params != parameters) return ;
-        if (error.code != NSURLErrorCancelled) { // 并非是取消任务导致的error，其他网络问题导致的error
-            [SVProgressHUD showErrorWithStatus:@"网络繁忙，请稍后再试！"];
-        }
-        [self.collectionV.mj_footer endRefreshing];
     }];
+    
+//    [self.manager GET:[self requesturl:_np] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+//        if (self.params != parameters) return ;
+//        _np = responseObject[@"info"][@"np"];
+//        NSMutableArray *moreTopics = [TGTopicNewM mj_objectArrayWithKeyValuesArray:responseObject[@"list"]];
+//        //过滤html
+//        [moreTopics enumerateObjectsUsingBlock:^(TGTopicNewM * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//            if ([obj.type isEqualToString:@"html"]){
+//                [moreTopics removeObject:obj];
+//            }
+//        }];
+//        [self.topics addObjectsFromArray:moreTopics];
+//        [self.collectionV reloadData];
+//        [self.collectionV.mj_footer endRefreshing];
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        if (self.params != parameters) return ;
+//        if (error.code != NSURLErrorCancelled) { // 并非是取消任务导致的error，其他网络问题导致的error
+//            [SVProgressHUD showErrorWithStatus:@"网络繁忙，请稍后再试！"];
+//        }
+//        [self.collectionV.mj_footer endRefreshing];
+//    }];
 }
 
 - (void)setupLayout{

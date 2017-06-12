@@ -107,7 +107,7 @@ static NSString * const TGUserId = @"user";
     self.params = params;
     
     TGNetworkTools *tools = [TGNetworkTools sharedTools];
-    [tools.tasks makeObjectsPerformSelector:@selector(cancel)];
+    //[tools.tasks makeObjectsPerformSelector:@selector(cancel)];
     [tools request:GET urlString:@"http://api.budejie.com/api/api_open.php" parameters:params finished:^(id responseObject, NSError * error) {
         if (error != nil) {
             if (self.params != params) return;
@@ -154,7 +154,7 @@ static NSString * const TGUserId = @"user";
     self.params = params;
     
     TGNetworkTools *tools = [TGNetworkTools sharedTools];
-    [tools.tasks makeObjectsPerformSelector:@selector(cancel)];
+    //[tools.tasks makeObjectsPerformSelector:@selector(cancel)];
     [tools request:GET urlString:@"http://api.budejie.com/api/api_open.php" parameters:params finished:^(id responseObject, NSError * error) {
         if (error != nil) {
             if (self.params != params) return;

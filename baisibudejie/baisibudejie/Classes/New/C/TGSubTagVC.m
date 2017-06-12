@@ -57,8 +57,7 @@ static NSString * const ID = @"cell";
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [SVProgressHUD dismiss];
-    [[TGNetworkTools sharedTools].tasks makeObjectsPerformSelector:@selector(cancel)];//取消之前的请求
-    
+    //[[TGNetworkTools sharedTools].tasks makeObjectsPerformSelector:@selector(cancel)];//取消之前的请求 移至工具类中
 }
 
 #pragma mark - Table view data source
