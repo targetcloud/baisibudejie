@@ -347,4 +347,29 @@ static NSString * const TGCollectionViewCellId = @"LookingAroundCellId";
 //    [self.navigationController pushViewController:commentVc animated:YES];
 //}
 
+
+-(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
+    TGLookingAroundV * voiceCell =  (TGLookingAroundV *)cell;
+    if (!voiceCell.topic.isAnimated){
+        //TGLog(@"frame %@",NSStringFromCGRect(cell.frame))
+        //效果1
+        //cell.transform = CGAffineTransformScale(cell.transform, 0.5, 0.5);
+        //效果2
+        cell.transform = CGAffineTransformTranslate(cell.transform, 0, cell.height);
+        //效果3
+//        if (cell.x == 0) {
+//            cell.transform = CGAffineTransformTranslate(cell.transform, -ScreenW * 0.5, 0);
+//        }else{
+//            cell.transform = CGAffineTransformTranslate(cell.transform, ScreenW, 0);
+//        }
+        cell.alpha = 0.0;
+        [UIView animateWithDuration:0.6 animations:^{
+            cell.transform = CGAffineTransformIdentity;
+            cell.alpha = 1.0;
+            voiceCell.topic.animated = YES;
+        } completion:^(BOOL finished) {
+        }];
+    }
+}
+
 @end

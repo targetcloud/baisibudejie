@@ -80,4 +80,5 @@
 @property (nonatomic, assign, getter=isDownSelected) BOOL downSelected;
 
 @property (nonatomic, assign, getter=isLikeSelected) BOOL likeSelected;
+@property (nonatomic, assign, getter=isAnimated) BOOL animated;
 @end

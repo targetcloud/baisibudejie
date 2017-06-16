@@ -107,6 +107,7 @@ static CGFloat const progressTrackW = 2;
 -(void)removeRotateAnimation{
     [lastProfileImageV.layer removeAllAnimations];
     [self.profileImageV.layer removeAllAnimations];
+    
 }
 
 -(void) layoutSubviews{
@@ -208,12 +209,17 @@ static CGFloat const progressTrackW = 2;
     [progressV_ setProgress:0 animated:NO];
     [progressV_ removeFromSuperview];
     progressV_.hidden = YES;
+    
+    //若需求不是由喜欢接着喜欢播放，可以由任意声音接着播放喜欢的声音，那么只需一句
+    !self.nextBlock ? : self.nextBlock(lastTopicM_.ID);
+    /*
     if (lastTopicM_.isLikeSelected){
         if (self.nextBlock) {//循环播放喜欢，喜欢的在界面则动画切到喜欢的cell上，若不在，则直接替换playerItem
             self.nextBlock(lastTopicM_.ID);
             return;
         }
     }
+    */
 }
 
 - (IBAction)likebtnClick:(UIButton *)sender {
