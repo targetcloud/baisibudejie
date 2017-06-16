@@ -184,6 +184,7 @@ static CGFloat const progressTrackW = 2;
 
 -(void) replacePlayerItem:(TGTopicNewM *)topic{
     lastTopicM_ = topic;
+    lastTopicM_.voicePlaying = YES;
     [walkman_ pause];
     [walkman_ seekToTime:kCMTimeZero];
     self.playerItem = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:topic.audio_uri]];
