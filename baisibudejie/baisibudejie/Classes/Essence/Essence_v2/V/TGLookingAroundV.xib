@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -65,6 +65,19 @@
                             <action selector="play:" destination="ZKe-nH-lUO" eventType="touchUpInside" id="ajF-Cp-9IA"/>
                         </connections>
                     </button>
+                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TI5-cC-MSi">
+                        <rect key="frame" x="38" y="0.0" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="4oR-x0-8Jh"/>
+                            <constraint firstAttribute="width" constant="30" id="ssx-jY-mTi"/>
+                        </constraints>
+                        <state key="normal" image="cell_like_in_my_music_pressed"/>
+                        <state key="selected" image="mini_loved"/>
+                        <state key="highlighted" image="mini_loved"/>
+                        <connections>
+                            <action selector="likebtnClick:" destination="ZKe-nH-lUO" eventType="touchUpInside" id="bH4-Rc-BmW"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <constraints>
@@ -74,9 +87,11 @@
                 <constraint firstItem="yiR-Bg-e88" firstAttribute="leading" secondItem="ZKe-nH-lUO" secondAttribute="leading" id="K07-i7-IIQ"/>
                 <constraint firstAttribute="bottom" secondItem="P1E-n7-NjL" secondAttribute="bottom" constant="10" id="TqD-ZS-jRq"/>
                 <constraint firstItem="P1E-n7-NjL" firstAttribute="centerX" secondItem="ZKe-nH-lUO" secondAttribute="centerX" id="UAJ-u1-whf"/>
+                <constraint firstItem="TI5-cC-MSi" firstAttribute="leading" secondItem="XgN-Ct-zg9" secondAttribute="trailing" constant="8" id="UMq-PC-1XX"/>
                 <constraint firstItem="XgN-Ct-zg9" firstAttribute="top" secondItem="ZKe-nH-lUO" secondAttribute="top" id="W58-7q-42V"/>
                 <constraint firstAttribute="bottom" secondItem="zOF-e0-KAY" secondAttribute="bottom" constant="10" id="XYZ-iR-DZA"/>
                 <constraint firstItem="XgN-Ct-zg9" firstAttribute="leading" secondItem="ZKe-nH-lUO" secondAttribute="leading" id="Yfc-bx-ew5"/>
+                <constraint firstItem="TI5-cC-MSi" firstAttribute="top" secondItem="ZKe-nH-lUO" secondAttribute="top" id="eQb-px-aZx"/>
                 <constraint firstItem="yiR-Bg-e88" firstAttribute="top" secondItem="ZKe-nH-lUO" secondAttribute="top" id="fPU-BI-uXu"/>
                 <constraint firstItem="zOF-e0-KAY" firstAttribute="leading" secondItem="ZKe-nH-lUO" secondAttribute="leading" constant="5" id="jaU-V1-en5"/>
                 <constraint firstAttribute="bottom" secondItem="yiR-Bg-e88" secondAttribute="bottom" id="wtw-aV-RYj"/>
@@ -84,6 +99,7 @@
             <size key="customSize" width="386" height="224"/>
             <connections>
                 <outlet property="imageV" destination="yiR-Bg-e88" id="OVm-uQ-0ac"/>
+                <outlet property="likeBtn" destination="TI5-cC-MSi" id="YQc-iR-Pao"/>
                 <outlet property="playcountLbl" destination="zOF-e0-KAY" id="xUm-7r-fRy"/>
                 <outlet property="profileImageV" destination="XgN-Ct-zg9" id="xbp-DN-l6h"/>
                 <outlet property="voicePlayBtn" destination="P1E-n7-NjL" id="z9O-n4-rl3"/>
@@ -93,6 +109,8 @@
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="cell_like_in_my_music_pressed" width="50" height="56"/>
+        <image name="mini_loved" width="40" height="40"/>
         <image name="playButtonClick" width="63" height="63"/>
         <image name="playButtonPlay" width="30" height="30"/>
     </resources>

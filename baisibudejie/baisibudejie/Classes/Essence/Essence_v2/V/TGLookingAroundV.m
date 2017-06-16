@@ -19,12 +19,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *voicetimeLbl;
 @property (weak, nonatomic) IBOutlet UIButton *voicePlayBtn;
 @property (strong, nonatomic) AVPlayerItem *playerItem;
+@property (weak, nonatomic) IBOutlet UIButton *likeBtn;
 @end
 
 static AVPlayer * walkman_;
 static UIButton *lastPlayBtn_;
-static UIImageView * lastProfileImageV;
 static TGTopicNewM *lastTopicM_;
+static UIImageView * lastProfileImageV;
 static NSTimer *avTimer_;
 static DALabeledCircularProgressView  *progressV_;
 static CGFloat const progressTrackW = 2;
@@ -54,10 +55,18 @@ static CGFloat const progressTrackW = 2;
         self.playcountLbl.text = [NSString stringWithFormat:@"%zd播放", topic.audio_playcount];
     }
     
+    self.likeBtn.selected = topic.isLikeSelected;
+    
     self.voicetimeLbl.text = [NSString stringWithFormat:@"%02zd:%02zd", topic.audio_duration / 60, topic.audio_duration % 60];
     
     [self.voicePlayBtn setImage:[UIImage imageNamed:topic.voicePlaying ? @"walkman_pause":@"playButtonPlay"] forState:UIControlStateNormal];
     topic.voicePlaying ? [self addRotationAnimation] : [self.profileImageV.layer removeAllAnimations];
+    if (topic.voicePlaying){
+        progressV_.hidden = NO;
+        [self.contentView insertSubview:progressV_ belowSubview:self.profileImageV];
+        progressV_.frame =CGRectMake(self.profileImageV.frame.origin.x , self.profileImageV.frame.origin.y , self.profileImageV.frame.size.width, self.profileImageV.frame.size.height) ;
+    }
+    
     for (UIView *tmpView in self.contentView.subviews){
         if([tmpView isMemberOfClass:[DALabeledCircularProgressView class]]){
             tmpView.hidden = !(topic.voicePlaying);
@@ -116,6 +125,10 @@ static CGFloat const progressTrackW = 2;
     }
 }
 
+-(void)play{
+    [self play:self.voicePlayBtn];
+}
+
 - (IBAction)play:(UIButton *)playBtn {
     playBtn.selected = !playBtn.isSelected;
     lastPlayBtn_.selected = !lastPlayBtn_.isSelected;
@@ -169,6 +182,19 @@ static CGFloat const progressTrackW = 2;
     lastProfileImageV = self.profileImageV;
 }
 
+-(void) replacePlayerItem:(TGTopicNewM *)topic{
+    lastTopicM_ = topic;
+    [walkman_ pause];
+    [walkman_ seekToTime:kCMTimeZero];
+    self.playerItem = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:topic.audio_uri]];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(playerItemDidReachEnd:)
+                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+                                               object:self.playerItem];
+    [walkman_ replaceCurrentItemWithPlayerItem:self.playerItem];
+    [walkman_ play];
+}
+
 -(void) playerItemDidReachEnd:(AVPlayerItem *)playerItem{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
     lastTopicM_.voicePlaying = NO;
@@ -181,9 +207,22 @@ static CGFloat const progressTrackW = 2;
     [progressV_ setProgress:0 animated:NO];
     [progressV_ removeFromSuperview];
     progressV_.hidden = YES;
+    if (lastTopicM_.isLikeSelected){
+        if (self.nextBlock) {//循环播放喜欢，喜欢的在界面则动画切到喜欢的cell上，若不在，则直接替换playerItem
+            self.nextBlock(lastTopicM_.ID);
+            return;
+        }
+    }
 }
 
+- (IBAction)likebtnClick:(UIButton *)sender {
+    sender.selected = !sender.selected;
+    self.topic.likeSelected = sender.selected;
+}
+
+
 -(void)dealloc{
-    [[NSNotificationCenter defaultCenter]removeObserver:self];}
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+}
 
 @end

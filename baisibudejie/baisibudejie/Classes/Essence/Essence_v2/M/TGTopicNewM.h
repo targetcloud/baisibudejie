@@ -78,4 +78,6 @@
 
 @property (nonatomic, assign, getter=isUpSelected) BOOL upSelected;
 @property (nonatomic, assign, getter=isDownSelected) BOOL downSelected;
+
+@property (nonatomic, assign, getter=isLikeSelected) BOOL likeSelected;
 @end

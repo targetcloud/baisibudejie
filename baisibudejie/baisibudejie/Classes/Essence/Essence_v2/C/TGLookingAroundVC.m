@@ -258,16 +258,62 @@ static NSString * const TGCollectionViewCellId = @"LookingAroundCellId";
     return self.topics.count;
 }
 
+-(void)getNextLikeIndexWithTopicId :(NSString *)topicId :(void(^)(NSInteger nextLikeIndex))block{
+    __block NSInteger next = -1;
+    __block NSInteger index = -1;
+    __block NSInteger first = -1;
+    __weak typeof(self)weakSelf = self;
+    [weakSelf.topics enumerateObjectsUsingBlock:^(TGTopicNewM * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (obj.isLikeSelected){
+            first = (first == -1) ? idx : first;
+            index = ([obj.ID isEqualToString:topicId]) ? idx : index;
+            next = (idx > index && index > -1) ? idx : next;
+            *stop = (idx > index && index > -1);
+        }
+    }];
+    next = (next == -1) ? first : next;
+    block(next);
+}
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     TGLookingAroundV *cell = [collectionView dequeueReusableCellWithReuseIdentifier:TGCollectionViewCellId forIndexPath:indexPath];
     cell.topic = self.topics[indexPath.item];
     __weak typeof(self)weakSelf = self;
+    __weak typeof(cell)weakCell = cell;
     [cell setCommentBlock:^(NSString * topicId){
         TGCommentNewVC *commentVc = [[TGCommentNewVC alloc] init];
         [weakSelf.topics[indexPath.row] setShowAllWithoutComment:YES];
         commentVc.topic = weakSelf.topics[indexPath.row];
         [weakSelf.navigationController pushViewController:commentVc animated:YES];
     }];
+    
+    [cell setNextBlock:^(NSString * topicId){//循环播放喜欢，喜欢的在界面则动画切到喜欢的cell上，若不在，则直接替换playerItem
+        //1 拿位置
+        [self getNextLikeIndexWithTopicId:topicId :^(NSInteger nextLikeIndex) {
+            if (nextLikeIndex > -1){
+                //2 判断位置在不在界面上 indexPathsForVisibleItems visibleCells均可拿到
+                //NSArray *arr = [weakSelf.collectionV indexPathsForVisibleItems];
+                NSArray *arr2 = [weakSelf.collectionV visibleCells];
+                //TGLog(@"%@ %@",arr,arr2)
+                //for (NSIndexPath * path in arr){
+                //    TGLog(@"%@",path)
+                //}
+                
+                //在界面上
+                for (TGLookingAroundV * obj in arr2) {
+                    NSIndexPath *path = (NSIndexPath *)[weakSelf.collectionV indexPathForCell:obj];
+                    //TGLog(@"%@",path)
+                    if (nextLikeIndex == path.item){
+                        [obj play];
+                        return;
+                    }
+                }
+                //不在界面上
+                [weakCell replacePlayerItem:weakSelf.topics[nextLikeIndex]];
+            }
+        }];
+    }];
+    
     return cell;
 }
 
