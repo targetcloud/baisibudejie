@@ -172,7 +172,7 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
             if (!_animating){
                 _animating = YES;
                 [self.activityIndicatorView startAnimating];
-                NSTimer *timer = [NSTimer timerWithTimeInterval:0.02 target:self selector:@selector(reduce) userInfo:nil repeats:YES];
+                NSTimer *timer = [NSTimer timerWithTimeInterval:0.01 target:self selector:@selector(reduce) userInfo:nil repeats:YES];
                 [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
                 _timer = timer;
                 [self sendActionsForControlEvents:UIControlEventValueChanged];
@@ -223,7 +223,7 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
 
 -(void)reduce{
     if (self.timer && _animating){
-        _deltaH -= 5;
+        _deltaH -= 10;
         [self setNeedsDisplay];
         if (_deltaH <= 0) {
             [_timer invalidate];
