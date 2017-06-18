@@ -23,6 +23,8 @@
 @property (nonatomic, strong) NSMutableDictionary *params;
 @property (nonatomic, assign) NSInteger lastSelectedIndex;
 @property (nonatomic, weak) UICollectionView *collectionV;
+
+@property (nonatomic ,weak) TGRefreshOC *refresh;
 @end
 
 static NSString * const TGCollectionViewCellId = @"LookingAroundCellId";
@@ -55,6 +57,8 @@ static NSString * const TGCollectionViewCellId = @"LookingAroundCellId";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.automaticallyAdjustsScrollViewInsets=NO;
+    
     _np = @"0";
     self.view.backgroundColor = TGGrayColor(246);
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tabBarButtonDidRepeatClick) name:TabBarButtonDidRepeatClickNotification object:nil];
@@ -103,9 +107,25 @@ static NSString * const TGCollectionViewCellId = @"LookingAroundCellId";
 }
 
 - (void)setupRefresh{
+    /*
     self.collectionV.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewTopics)];
     self.collectionV.mj_header.automaticallyChangeAlpha = YES;
     [self.collectionV.mj_header beginRefreshing];
+    */
+    
+    //换用自己的刷新控件
+    TGRefreshOC *refresh = [TGRefreshOC new];
+//    refresh.kind = RefreshKindNormal;
+    //refresh.bgColor =  [UIColor colorWithWhite:0.8 alpha:1];
+    refresh.verticalAlignment = TGRefreshAlignmentMidden;
+    refresh.automaticallyChangeAlpha = YES;
+    refresh.refreshResultTextColor = [UIColor whiteColor];
+    refresh.refreshResultBgColor = [[UIColor redColor] colorWithAlphaComponent:0.6];
+    [self.collectionV addSubview:refresh];
+    _refresh = refresh;
+    [refresh addTarget:self action:@selector(loadNewTopics) forControlEvents:UIControlEventValueChanged];
+    [refresh beginRefreshing];
+    
     self.collectionV.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreTopics)];
     self.collectionV.mj_footer.hidden = YES;
 }
@@ -145,7 +165,8 @@ static NSString * const TGCollectionViewCellId = @"LookingAroundCellId";
             if (error.code != NSURLErrorCancelled) { // 并非是取消任务导致的error，其他网络问题导致的error
                 [SVProgressHUD showErrorWithStatus:@"网络繁忙，请稍后再试！"];
             }
-            [self.collectionV.mj_header endRefreshing];
+            //[self.collectionV.mj_header endRefreshing];
+            [self.refresh endRefreshing];
             return;
         }
         if (self.params != parameters) return ;
@@ -158,8 +179,12 @@ static NSString * const TGCollectionViewCellId = @"LookingAroundCellId";
                 [self.topics removeObject:obj];
             }
         }];
+        self.refresh.refreshResultStr = [NSString stringWithFormat:@"成功刷新到%zd条数据",self.topics.count];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.refresh endRefreshing];
+        });
         [self.collectionV reloadData];
-        [self.collectionV.mj_header endRefreshing];
+        //[self.collectionV.mj_header endRefreshing];
     }];
     
 //    [self.manager GET:[self requesturl:@"0"] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
