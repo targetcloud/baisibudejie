@@ -164,6 +164,7 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
         return;
     }
     self.refreshState = RefreshStateRefresh;
+    self.sv.contentOffset = CGPointMake(0, -(kBeginHeight + initInsetTop_));
     UIEdgeInsets insets = self.sv.contentInset;
     insets.top += kBeginHeight;
     self.sv.contentInset = insets;
