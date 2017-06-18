@@ -115,7 +115,7 @@ static NSString * const TGCollectionViewCellId = @"LookingAroundCellId";
     
     //换用自己的刷新控件
     TGRefreshOC *refresh = [TGRefreshOC new];
-//    refresh.kind = RefreshKindNormal;
+    refresh.kind = RefreshKindNormal;
     //refresh.bgColor =  [UIColor colorWithWhite:0.8 alpha:1];
     refresh.verticalAlignment = TGRefreshAlignmentMidden;
     refresh.automaticallyChangeAlpha = YES;
