@@ -6,7 +6,7 @@
 ##### 最新截图
 
 #### 1
-<img src="https://github.com/targetcloud/baisibudejie/blob/master/IMG_2145.PNG" width = "60%" />
+<img src="https://github.com/targetcloud/baisibudejie/blob/master/IMG_2174.PNG" width = "60%" />
 
 #### 2
 <img src="https://github.com/targetcloud/baisibudejie/blob/master/IMG_2146.PNG" width = "60%" />
@@ -25,6 +25,9 @@
 
 ### 随听模块效果
 ![](https://github.com/targetcloud/baisibudejie/blob/master/b.gif) 
+
+### 下拉刷新控件效果
+![](https://github.com/targetcloud/baisibudejie/blob/master/refresha.gif) 
 
 本DEMO高仿最新版百思不得姐（4.5.6），运用了以下第三方框架
 DACircularProgress
