@@ -45,6 +45,7 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
     initInsetTop_ = self.sv.contentInset.top;
     self.backgroundColor = self.bgColor;
     self.frame = CGRectMake(0, -kBeginHeight, newSuperview.bounds.size.width, kBeginHeight);
+    self.clipsToBounds = YES;
     [self.sv addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
 }
 
@@ -275,10 +276,12 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
                         self.resultLabel.transform = CGAffineTransformMakeTranslation(0, -self.refreshResultHeight);
                         self.resultLabel.alpha = 0;
                         _refreshState = RefreshStateNormal;
+                        _refreshResultStr = @"";
                     }];
                 }];
             }else{
                 _refreshState = RefreshStateNormal;
+                _refreshResultStr = @"";
             }
         }];
     }];
@@ -437,6 +440,98 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
 
 CGPoint relative(CGPoint point, CGFloat x, CGFloat y){
     return CGPointMake(point.x + x, point.y + y);
+}
+
+#pragma mark : - 链式配置相关
+-(TGRefreshOC * (^)(TGRefreshKind))Kind{
+    return ^(TGRefreshKind kind){
+        self.kind = kind;
+        return self;
+    };
+}
+
+-(TGRefreshOC * (^)(UIColor *))BgColor{
+    return ^(UIColor *color){
+        self.bgColor = color;
+        return self;
+    };
+}
+
+-(TGRefreshOC * (^)(UIColor *))TinColor{
+    return ^(UIColor *color){
+        self.tinColor = color;
+        return self;
+    };
+}
+
+-(TGRefreshOC * (^)(TGRefreshAlignment))VerticalAlignment{
+    return ^(TGRefreshAlignment vl){
+        self.verticalAlignment = vl;
+        return self;
+    };
+}
+
+-(TGRefreshOC * (^)(NSString *))RefreshSuccessStr{
+    return ^(NSString *str){
+        self.refreshSuccessStr = str;
+        return self;
+    };
+}
+
+-(TGRefreshOC * (^)(NSString *))RefreshNormalStr{
+    return ^(NSString *str){
+        self.refreshNormalStr = str;
+        return self;
+    };
+}
+
+-(TGRefreshOC * (^)(NSString *))RefreshPullingStr{
+    return ^(NSString *str){
+        self.refreshPullingStr = str;
+        return self;
+    };
+}
+
+-(TGRefreshOC * (^)(NSString *))RefreshingStr{
+    return ^(NSString *str){
+        self.refreshingStr = str;
+        return self;
+    };
+}
+
+-(TGRefreshOC * (^)(NSString *))RefreshResultStr{
+    return ^(NSString *str){
+        self.refreshResultStr = str;
+        return self;
+    };
+}
+
+-(TGRefreshOC * (^)(UIColor *))RefreshResultBgColor{
+    return ^(UIColor *color){
+        self.refreshResultBgColor = color;
+        return self;
+    };
+}
+
+-(TGRefreshOC * (^)(UIColor *))RefreshResultTextColor{
+    return ^(UIColor *color){
+        self.refreshResultTextColor = color;
+        return self;
+    };
+}
+
+-(TGRefreshOC * (^)(CGFloat))RefreshResultHeight{
+    return ^(CGFloat height){
+        self.refreshResultHeight = height;
+        return self;
+    };
+}
+
+-(TGRefreshOC * (^)(BOOL))AutomaticallyChangeAlpha{
+    return ^(BOOL autoAlpha){
+        self.automaticallyChangeAlpha = autoAlpha;
+        return self;
+    };
 }
 
 @end

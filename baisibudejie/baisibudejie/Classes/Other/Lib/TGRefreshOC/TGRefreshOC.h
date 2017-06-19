@@ -36,6 +36,20 @@ typedef NS_ENUM(NSInteger,TGRefreshAlignment) {
 
 @property(nonatomic,assign) BOOL automaticallyChangeAlpha;//自动改变透明度
 
+-(TGRefreshOC * (^)(TGRefreshKind))Kind;
+-(TGRefreshOC * (^)(UIColor *))BgColor;
+-(TGRefreshOC * (^)(UIColor *))TinColor;
+-(TGRefreshOC * (^)(TGRefreshAlignment))VerticalAlignment;
+-(TGRefreshOC * (^)(NSString *))RefreshSuccessStr;
+-(TGRefreshOC * (^)(NSString *))RefreshNormalStr;
+-(TGRefreshOC * (^)(NSString *))RefreshPullingStr;
+-(TGRefreshOC * (^)(NSString *))RefreshingStr;
+-(TGRefreshOC * (^)(NSString *))RefreshResultStr;
+-(TGRefreshOC * (^)(UIColor *))RefreshResultBgColor;
+-(TGRefreshOC * (^)(UIColor *))RefreshResultTextColor;
+-(TGRefreshOC * (^)(CGFloat))RefreshResultHeight;
+-(TGRefreshOC * (^)(BOOL))AutomaticallyChangeAlpha;
+
 -(void)beginRefreshing;
 -(void)endRefreshing;
 @end
