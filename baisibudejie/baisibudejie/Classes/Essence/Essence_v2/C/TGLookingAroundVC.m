@@ -4,7 +4,7 @@
 //
 //  Created by targetcloud on 2017/6/9.
 //  Copyright © 2017年 targetcloud. All rights reserved.
-//
+//  blog：http://blog.csdn.net/callzjy/article/details/73456546
 
 #import "TGLookingAroundVC.h"
 #import "TGLookingAroundV.h"
@@ -115,7 +115,7 @@ static NSString * const TGCollectionViewCellId = @"LookingAroundCellId";
     
     //换用自己的刷新控件
     TGRefreshOC *refresh = [TGRefreshOC new];
-    refresh.kind = RefreshKindNormal;
+//    refresh.kind = RefreshKindNormal;
     //refresh.bgColor =  [UIColor colorWithWhite:0.8 alpha:1];
     refresh.verticalAlignment = TGRefreshAlignmentMidden;
     refresh.automaticallyChangeAlpha = YES;
@@ -170,7 +170,7 @@ static NSString * const TGCollectionViewCellId = @"LookingAroundCellId";
             return;
         }
         if (self.params != parameters) return ;
-        AFNWriteToPlist(new_topics)
+        //AFNWriteToPlist(new_topics)
         _np = responseObject[@"info"][@"np"];
         self.topics = [TGTopicNewM mj_objectArrayWithKeyValuesArray:responseObject[@"list"]];
         //过滤html
