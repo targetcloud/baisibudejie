@@ -58,7 +58,7 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
         CGPoint point = [change[@"new"] CGPointValue];
         CGFloat height = initInsetTop_>0 ? -(initInsetTop_ + point.y) : -(point.y);//有初始的inset则不用背景色
         self.frame = CGRectMake(0, -height-initInsetTop_, self.sv.bounds.size.width, height);
-        NSLog(@"%@",NSStringFromCGRect(self.frame));
+        //NSLog(@"%@",NSStringFromCGRect(self.frame));
         if( height <= 0) {
             return;
         }
@@ -172,7 +172,6 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
         case RefreshKindQQ:{
             if (!_animating){
                 _animating = YES;
-                [self.activityIndicatorView startAnimating];
                 NSTimer *timer = [NSTimer timerWithTimeInterval:0.01 target:self selector:@selector(reduce) userInfo:nil repeats:YES];
                 [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
                 _timer = timer;
@@ -231,6 +230,7 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
             _timer = nil;
             _animating = NO;
             _refreshing = YES;
+            [self.activityIndicatorView startAnimating];
             _innerImageView.hidden = YES;
         }
     }
