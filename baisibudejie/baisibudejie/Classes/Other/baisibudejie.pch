@@ -14,7 +14,7 @@
 #import "UIImage+image.h"
 #import "TGConst.h"
 #import "NSDate+calendar.h"
-#import "TGRefreshOC.h"
+#import "TGRefresh.h"
 
 #define AFNWriteToPlist(filename) [responseObject writeToFile:[NSString stringWithFormat:@"/Users/targetcloud/Desktop/%@.plist", @#filename] atomically:YES];
 

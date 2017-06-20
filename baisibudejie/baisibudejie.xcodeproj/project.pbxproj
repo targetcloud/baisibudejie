@@ -62,6 +62,8 @@
 		6A05D5241EDE901300C5BBF7 /* TGNewestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A05D5231EDE901300C5BBF7 /* TGNewestVC.m */; };
 		6A05D5291EDFDA4A00C5BBF7 /* TGCarouselImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A05D5281EDFDA4A00C5BBF7 /* TGCarouselImageView.m */; };
 		6A05D52C1EDFDBB100C5BBF7 /* TGCarouselImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A05D52B1EDFDBB100C5BBF7 /* TGCarouselImageManager.m */; };
+		6A0EA3351EF9DCAC005CBEE0 /* TGRefreshOC.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6A0EA3341EF9DCAC005CBEE0 /* TGRefreshOC.bundle */; };
+		6A0EA3381EF9DCDC005CBEE0 /* UIScrollView+TGRefreshOC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A0EA3371EF9DCDC005CBEE0 /* UIScrollView+TGRefreshOC.m */; };
 		6A127F561E6E9BD000FD7246 /* TGTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A127F551E6E9BD000FD7246 /* TGTextField.m */; };
 		6A127F591E6EA06C00FD7246 /* UITextField+placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A127F581E6EA06C00FD7246 /* UITextField+placeholder.m */; };
 		6A127F5B1E6EB2C600FD7246 /* TGMeVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A127F5A1E6EB2C600FD7246 /* TGMeVC.storyboard */; };
@@ -273,6 +275,10 @@
 		6A05D5281EDFDA4A00C5BBF7 /* TGCarouselImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGCarouselImageView.m; sourceTree = "<group>"; };
 		6A05D52A1EDFDBB100C5BBF7 /* TGCarouselImageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGCarouselImageManager.h; sourceTree = "<group>"; };
 		6A05D52B1EDFDBB100C5BBF7 /* TGCarouselImageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGCarouselImageManager.m; sourceTree = "<group>"; };
+		6A0EA3341EF9DCAC005CBEE0 /* TGRefreshOC.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TGRefreshOC.bundle; sourceTree = "<group>"; };
+		6A0EA3361EF9DCDC005CBEE0 /* UIScrollView+TGRefreshOC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TGRefreshOC.h"; sourceTree = "<group>"; };
+		6A0EA3371EF9DCDC005CBEE0 /* UIScrollView+TGRefreshOC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TGRefreshOC.m"; sourceTree = "<group>"; };
+		6A0EA3391EF9DCFE005CBEE0 /* TGRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGRefresh.h; sourceTree = "<group>"; };
 		6A127F541E6E9BD000FD7246 /* TGTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGTextField.h; sourceTree = "<group>"; };
 		6A127F551E6E9BD000FD7246 /* TGTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGTextField.m; sourceTree = "<group>"; };
 		6A127F571E6EA06C00FD7246 /* UITextField+placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+placeholder.h"; sourceTree = "<group>"; };
@@ -1171,8 +1177,12 @@
 		6AED373F1EF6E9E800A3DBC4 /* TGRefreshOC */ = {
 			isa = PBXGroup;
 			children = (
+				6A0EA3391EF9DCFE005CBEE0 /* TGRefresh.h */,
+				6A0EA3361EF9DCDC005CBEE0 /* UIScrollView+TGRefreshOC.h */,
+				6A0EA3371EF9DCDC005CBEE0 /* UIScrollView+TGRefreshOC.m */,
 				6AED37401EF6EA1200A3DBC4 /* TGRefreshOC.h */,
 				6AED37411EF6EA1200A3DBC4 /* TGRefreshOC.m */,
+				6A0EA3341EF9DCAC005CBEE0 /* TGRefreshOC.bundle */,
 			);
 			path = TGRefreshOC;
 			sourceTree = "<group>";
@@ -1317,6 +1327,7 @@
 				6ADF8D271E6DB29A0042DADC /* TGFriendTrendVC.xib in Resources */,
 				6A02A8071EDD8BC100C1D89D /* TGTopicNewCell.xib in Resources */,
 				6A65A4B61EE9DF5B0005DE9B /* TGLookingAroundV.xib in Resources */,
+				6A0EA3351EF9DCAC005CBEE0 /* TGRefreshOC.bundle in Resources */,
 				6ADF8D121E6D3C820042DADC /* LaunchImage-800-Portrait-736h@3x.png in Resources */,
 				6AE6C1841ED06B5A00238D6B /* TGAddToolBar.xib in Resources */,
 				6ADF8D311E6DC0A80042DADC /* TGLoginRegisterV.xib in Resources */,
@@ -1427,6 +1438,7 @@
 				6A4B5D1B1E6C51EA00C8B531 /* main.m in Sources */,
 				6A6425BD1E6FE2B700C737C0 /* TGTitleBtn.m in Sources */,
 				6A02A7EB1EDBF69C00C1D89D /* TGSegmentConfig.m in Sources */,
+				6A0EA3381EF9DCDC005CBEE0 /* UIScrollView+TGRefreshOC.m in Sources */,
 				6AD4EB251E6C53A500D8B260 /* TGNewVC.m in Sources */,
 				6ADF8D251E6D7E720042DADC /* UIImageView+download.m in Sources */,
 				6A02A81C1EDDC57F00C1D89D /* TGVoiceNewV.m in Sources */,

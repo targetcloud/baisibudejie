@@ -23,7 +23,6 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
 @property (assign ,nonatomic) CGFloat deltaH;
 @property (weak, nonatomic) UIScrollView *sv;
 @property (weak, nonatomic) UIActivityIndicatorView *activityIndicatorView;
-@property (strong, nonatomic) NSTimer *timer;
 @property (assign, nonatomic,getter=isAnimating) BOOL animating;
 @property (assign, nonatomic,getter=isRefreshing) BOOL refreshing;
 @property (assign,nonatomic) TGRefreshState refreshState;
@@ -36,6 +35,20 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
 @implementation TGRefreshOC
 {
     CGFloat initInsetTop_;
+}
+
+#pragma mark : - 创建相关
+-(instancetype) initWithConfig:(void(^)(TGRefreshOC * refresh)) block{
+    if (self = [super init]){
+        !block? : block(self);
+    }
+    return self;
+}
+
++(instancetype) refreshWithTarget:(id)target action:(SEL)action config:(void(^)(TGRefreshOC * refresh)) block{
+    TGRefreshOC * refresh = [[self alloc] initWithConfig:block];
+    [refresh addTarget:target action:action forControlEvents:UIControlEventValueChanged];
+    return refresh;
 }
 
 #pragma mark : - KVO相关
@@ -58,22 +71,21 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
     if ([keyPath isEqualToString:@"contentOffset"]) {
         CGPoint point = [change[@"new"] CGPointValue];
         CGFloat height = initInsetTop_>0 ? -(initInsetTop_ + point.y) : -(point.y);//有初始的inset则不用背景色
-        self.frame = CGRectMake(0, -height-initInsetTop_, self.sv.bounds.size.width, height);
-        //NSLog(@"%@",NSStringFromCGRect(self.frame));
         if( height <= 0) {
             return;
         }
+        self.frame = CGRectMake(0, -height-initInsetTop_, self.sv.bounds.size.width, height);
         
         switch (_kind) {
             case RefreshKindQQ:{
-                if (_animating || _refreshing || self.timer || self.refreshState == RefreshStateRefresh) {//动画中 刷新中 已经在计时缩小过程中 已经在刷新状态
+                if (_animating || _refreshing || self.refreshState == RefreshStateRefresh) {//动画中 刷新中 已经在计时缩小过程中 已经在刷新状态
                     return;
                 }
+                _deltaH = fmaxf(0, -point.y - kBeginHeight - initInsetTop_);
+                self.innerImageView.center = kCenter;
                 [self setNeedsDisplay];
                 if (-point.y > kDragHeight + initInsetTop_) {
                     [self beginRefreshing];
-                }else{
-                    _deltaH = fmaxf(0, -point.y - kBeginHeight - initInsetTop_);
                 }
             }
                 break;
@@ -93,8 +105,8 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
                         [self beginRefreshing];
                     }
                 }
-                self.tipLabel.alpha = self.automaticallyChangeAlpha ? ((height-kBeginHeight*0.5)/kBeginHeight) :
-                (self.verticalAlignment == TGRefreshAlignmentTop ? ((height-kBeginHeight*0.5)/kBeginHeight) : 1);
+                self.tipLabel.alpha = self.automaticallyChangeAlpha ? (height/kBeginHeight) :
+                (self.verticalAlignment == TGRefreshAlignmentTop ? (height/kBeginHeight) : 1);
                 self.tipIcon.alpha = self.tipLabel.alpha;
                 [self setNeedsDisplay];
             }
@@ -122,7 +134,7 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
 }
 
 -(void) normal :(TGRefreshState)refreshState {
-    self.tipIcon.image = [UIImage imageNamed:@"tableview_pull_refresh"];
+    self.tipIcon.image = [self getImage:@"normal@2x"];
     [self.tipIcon sizeToFit];
     switch (refreshState) {
         case RefreshStateNormal:{
@@ -165,17 +177,27 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
         return;
     }
     self.refreshState = RefreshStateRefresh;
-    self.sv.contentOffset = CGPointMake(0, -(kBeginHeight + initInsetTop_));
-    UIEdgeInsets insets = self.sv.contentInset;
-    insets.top += kBeginHeight;
-    self.sv.contentInset = insets;
+    [UIView animateWithDuration:0.25 animations:^{
+        UIEdgeInsets insets = self.sv.contentInset;
+        insets.top += kBeginHeight;
+        self.sv.contentInset = insets;
+    } completion:^(BOOL finished) {
+        
+    }];
     switch (_kind) {
         case RefreshKindQQ:{
             if (!_animating){
                 _animating = YES;
-                NSTimer *timer = [NSTimer timerWithTimeInterval:0.01 target:self selector:@selector(reduce) userInfo:nil repeats:YES];
-                [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-                _timer = timer;
+                [UIView animateWithDuration:0.25 animations:^{
+                    _deltaH = 0;
+                    [self setNeedsDisplay];
+                } completion:^(BOOL finished) {
+                    self.sv.contentOffset = CGPointMake(0, -(kBeginHeight + initInsetTop_));
+                    _animating = NO;
+                    _refreshing = YES;
+                    [self.activityIndicatorView startAnimating];
+                    _innerImageView.hidden = YES;
+                }];
                 [self sendActionsForControlEvents:UIControlEventValueChanged];
             }
         }
@@ -195,15 +217,18 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
     switch (_kind) {
         case RefreshKindQQ:
             self.alpha = self.frame.size.height/kBeginHeight;
-            self.activityIndicatorView.center = CGPointMake(kCenter.x, initInsetTop_ > 0 ? -kCenter.y : kCenter.y);
+            //            self.activityIndicatorView.center = CGPointMake(kCenter.x, initInsetTop_ > 0 ? -kCenter.y : kCenter.y);
+            self.activityIndicatorView.center = kCenter;
             break;
         case RefreshKindNormal:
             switch (_verticalAlignment) {
                 case TGRefreshAlignmentTop:
-                    self.tipLabel.center = kCenter;
+                    //                    self.tipLabel.center = kCenter;
+                    self.tipLabel.center = CGPointMake(self.bounds.size.width * 0.5,initInsetTop_ + kBeginHeight * 0.5);
                     break;
                 case TGRefreshAlignmentMidden:
-                    self.tipLabel.center = CGPointMake(self.bounds.size.width * 0.5,fabs(self.frame.origin.y*0.5));
+                    //                    self.tipLabel.center = CGPointMake(self.bounds.size.width * 0.5,fabs(self.frame.origin.y*0.5));
+                    self.tipLabel.center = CGPointMake(self.bounds.size.width * 0.5,initInsetTop_ + (fabs(self.frame.origin.y) - initInsetTop_)* 0.5);
                     break;
                 case TGRefreshAlignmentBottom:
                     self.tipLabel.center = CGPointMake(self.bounds.size.width * 0.5,fabs(self.frame.origin.y) - kBeginHeight * 0.5 );
@@ -222,33 +247,20 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
     }
 }
 
--(void)reduce{
-    if (self.timer && _animating){
-        _deltaH -= 10;
-        [self setNeedsDisplay];
-        if (_deltaH <= 0) {
-            [_timer invalidate];
-            _timer = nil;
-            _animating = NO;
-            _refreshing = YES;
-            [self.activityIndicatorView startAnimating];
-            _innerImageView.hidden = YES;
-        }
-    }
-}
-
 -(void)endRefreshing{
     self.tipIcon.transform =  CGAffineTransformIdentity;
     _refreshing = NO;
     _animating = NO;
-    [_timer invalidate];
-    _timer = nil;
     self.tipLabel.text = self.refreshSuccessStr;
-    self.tipIcon.image = [UIImage imageNamed:@"tips_ok"];
+    self.tipIcon.image = [self getImage:@"tipok@2x"];
     [self.tipLabel sizeToFit];
     [self.tipIcon sizeToFit];
     self.tipLabel.center = self.activityIndicatorView.center;
-    self.tipIcon.center = CGPointMake(self.tipLabel.frame.origin.x - self.tipIcon.frame.size.width - 3, self.activityIndicatorView.center.y);
+    
+    self.tipIcon.center = CGPointMake((self.tipLabel.frame.size.width < 1 ?
+                                       self.activityIndicatorView.center.x :
+                                       (self.tipLabel.frame.origin.x - (self.tipIcon.frame.size.width + 3))),
+                                      self.activityIndicatorView.center.y);
     self.tipIcon.hidden = NO;
     self.tipLabel.hidden = NO;
     [self.activityIndicatorView stopAnimating];
@@ -290,7 +302,7 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
 #pragma mark : - 懒加载
 -(UIImageView *) innerImageView{
     if (!_innerImageView){
-        UIImageView * iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"wblive_icon_refresh"]];
+        UIImageView * iv = [[UIImageView alloc] initWithImage:[self getImage:@"refresh@2x"]];
         [self addSubview:iv];
         _innerImageView = iv;
     }
@@ -299,7 +311,7 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
 
 -(UIImageView *) tipIcon{
     if (!_tipIcon){
-        UIImageView * iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tips_ok"]];
+        UIImageView * iv = [[UIImageView alloc] initWithImage:[self getImage:@"tipok@2x"]];
         iv.hidden = YES;
         [self addSubview:iv];
         _tipIcon = iv;
@@ -346,7 +358,14 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
 }
 
 -(UIColor *) bgColor{
-    return _bgColor ?  (initInsetTop_ > 0 ? self.sv.backgroundColor : _bgColor) : self.sv.backgroundColor;
+    UIColor * color = _bgColor ?  (initInsetTop_ > 0 ? self.sv.backgroundColor : _bgColor) : self.sv.backgroundColor;
+    CGFloat r;
+    CGFloat g;
+    CGFloat b;
+    CGFloat a;
+    [color getRed:&r green:&g blue:&b alpha:&a];
+    color = [UIColor colorWithRed:r green:g blue:b alpha:1];
+    return color;
 }
 
 -(UIColor *) tinColor{
@@ -370,11 +389,11 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
 }
 
 -(UIColor *) refreshResultBgColor{
-    return _refreshResultBgColor ? _refreshResultBgColor : [self.tinColor colorWithAlphaComponent:0.3];
+    return _refreshResultBgColor ? _refreshResultBgColor : [self.tinColor colorWithAlphaComponent:0.8];
 }
 
 -(UIColor *) refreshResultTextColor{
-    return _refreshResultTextColor ? _refreshResultTextColor : self.tinColor;
+    return _refreshResultTextColor ? _refreshResultTextColor : [UIColor whiteColor];
 }
 
 -(CGFloat) refreshResultHeight{
@@ -383,6 +402,9 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
 
 #pragma mark : - 控件相关
 -(void)drawRect:(CGRect)rect{
+    if (!CGPointEqualToPoint(self.innerImageView.center,kCenter)){
+        return;
+    }
     switch (_kind) {
         case RefreshKindQQ:
             
@@ -400,36 +422,45 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
     
     CGPoint startCenter = kCenter;
     
-    CGFloat rad1 = kRadius - _deltaH * 0.1;
-    CGFloat rad2 = kRadius - _deltaH * 0.2;
+    _deltaH = _deltaH>(kDragHeight - kBeginHeight)? (kDragHeight - kBeginHeight) : _deltaH;
+    
+    CGFloat radTop = kRadius - _deltaH * 0.1;
+    CGFloat radBottom = kRadius - _deltaH * 0.2;
     CGFloat Y = fmaxf(_deltaH, 0);
     
-    CGFloat rad3 = 0;
-    if ((rad1 - rad2) > 0) {
-        rad3 = (pow(Y, 2)+pow(rad2, 2)-pow(rad1, 2))/(2*(rad1 - rad2));
+    CGFloat radBottomLeftAndRight = 0;
+    if ((radTop - radBottom) > 0) {
+        radBottomLeftAndRight = (pow(Y, 2)+pow(radBottom, 2)-pow(radTop, 2))/(2*(radTop - radBottom));
     }
-    rad3 = fmax(0, rad3);
+    radBottomLeftAndRight = fmax(0, radBottomLeftAndRight);
     
-    CGPoint center2 = relative(startCenter, 0, Y);
-    CGPoint center3 = relative(center2, rad2+rad3, 0);
-    CGPoint center4 = relative(center2, -rad2-rad3, 0);
+    CGPoint centerBottom = relative(startCenter, 0, Y);
+    CGPoint centerRight = relative(centerBottom, radBottom+radBottomLeftAndRight, 0);
+    CGPoint centerLeft = relative(centerBottom, -radBottom-radBottomLeftAndRight, 0);
     
-    UIBezierPath *circle = [UIBezierPath bezierPathWithArcCenter:startCenter radius:rad1 startAngle:0 endAngle:2*M_PI clockwise:1];
-    self.innerImageView.bounds = CGRectMake(0, 0,rad1*2*0.6, rad1*2*0.6);
-    self.innerImageView.center = startCenter;
+    UIBezierPath *circle = [UIBezierPath bezierPathWithArcCenter:startCenter radius:radTop startAngle:0 endAngle:2*M_PI clockwise:1];
+    
+    self.innerImageView.bounds = CGRectMake(0, 0,radTop*2*0.6, radTop*2*0.6);
     self.innerImageView.hidden = NO;
-    [circle moveToPoint:center2];
-    [circle addArcWithCenter:center2 radius:rad2 startAngle:0 endAngle:2*M_PI clockwise:1];
     
-    UIBezierPath *circle2 = [UIBezierPath bezierPathWithArcCenter:center3 radius:rad3 startAngle:0 endAngle:2*M_PI clockwise:1];
-    [circle2 moveToPoint:center4];
-    [circle2 addArcWithCenter:center4 radius:rad3 startAngle:0 endAngle:2*M_PI clockwise:1];
+    if (_deltaH <= 0){
+        [self.tinColor setFill];
+        [circle fill];
+        return;
+    }
+    
+    [circle moveToPoint:centerBottom];
+    [circle addArcWithCenter:centerBottom radius:radBottom startAngle:0 endAngle:2*M_PI clockwise:1];
+    
+    UIBezierPath *circle2 = [UIBezierPath bezierPathWithArcCenter:centerRight radius:radBottomLeftAndRight startAngle:0 endAngle:2*M_PI clockwise:1];
+    [circle2 moveToPoint:centerLeft];
+    [circle2 addArcWithCenter:centerLeft radius:radBottomLeftAndRight startAngle:0 endAngle:2*M_PI clockwise:1];
     
     UIBezierPath *line = [UIBezierPath bezierPath];
     [line moveToPoint:startCenter];
-    [line addLineToPoint:center3];
-    [line addLineToPoint:center2];
-    [line addLineToPoint:center4];
+    [line addLineToPoint:centerRight];
+    [line addLineToPoint:centerBottom];
+    [line addLineToPoint:centerLeft];
     [line closePath];
     [line appendPath:circle];
     [self.tinColor setFill];
@@ -442,92 +473,105 @@ CGPoint relative(CGPoint point, CGFloat x, CGFloat y){
     return CGPointMake(point.x + x, point.y + y);
 }
 
+#pragma mark : - 资源相关
+-(UIImage *)getImage:(NSString *)name{
+    NSBundle *currentBundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[TGRefreshOC class]] pathForResource:@"TGRefreshOC" ofType:@"bundle"]];
+    UIImage *img =  [UIImage imageWithContentsOfFile:[currentBundle pathForResource:name ofType:@"png"]];
+    return img;
+}
+
 #pragma mark : - 链式配置相关
--(TGRefreshOC * (^)(TGRefreshKind))Kind{
+-(TGRefreshOC * (^)(TGRefreshKind))tg_kind{
     return ^(TGRefreshKind kind){
         self.kind = kind;
         return self;
     };
 }
 
--(TGRefreshOC * (^)(UIColor *))BgColor{
+-(TGRefreshOC * (^)(UIColor *))tg_bgColor{
     return ^(UIColor *color){
+        CGFloat r;
+        CGFloat g;
+        CGFloat b;
+        CGFloat a;
+        [color getRed:&r green:&g blue:&b alpha:&a];
+        color = [UIColor colorWithRed:r green:g blue:b alpha:1];
         self.bgColor = color;
         return self;
     };
 }
 
--(TGRefreshOC * (^)(UIColor *))TinColor{
+-(TGRefreshOC * (^)(UIColor *))tg_tinColor{
     return ^(UIColor *color){
         self.tinColor = color;
         return self;
     };
 }
 
--(TGRefreshOC * (^)(TGRefreshAlignment))VerticalAlignment{
+-(TGRefreshOC * (^)(TGRefreshAlignment))tg_verticalAlignment{
     return ^(TGRefreshAlignment vl){
         self.verticalAlignment = vl;
         return self;
     };
 }
 
--(TGRefreshOC * (^)(NSString *))RefreshSuccessStr{
+-(TGRefreshOC * (^)(NSString *))tg_refreshSuccessStr{
     return ^(NSString *str){
         self.refreshSuccessStr = str;
         return self;
     };
 }
 
--(TGRefreshOC * (^)(NSString *))RefreshNormalStr{
+-(TGRefreshOC * (^)(NSString *))tg_refreshNormalStr{
     return ^(NSString *str){
         self.refreshNormalStr = str;
         return self;
     };
 }
 
--(TGRefreshOC * (^)(NSString *))RefreshPullingStr{
+-(TGRefreshOC * (^)(NSString *))tg_refreshPullingStr{
     return ^(NSString *str){
         self.refreshPullingStr = str;
         return self;
     };
 }
 
--(TGRefreshOC * (^)(NSString *))RefreshingStr{
+-(TGRefreshOC * (^)(NSString *))tg_refreshingStr{
     return ^(NSString *str){
         self.refreshingStr = str;
         return self;
     };
 }
 
--(TGRefreshOC * (^)(NSString *))RefreshResultStr{
+-(TGRefreshOC * (^)(NSString *))tg_refreshResultStr{
     return ^(NSString *str){
         self.refreshResultStr = str;
         return self;
     };
 }
 
--(TGRefreshOC * (^)(UIColor *))RefreshResultBgColor{
+-(TGRefreshOC * (^)(UIColor *))tg_refreshResultBgColor{
     return ^(UIColor *color){
         self.refreshResultBgColor = color;
         return self;
     };
 }
 
--(TGRefreshOC * (^)(UIColor *))RefreshResultTextColor{
+-(TGRefreshOC * (^)(UIColor *))tg_refreshResultTextColor{
     return ^(UIColor *color){
         self.refreshResultTextColor = color;
         return self;
     };
 }
 
--(TGRefreshOC * (^)(CGFloat))RefreshResultHeight{
+-(TGRefreshOC * (^)(CGFloat))tg_refreshResultHeight{
     return ^(CGFloat height){
         self.refreshResultHeight = height;
         return self;
     };
 }
 
--(TGRefreshOC * (^)(BOOL))AutomaticallyChangeAlpha{
+-(TGRefreshOC * (^)(BOOL))tg_automaticallyChangeAlpha{
     return ^(BOOL autoAlpha){
         self.automaticallyChangeAlpha = autoAlpha;
         return self;
