@@ -112,7 +112,7 @@ static CGFloat const progressTrackW = 2;
 
 -(void) layoutSubviews{
     [super layoutSubviews];
-    TGLog(@"--- %@ --- ",NSStringFromCGRect(progressV_.frame));
+    //TGLog(@"--- %@ --- ",NSStringFromCGRect(progressV_.frame));
 }
 
 - (void)timer{

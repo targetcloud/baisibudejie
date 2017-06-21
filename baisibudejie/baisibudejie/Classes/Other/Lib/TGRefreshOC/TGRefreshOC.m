@@ -8,10 +8,12 @@
 
 #import "TGRefreshOC.h"
 
-#define kBeginHeight 40.0//启始高度
-#define kDragHeight 90.0//拖拽高度
-#define kCenter CGPointMake(self.bounds.size.width * 0.5, kBeginHeight * 0.5)//启始圆心
-#define kRadius 15.0//启始半径
+#define kBeginHeight 40.0
+#define kDragHeight 90.0
+#define kCenter CGPointMake(self.bounds.size.width * 0.5, kBeginHeight * 0.5)
+#define kRadius 15.0
+#define kCoefficient 0.6
+#define kScreenH [UIScreen mainScreen].bounds.size.height
 
 typedef NS_ENUM(NSInteger, TGRefreshState) {
     RefreshStateNormal,
@@ -79,10 +81,13 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
         switch (_kind) {
             case RefreshKindQQ:{
                 if (_animating || _refreshing || self.refreshState == RefreshStateRefresh) {//动画中 刷新中 已经在计时缩小过程中 已经在刷新状态
+//                    if (_deltaH>0){
+//                        NSLog(@"_deltaH %f",_deltaH);
+//                    }
                     return;
                 }
                 _deltaH = fmaxf(0, -point.y - kBeginHeight - initInsetTop_);
-                self.innerImageView.center = kCenter;
+                self.innerImageView.hidden = NO;
                 [self setNeedsDisplay];
                 if (-point.y > kDragHeight + initInsetTop_) {
                     [self beginRefreshing];
@@ -189,7 +194,7 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
             if (!_animating){
                 _animating = YES;
                 [UIView animateWithDuration:0.25 animations:^{
-                    _deltaH = 0;
+                    _deltaH = -kScreenH;
                     [self setNeedsDisplay];
                 } completion:^(BOOL finished) {
                     self.sv.contentOffset = CGPointMake(0, -(kBeginHeight + initInsetTop_));
@@ -402,12 +407,12 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
 
 #pragma mark : - 控件相关
 -(void)drawRect:(CGRect)rect{
-    if (!CGPointEqualToPoint(self.innerImageView.center,kCenter)){
+    if (!_innerImageView){
         return;
     }
     switch (_kind) {
         case RefreshKindQQ:
-            
+
             break;
             
         default:
@@ -422,10 +427,18 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
     
     CGPoint startCenter = kCenter;
     
-    _deltaH = _deltaH>(kDragHeight - kBeginHeight)? (kDragHeight - kBeginHeight) : _deltaH;
+    _deltaH = (_deltaH > (kDragHeight - kBeginHeight))? (kDragHeight - kBeginHeight) : _deltaH;
     
     CGFloat radTop = kRadius - _deltaH * 0.1;
     CGFloat radBottom = kRadius - _deltaH * 0.2;
+    
+    if (_deltaH == -kScreenH){
+        UIBezierPath *circle = [UIBezierPath bezierPathWithArcCenter:startCenter radius:0 startAngle:0 endAngle:2*M_PI clockwise:1];
+        [self.tinColor setFill];
+        [circle fill];
+        return;
+    }
+    
     CGFloat Y = fmaxf(_deltaH, 0);
     
     CGFloat radBottomLeftAndRight = 0;
@@ -437,12 +450,11 @@ typedef NS_ENUM(NSInteger, TGRefreshState) {
     CGPoint centerBottom = relative(startCenter, 0, Y);
     CGPoint centerRight = relative(centerBottom, radBottom+radBottomLeftAndRight, 0);
     CGPoint centerLeft = relative(centerBottom, -radBottom-radBottomLeftAndRight, 0);
+
+    _innerImageView.bounds = CGRectMake(0, 0,radTop * 2 * kCoefficient, radTop * 2 * kCoefficient);
+    _innerImageView.center = kCenter;
     
     UIBezierPath *circle = [UIBezierPath bezierPathWithArcCenter:startCenter radius:radTop startAngle:0 endAngle:2*M_PI clockwise:1];
-    
-    self.innerImageView.bounds = CGRectMake(0, 0,radTop*2*0.6, radTop*2*0.6);
-    self.innerImageView.hidden = NO;
-    
     if (_deltaH <= 0){
         [self.tinColor setFill];
         [circle fill];
